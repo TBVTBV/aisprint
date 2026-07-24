@@ -8,7 +8,22 @@
 | **Team** | Matan Rosen · Anat Katzir · Gal Yeshayahu · Mikhail Yagudaev |
 | **Deliverable** | Research Plan (required, non-graded) — precedes the graded Research Report (40%) |
 | **Due** | Sunday, 26 July 2026 |
-| **Version** | Draft v1 — 24 July 2026 |
+| **Version** | Draft v2 — 24 July 2026 |
+
+---
+
+## 0. Definition of Done (plan checklist)
+
+The sprint defines a finished Research Plan as the following. This draft's status:
+
+- [x] **Challenge defined in our own words** — §1
+- [x] **3–5 clear research questions** — §4 (one primary + five sub-questions)
+- [x] **Methods matched to questions** — §4 table + §6
+- [x] **A list of who we'll talk to** — §5
+- [x] **A one-week timeline with owners** — §8
+- [ ] **Reviewed with our mentor** — to schedule before Sun 26 Jul
+
+> _Talk to people. Show, don't tell. Done beats perfect._
 
 ---
 
@@ -107,15 +122,19 @@ A pediatric hospital setting raises the bar. Our standing rules for this researc
 
 Anchored to the sprint calendar. The graded Research Report is due **Thursday 30 July**, so interviews and synthesis are front-loaded into the first working week.
 
-| When | Milestone | Focus |
-|---|---|---|
-| Fri 24 Jul | Kickoff + desk research begins | Existing evidence, landscape scan, draft this plan |
-| Sun 26 Jul | Research Plan due | Finalise & submit this document; confirm interview access |
-| Mon–Wed 27–29 Jul | Interviews + rolling synthesis | Physicians & families first; map journeys, cluster themes |
-| Thu 30 Jul | Research Report due (40%) | Problem, method, findings, "so what," limitations |
-| Fri 31 Jul | Research → ideation | Carry evidence into solution concept |
+| When | Milestone | Focus | Owner |
+|---|---|---|---|
+| Fri 24 Jul | Kickoff + desk research begins | Existing evidence, landscape scan, draft this plan | Mikhail |
+| Sun 26 Jul | Research Plan due | Finalise & submit; mentor review; confirm interview access | Matan |
+| Mon 27 Jul | Recruitment + first interviews | Contact partner hospital; schedule; start physician interviews | Anat (recruiting) · Matan + Gal (physicians) |
+| Tue 28 Jul | Family & nurse interviews | Caregiver and nurse conversations; begin journey map | Anat + Mikhail (families) · Gal (nurses) |
+| Wed 29 Jul | Secretary/admin interviews + synthesis | Fill remaining gaps; affinity-cluster themes | Gal (secretaries) · Gal + Matan (synthesis) |
+| Thu 30 Jul | Research Report due (40%) | Problem, method, findings, "so what," limitations | Matan (assembly) · all contribute |
+| Fri 31 Jul | Research → ideation | Carry evidence into solution concept | All |
 
-> **Note on dates:** the sprint deck lists the graded Research Report as Thursday 30 July and the Research Plan as Sunday 26 July. Confirm both with the team before locking the schedule.
+> **Proposed owners:** assignments above are a starting split across the team — adjust together in the kickoff. Every interview is done in pairs where possible (one leads, one takes notes) per the "smile, be friendly, then listen" guidance.
+
+> **Two actions to close the plan:** (1) **book the mentor review** before Sunday; (2) **confirm the dates** — the deck lists the graded Research Report as Thursday 30 July and the Research Plan as Sunday 26 July.
 
 ## 9. Outputs & Definition of Done
 

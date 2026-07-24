@@ -17,7 +17,7 @@ This repository holds our team's work for the AI Product Sprint. Our challenge: 
 
 - ✅ **Challenge selected and scoped** to pre-visit intake (vs. point-of-care capture or the whole journey).
 - ✅ **Desk research done** — documentation/history-taking burden, existing tools (c-ACT), environmental-trigger under-reporting, proxy-report limitations. Findings feed the Research Plan background.
-- ✅ **Research Plan v1 drafted & committed** — see [`Research_Plan_Pediatric_Pulmonology.md`](./Research_Plan_Pediatric_Pulmonology.md).
+- ✅ **Research Plan drafted (v2) & committed** — meets the sprint "done" checklist (owners assigned, mentor review pending). See [`Research_Plan_Pediatric_Pulmonology.md`](./Research_Plan_Pediatric_Pulmonology.md).
 - ✅ **Course reference slides** captured in the repo (see below).
 - ⬜ **Interview guides** — per-stakeholder (physician, nurse, family, secretary) — not started.
 - ⬜ **Interviews** — target 8–12, prioritising physicians & families — not started.
@@ -34,6 +34,7 @@ This repository holds our team's work for the AI Product Sprint. Our challenge: 
 | `Interviewing .jpg` | Course slide — do's & don'ts for hospital interviews. |
 | `Timeline.jpg` | Course slide — the three-week sprint timeline. |
 | `Deliverables and grading.jpg` | Course slide — what counts toward the grade. |
+| `Now - draft the plan.jpg` | Course slide — the "done" checklist for the Research Plan. |
 
 ## Timetable
 
