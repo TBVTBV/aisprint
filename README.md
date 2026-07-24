@@ -48,6 +48,7 @@ Each member holds one **lead role** for the whole sprint and also runs interview
 
 **Gal — Field & synthesis lead**
 
+- [ ] Fri 24: set up & run **Claude Code in PowerShell** — install Node.js, then `npm install -g @anthropic-ai/claude-code`, then run `claude` inside the repo folder. Use it to draft guides and work the repo with AI assistance.
 - [ ] Fri–Sun: draft the master interview-guide structure + the **physician and nurse guides**
 - [ ] Mon 27: **lead physician interviews**
 - [ ] Tue 28: **lead nurse interviews**; begin the pre-visit journey map
