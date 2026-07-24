@@ -8,7 +8,7 @@
 | **Team** | Matan Rosen · Anat Katzir · Gal Yeshayahu · Mikhail Yagudaev |
 | **Deliverable** | Research Plan (required, non-graded) — precedes the graded Research Report (40%) |
 | **Due** | Sunday, 26 July 2026 |
-| **Version** | Draft v2 — 24 July 2026 |
+| **Version** | Draft v3 — 24 July 2026 |
 
 ---
 
@@ -122,17 +122,32 @@ A pediatric hospital setting raises the bar. Our standing rules for this researc
 
 Anchored to the sprint calendar. The graded Research Report is due **Thursday 30 July**, so interviews and synthesis are front-loaded into the first working week.
 
+### Team roles
+
+Each member holds one lead role and also runs interviews. Interviews are done in pairs — one leads, one takes notes — per the "be friendly, then listen" guidance.
+
+| Member | Lead role | Interview duty |
+|---|---|---|
+| **Matan** | Report & repo lead — owns the document, Git, submissions, and books the mentor review | Notetaker, physician interviews |
+| **Anat** | Recruitment & hospital liaison — single point of contact for scheduling | Leads family/caregiver interviews |
+| **Gal** | Field & synthesis lead — runs the journey map and theme clustering | Leads physician + nurse interviews |
+| **Mikhail** | Desk research & competitive-scan lead — keeps the evidence base current | Leads secretary/admin interviews |
+
+Interview pairings: **Physicians** — Gal leads, Matan notes · **Nurses** — Gal leads, Mikhail notes · **Families** — Anat leads, Matan notes · **Secretaries/admin** — Mikhail leads, Anat notes.
+
+### One-week timeline
+
 | When | Milestone | Focus | Owner |
 |---|---|---|---|
 | Fri 24 Jul | Kickoff + desk research begins | Existing evidence, landscape scan, draft this plan | Mikhail |
 | Sun 26 Jul | Research Plan due | Finalise & submit; mentor review; confirm interview access | Matan |
-| Mon 27 Jul | Recruitment + first interviews | Contact partner hospital; schedule; start physician interviews | Anat (recruiting) · Matan + Gal (physicians) |
-| Tue 28 Jul | Family & nurse interviews | Caregiver and nurse conversations; begin journey map | Anat + Mikhail (families) · Gal (nurses) |
-| Wed 29 Jul | Secretary/admin interviews + synthesis | Fill remaining gaps; affinity-cluster themes | Gal (secretaries) · Gal + Matan (synthesis) |
+| Mon 27 Jul | Recruitment + physician interviews | Anat lines up the week; first physician conversations | Anat (recruiting) · Gal + Matan (physicians) |
+| Tue 28 Jul | Family & nurse interviews | Caregiver and nurse conversations; begin journey map | Anat + Matan (families) · Gal + Mikhail (nurses) |
+| Wed 29 Jul | Secretary/admin interviews + synthesis | Fill remaining gaps; affinity-cluster themes | Mikhail + Anat (secretaries) · Gal + Matan (synthesis) |
 | Thu 30 Jul | Research Report due (40%) | Problem, method, findings, "so what," limitations | Matan (assembly) · all contribute |
 | Fri 31 Jul | Research → ideation | Carry evidence into solution concept | All |
 
-> **Proposed owners:** assignments above are a starting split across the team — adjust together in the kickoff. Every interview is done in pairs where possible (one leads, one takes notes) per the "smile, be friendly, then listen" guidance.
+> **Adjust at kickoff:** put recruitment on whoever has the partner-hospital contact, and point the strongest Hebrew/Arabic speaker at the family interviews where rapport matters most.
 
 > **Two actions to close the plan:** (1) **book the mentor review** before Sunday; (2) **confirm the dates** — the deck lists the graded Research Report as Thursday 30 July and the Research Plan as Sunday 26 July.
 
