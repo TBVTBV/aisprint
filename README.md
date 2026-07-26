@@ -73,24 +73,27 @@ Physicians — Gal leads, Matan notes · Nurses — Gal leads, Mikhail notes · 
 
 - ✅ **Challenge selected and scoped** to pre-visit intake (vs. point-of-care capture or the whole journey).
 - ✅ **Desk research done** — documentation/history-taking burden, existing tools (c-ACT), environmental-trigger under-reporting, proxy-report limitations. Findings feed the Research Plan background.
-- ✅ **Research Plan drafted (v2) & committed** — meets the sprint "done" checklist (owners assigned, mentor review pending). See [`Research_Plan_Pediatric_Pulmonology.md`](./Research_Plan_Pediatric_Pulmonology.md).
-- ✅ **Course reference slides** captured in the repo (see below).
+- ✅ **Research Plan drafted (v3) & committed** — meets the sprint "done" checklist (owners assigned, mentor review pending). See [`Research_Plan_Pediatric_Pulmonology.md`](./Research_Plan_Pediatric_Pulmonology.md); also mirrored as an editable Google Doc in the team Drive.
+- ✅ **Team knowledge base set up in Google Drive** — a shared hub with Deliverables / Interviews / Synthesis / Course-materials folders (see "Where we work" below). The course reference slides now live in the Drive Course-materials folder, not this repo.
 - ⬜ **Interview guides** — per-stakeholder (physician, nurse, family, secretary) — not started.
 - ⬜ **Interviews** — target 8–12, prioritising physicians & families — not started.
 - ⬜ **Research Report** (graded, 40%) — due Thu 30 Jul — not started.
+
+## Where we work
+
+Two places, on purpose:
+
+- **Google Drive — the team knowledge base** (open [📌 START HERE — Group 7 Research Hub](https://docs.google.com/document/d/1Znx_i4E5HxupoteUlM2AHywBgT8IX-_vlnyBeR09Fgo/edit)). All collaborative work lives here so everyone can edit without GitHub: the Research Plan as a Google Doc, interview notes (Interviews folder), synthesis and journey map (Synthesis folder), and the course slides (Course materials folder).
+- **GitHub — this repo** — version-controlled deliverables (Markdown) and the required reusable **Shared Skill** for the coders.
 
 ## What's in this repo
 
 | File | What it is |
 |---|---|
-| `README.md` | This file — project overview and status. |
-| `Research_Plan_Pediatric_Pulmonology.md` | The Research Plan (v1): problem, focus, research questions, methodology, participants, ethics, timeline, limitations. |
-| `Research report - what we expect.jpg` | Course slide — the six things the graded report must do. |
-| `Start now - desk research.jpg` | Course slide — desk-research guidance to feed the plan. |
-| `Interviewing .jpg` | Course slide — do's & don'ts for hospital interviews. |
-| `Timeline.jpg` | Course slide — the three-week sprint timeline. |
-| `Deliverables and grading.jpg` | Course slide — what counts toward the grade. |
-| `Now - draft the plan.jpg` | Course slide — the "done" checklist for the Research Plan. |
+| `README.md` | This file — project overview, status, and the team's map. |
+| `Research_Plan_Pediatric_Pulmonology.md` | The Research Plan (v3): problem, focus, research questions, methodology, participants, ethics, timeline with owners, limitations. |
+
+_The course reference slides and the editable plan now live in the Google Drive hub (see "Where we work")._
 
 ## Timetable
 
@@ -132,9 +135,9 @@ Sprint runs Fridays 08:45–13:00, plus team work in between.
 If you're picking this up — human or AI — start here:
 
 - **The one-line frame:** we're improving how a child's clinical history is collected *before* a pediatric pulmonology visit, so the physician isn't reconstructing it from scratch at the point of care.
-- **Read first:** `Research_Plan_Pediatric_Pulmonology.md` is the source of truth for scope, research questions, and method. Don't broaden scope beyond pre-visit intake without a team decision.
+- **Where the work lives:** the **Google Drive hub** (see "Where we work") is the day-to-day knowledge base — interview notes, synthesis, and the editable plan. This **repo** holds the version-controlled Markdown deliverables and the Shared Skill. Read `Research_Plan_Pediatric_Pulmonology.md` first — it's the source of truth for scope, research questions, and method. Don't broaden scope beyond pre-visit intake without a team decision.
 - **Grounding rule:** claims in our deliverables must be backed by evidence (desk research or interviews) — "grounded in real evidence, not opinion." Back each theme with at least two independent sources before treating it as a finding.
-- **Sensitivity:** pediatric hospital context. Never collect or store identifiable patient data; get consent; never record without permission. See `Interviewing .jpg`.
-- **Conventions:** deliverables are Markdown in this repo so they diff and render on GitHub. Keep this README's status section current as work lands.
+- **Sensitivity:** pediatric hospital context. Never collect or store identifiable patient data; get consent; never record without permission.
+- **Conventions:** repo deliverables are Markdown so they diff and render on GitHub; collaborative editing happens in the Drive Google Docs. Keep this README's status section and the Drive hub current as work lands.
 
-_Last updated: 24 July 2026._
+_Last updated: 26 July 2026._
