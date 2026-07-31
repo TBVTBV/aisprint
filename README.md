@@ -78,7 +78,7 @@ Physicians — Gal leads, Matan notes · Nurses — Gal leads, Mikhail notes · 
 - ⬜ **Interview guides** — per-stakeholder (physician, nurse, family, secretary) — not started.
 - ⬜ **Interviews** — target 8–12, prioritising physicians & families — not started.
 - ⬜ **Research Report** (graded, 40%) — due Thu 30 Jul — not started.
-- ✅ **Shared Skill consolidated** — four teammates each built one skill independently; three were about interview material and were merged into a single `interview-synth` with Generate / Synthesize / Panel modes. See [`skills/README.md`](./skills/README.md) for the comparison and [the process write-up in Drive](https://drive.google.com/file/d/16G9LYp4iZOFRkYCBIpNPH78EoC3Ut0ji/view) for the write-up.
+- ✅ **Shared Skill consolidated** — four teammates each built one skill independently; three were about interview material and were merged into a single `interview-synth` with Generate / Synthesize / Panel modes. See [`.claude/skills/README.md`](./.claude/skills/README.md) for the comparison and [the process write-up in Drive](https://drive.google.com/file/d/16G9LYp4iZOFRkYCBIpNPH78EoC3Ut0ji/view) for the write-up.
 
 ## Where we work
 
@@ -89,14 +89,14 @@ Two places, on purpose:
 
 ## What's in this repo
 
-The repo is deliberately narrow: **skills, plus the product and prototype we are about to build**. Written deliverables (the Research Plan, the Research Report, the Shared Skill process write-up) live in the Google Drive hub, not here.
+The repo is deliberately narrow: **skills, plus the product and prototype we are about to build**. All skills live in one place, `.claude/skills/`, which is where Claude Code auto-discovers them. Written deliverables (the Research Plan, the Research Report, the Shared Skill process write-up) live in the Google Drive hub, not here.
 
 | File | What it is |
 |---|---|
 | `README.md` | This file — project overview, status, and the team's map. |
-| `skills/interview-synth/` | The team's reusable **Shared Skill**, consolidated. One skill, three modes: **Generate** a grounded, clearly-labelled synthetic interview; **Synthesize** transcripts into an evidence-weighted findings report; **Panel** an idea against the stakeholders we interviewed. All three sit on one evidence ladder and one guardrail set (grounding, permanent labelling, no identifiable patient data, provenance). Includes `references/background.md` and a full worked example under `assets/`. |
-| `skills/README.md` | How the four team-member skills compared and why they were merged into one. |
-| `.claude/skills/` | Where Claude Code auto-discovers skills. Holds `progress-tracking` (Drive vs plan audit) and a symlink to the consolidated `interview-synth`. |
+| `.claude/skills/interview-synth/` | The team's reusable **Shared Skill**, consolidated. One skill, three modes: **Generate** a grounded, clearly-labelled synthetic interview; **Synthesize** transcripts into an evidence-weighted findings report; **Panel** an idea against the stakeholders we interviewed. All three sit on one evidence ladder and one guardrail set (grounding, permanent labelling, no identifiable patient data, provenance). Includes `references/background.md` and a full worked example under `assets/`. |
+| `.claude/skills/README.md` | How the four team-member skills compared and why they were merged into one. |
+| `.claude/skills/progress-tracking/` | Mikhail's separate skill: audits the team Drive against the research plan and reports what is done, partial, or missing. |
 
 _The course reference slides and the editable plan now live in the Google Drive hub (see "Where we work")._
 
