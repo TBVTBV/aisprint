@@ -73,12 +73,12 @@ Physicians — Gal leads, Matan notes · Nurses — Gal leads, Mikhail notes · 
 
 - ✅ **Challenge selected and scoped** to pre-visit intake (vs. point-of-care capture or the whole journey).
 - ✅ **Desk research done** — documentation/history-taking burden, existing tools (c-ACT), environmental-trigger under-reporting, proxy-report limitations. Findings feed the Research Plan background.
-- ✅ **Research Plan drafted (v3) & committed** — meets the sprint "done" checklist (owners assigned, mentor review pending). See [`Research_Plan_Pediatric_Pulmonology.md`](./Research_Plan_Pediatric_Pulmonology.md); also mirrored as an editable Google Doc in the team Drive.
+- ✅ **Research Plan drafted (v3) & committed** — meets the sprint "done" checklist (owners assigned, mentor review pending). See [the Research Plan in Drive](https://docs.google.com/document/d/1GGYgcYeDJR3qa4hW9B2Hy7i2mjBLLjJzYw0xZJxSBIg/edit); also mirrored as an editable Google Doc in the team Drive.
 - ✅ **Team knowledge base set up in Google Drive** — a shared hub with Deliverables / Interviews / Synthesis / Course-materials folders (see "Where we work" below). The course reference slides now live in the Drive Course-materials folder, not this repo.
 - ⬜ **Interview guides** — per-stakeholder (physician, nurse, family, secretary) — not started.
 - ⬜ **Interviews** — target 8–12, prioritising physicians & families — not started.
 - ⬜ **Research Report** (graded, 40%) — due Thu 30 Jul — not started.
-- ✅ **Shared Skill consolidated** — four teammates each built one skill independently; three were about interview material and were merged into a single `interview-synth` with Generate / Synthesize / Panel modes. See [`skills/README.md`](./skills/README.md) for the comparison and [`Shared_Skill_Process_Group7.docx`](./Shared_Skill_Process_Group7.docx) for the write-up.
+- ✅ **Shared Skill consolidated** — four teammates each built one skill independently; three were about interview material and were merged into a single `interview-synth` with Generate / Synthesize / Panel modes. See [`skills/README.md`](./skills/README.md) for the comparison and [the process write-up in Drive](https://drive.google.com/file/d/16G9LYp4iZOFRkYCBIpNPH78EoC3Ut0ji/view) for the write-up.
 
 ## Where we work
 
@@ -89,14 +89,14 @@ Two places, on purpose:
 
 ## What's in this repo
 
+The repo is deliberately narrow: **skills, plus the product and prototype we are about to build**. Written deliverables (the Research Plan, the Research Report, the Shared Skill process write-up) live in the Google Drive hub, not here.
+
 | File | What it is |
 |---|---|
 | `README.md` | This file — project overview, status, and the team's map. |
-| `Research_Plan_Pediatric_Pulmonology.md` | The Research Plan (v3): problem, focus, research questions, methodology, participants, ethics, timeline with owners, limitations. |
 | `skills/interview-synth/` | The team's reusable **Shared Skill**, consolidated. One skill, three modes: **Generate** a grounded, clearly-labelled synthetic interview; **Synthesize** transcripts into an evidence-weighted findings report; **Panel** an idea against the stakeholders we interviewed. All three sit on one evidence ladder and one guardrail set (grounding, permanent labelling, no identifiable patient data, provenance). Includes `references/background.md` and a full worked example under `assets/`. |
 | `skills/README.md` | How the four team-member skills compared and why they were merged into one. |
 | `.claude/skills/` | Where Claude Code auto-discovers skills. Holds `progress-tracking` (Drive vs plan audit) and a symlink to the consolidated `interview-synth`. |
-| `Shared_Skill_Process_Group7.docx` | Process documentation of how four teammates built four skills independently and how they were merged, written as source material for the final presentation. |
 
 _The course reference slides and the editable plan now live in the Google Drive hub (see "Where we work")._
 
@@ -107,7 +107,7 @@ Sprint runs Fridays 08:45–13:00, plus team work in between.
 | Date | Milestone | Notes |
 |---|---|---|
 | Fri 24 Jul | Kickoff + desk research begins | Plan drafted |
-| **Sun 26 Jul** | **Research Plan due** (required, non-graded) | Submit `Research_Plan_...md` |
+| **Sun 26 Jul** | **Research Plan due** (required, non-graded) | Submitted (see Drive) |
 | Mon–Wed 27–29 Jul | Interviews + rolling synthesis | Physicians & families first |
 | **Thu 30 Jul** | **Research Report due — 40% (graded)** | First graded deliverable |
 | Fri 31 Jul | Research → ideation | Carry evidence into the concept |
@@ -140,9 +140,9 @@ Sprint runs Fridays 08:45–13:00, plus team work in between.
 If you're picking this up — human or AI — start here:
 
 - **The one-line frame:** we're improving how a child's clinical history is collected *before* a pediatric pulmonology visit, so the physician isn't reconstructing it from scratch at the point of care.
-- **Where the work lives:** the **Google Drive hub** (see "Where we work") is the day-to-day knowledge base — interview notes, synthesis, and the editable plan. This **repo** holds the version-controlled Markdown deliverables and the Shared Skill. Read `Research_Plan_Pediatric_Pulmonology.md` first — it's the source of truth for scope, research questions, and method. Don't broaden scope beyond pre-visit intake without a team decision.
+- **Where the work lives:** the **Google Drive hub** (see "Where we work") is the day-to-day knowledge base — interview notes, synthesis, and the editable plan. This **repo** holds the version-controlled Markdown deliverables and the Shared Skill. Read [the Research Plan](https://docs.google.com/document/d/1GGYgcYeDJR3qa4hW9B2Hy7i2mjBLLjJzYw0xZJxSBIg/edit) first — it's the source of truth for scope, research questions, and method. Don't broaden scope beyond pre-visit intake without a team decision.
 - **Grounding rule:** claims in our deliverables must be backed by evidence (desk research or interviews) — "grounded in real evidence, not opinion." Back each theme with at least two independent sources before treating it as a finding.
 - **Sensitivity:** pediatric hospital context. Never collect or store identifiable patient data; get consent; never record without permission.
-- **Conventions:** repo deliverables are Markdown so they diff and render on GitHub; collaborative editing happens in the Drive Google Docs. Keep this README's status section and the Drive hub current as work lands.
+- **Conventions:** the repo holds skills and, from here on, the product and prototype code; written deliverables and collaborative editing live in the Drive Google Docs. Keep this README's status section and the Drive hub current as work lands.
 
 _Last updated: 31 July 2026._
