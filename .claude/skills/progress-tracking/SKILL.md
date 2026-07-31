@@ -1,9 +1,9 @@
 ---
-name: research-progress
+name: progress-tracking
 description: Compare the Group 7 research plan against the actual files in the team's Google Drive and report which deliverables are complete, which are partial, and which are missing. Use when the user asks where the research stands, what is left to do, what is outstanding, whether the team is on track, or asks for a progress check against the plan.
 ---
 
-# Research progress check
+# Progress tracking — research plan vs Drive
 
 ## Locations
 
