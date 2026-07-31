@@ -92,6 +92,7 @@ Two places, on purpose:
 |---|---|
 | `README.md` | This file — project overview, status, and the team's map. |
 | `Research_Plan_Pediatric_Pulmonology.md` | The Research Plan (v3): problem, focus, research questions, methodology, participants, ethics, timeline with owners, limitations. |
+| `skills/interview-synth/` | The team's reusable **Shared Skill** — generates grounded, clearly-labelled synthetic UX interviews, with a de-identification (no-PII) guardrail, an evidence-based `references/` note, and a full worked example under `assets/`. The `skills/` folder is the home for our reusable skills going forward. |
 
 _The course reference slides and the editable plan now live in the Google Drive hub (see "Where we work")._
 
