@@ -78,6 +78,7 @@ Physicians — Gal leads, Matan notes · Nurses — Gal leads, Mikhail notes · 
 - ⬜ **Interview guides** — per-stakeholder (physician, nurse, family, secretary) — not started.
 - ⬜ **Interviews** — target 8–12, prioritising physicians & families — not started.
 - ⬜ **Research Report** (graded, 40%) — due Thu 30 Jul — not started.
+- ✅ **Shared Skill consolidated** — four teammates each built one skill independently; three were about interview material and were merged into a single `interview-synth` with Generate / Synthesize / Panel modes. See [`skills/README.md`](./skills/README.md) for the comparison and [`Shared_Skill_Process_Group7.docx`](./Shared_Skill_Process_Group7.docx) for the write-up.
 
 ## Where we work
 
@@ -92,7 +93,10 @@ Two places, on purpose:
 |---|---|
 | `README.md` | This file — project overview, status, and the team's map. |
 | `Research_Plan_Pediatric_Pulmonology.md` | The Research Plan (v3): problem, focus, research questions, methodology, participants, ethics, timeline with owners, limitations. |
-| `skills/interview-synth/` | The team's reusable **Shared Skill** — generates grounded, clearly-labelled synthetic UX interviews, with a de-identification (no-PII) guardrail, an evidence-based `references/` note, and a full worked example under `assets/`. The `skills/` folder is the home for our reusable skills going forward. |
+| `skills/interview-synth/` | The team's reusable **Shared Skill**, consolidated. One skill, three modes: **Generate** a grounded, clearly-labelled synthetic interview; **Synthesize** transcripts into an evidence-weighted findings report; **Panel** an idea against the stakeholders we interviewed. All three sit on one evidence ladder and one guardrail set (grounding, permanent labelling, no identifiable patient data, provenance). Includes `references/background.md` and a full worked example under `assets/`. |
+| `skills/README.md` | How the four team-member skills compared and why they were merged into one. |
+| `.claude/skills/` | Where Claude Code auto-discovers skills. Holds `progress-tracking` (Drive vs plan audit) and a symlink to the consolidated `interview-synth`. |
+| `Shared_Skill_Process_Group7.docx` | Process documentation of how four teammates built four skills independently and how they were merged, written as source material for the final presentation. |
 
 _The course reference slides and the editable plan now live in the Google Drive hub (see "Where we work")._
 
@@ -141,4 +145,4 @@ If you're picking this up — human or AI — start here:
 - **Sensitivity:** pediatric hospital context. Never collect or store identifiable patient data; get consent; never record without permission.
 - **Conventions:** repo deliverables are Markdown so they diff and render on GitHub; collaborative editing happens in the Drive Google Docs. Keep this README's status section and the Drive hub current as work lands.
 
-_Last updated: 26 July 2026._
+_Last updated: 31 July 2026._
