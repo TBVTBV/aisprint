@@ -209,7 +209,7 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 
 **Menu** is reachable from `[0]` (as "What is this?" plus a language control) and from every screen that has a top bar, so language can be changed from anywhere. `[L.1]` also carries the small language control, since it is now the first thing the caregiver sees.
 
-**Sticky bottom bar** with the progress bar on `[1]` through `[V]`. On `[V]` it also carries the primary **Send to Dr. Oren** action. There is no "Send what I have" shortcut: the flow is short enough that review is always reached by walking it, and Skip on every question keeps that walk unblocked.
+**Sticky bottom bar** with the progress bar on `[1]` through `[V]`. On question screens it also holds the screen's actions — **Continue** and **"Skip this"** — so they stay reachable without scrolling past a long option list. On `[V]` it carries the primary **Send to Dr. Oren** action. There is no "Send what I have" shortcut: the flow is short enough that review is always reached by walking it, and Skip on every question keeps that walk unblocked.
 
 ### 7.1 `[0]` Landing
 
@@ -251,9 +251,9 @@ The tree itself is section 9. This is how a question screen behaves.
 
 - **One `screen: true` question per screen.** Inline reveals appear underneath their parent on the same screen, animated in, and disappear when the parent answer changes.
 - **"I don't know"** renders as a full-width option in the same visual weight as the others, at the bottom of the option list. It sets `status: "unknown"`.
-- **"Skip this"** is a text button under the options on every question screen. It sets `status: "skipped"` and advances. This is the only input for the "passed on" counter.
+- **"Skip this"** is a text button on every question screen, pinned in the sticky bottom bar directly under Continue. It sets `status: "skipped"` and advances. This is the only input for the "passed on" counter.
 - **Confidence** renders under the answer when `confidence: true`, as three chips: Sure / Roughly / Guessing. Optional, default unset, does not block Continue.
-- Continue is enabled once the question has any status, including `unknown` and `skipped`.
+- Continue sits pinned in the sticky bottom bar and is enabled once the question has any status, including `unknown` and `skipped`.
 - Back returns to the previous screen on the current path and leaves answers intact, except when `q1` changes (see 6.3).
 
 ### 7.5 The `q8a` copy variant

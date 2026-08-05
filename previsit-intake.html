@@ -55,6 +55,7 @@ h2{font-size:16px}
 .btn-text{text-decoration:underline;color:var(--ink);padding:8px 2px;font-size:14px;text-align:start}
 .qacts{margin-top:22px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .qacts .btn-primary{width:100%}
+.bbar .qacts{margin-top:8px;gap:6px;align-items:center}
 /* options + chips */
 .opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
 .opt{position:relative;display:flex;gap:8px;align-items:baseline;width:100%;text-align:start;border:1px solid var(--line);border-radius:4px;padding:12px;background:#fff}
@@ -1245,9 +1246,13 @@ function questionBody(qd){
     const ca = st(c.id);
     h += '<div class="inline"><h2 class="qt2">' + L(c.text) + "</h2>" + inputHTML(c, ca) + (c.confidence ? confHTML(c, ca) : "") + variantHTML(c, ca) + "</div>";
   });
-  h += '<div class="qacts"><button class="btn-primary" data-act="q-continue" data-q="' + qd.id + '"' + (a ? "" : " disabled") + ">" + t("cont") + "</button>" +
-       (qd.notInPath ? "" : '<button class="btn-text" data-act="skip" data-q="' + qd.id + '">' + t("skip") + "</button>") + "</div>";
-  return h;
+  return h;                                               // Continue and Skip live in the sticky bottom bar
+}
+
+function qactsHTML(qd){
+  const a = st(qd.id);
+  return '<div class="qacts"><button class="btn-primary" data-act="q-continue" data-q="' + qd.id + '"' + (a ? "" : " disabled") + ">" + t("cont") + "</button>" +
+    (qd.notInPath ? "" : '<button class="btn-text" data-act="skip" data-q="' + qd.id + '">' + t("skip") + "</button>") + "</div>";
 }
 
 function landingBody(){
@@ -1576,9 +1581,10 @@ function bottombarHTML(){
     for (let i = 0; i < total; i++) segs += '<div class="pseg' + (i < cur ? " fill" : i === cur ? " cur" : "") + '"></div>';
     count = fmt(t("stepOf"), { a: cur + 1, b: total });
   }
-  const btn = s === "review"
-    ? '<button class="btn-primary" data-act="submit">' + t("send") + "</button>"
-    : "";
+  let btn = "";
+  if (s === "review") btn = '<button class="btn-primary" data-act="submit">' + t("send") + "</button>";
+  else if (s === "respondent") btn = qactsHTML(q("respondent"));
+  else if (s.startsWith("q:")) btn = qactsHTML(q(s.slice(2)));
   return '<footer class="bbar"><div class="psegs" aria-hidden="true">' + segs + '</div><p class="pcount" aria-live="polite">' + count + "</p>" + btn + "</footer>";
 }
 
