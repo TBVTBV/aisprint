@@ -592,6 +592,7 @@ Deliberately low fidelity, so that mentors comment on the flow rather than the s
 ## 14. Technical constraints
 
 - **One self-contained `.html` file.** Inline CSS and JS. No build step, no CDN, no framework, no network at runtime.
+- **Hosting.** The file still opens by double-click, and it is also served at `https://tbvtbv.github.io/aisprint/` via GitHub Pages: a workflow copies `previsit-intake.html` to `index.html` on every push to `main`, publishing only the prototype and nothing else from the repository. The page carries `noindex` — it is a hand-out link, not a search result.
 - **Phone-first.** Design at 390 × 844. Above 700 px viewport width, render the app inside a centred phone frame on a plain ground, so it reads correctly on a laptop and a projector.
 - **Storage:** `localStorage` wrapped in `try/catch` with an in-memory fallback, so the demo survives `file://` restrictions.
 - **RTL is structural, not a stylesheet afterthought.** Build it in from the first commit.

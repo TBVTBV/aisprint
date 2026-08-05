@@ -4,6 +4,8 @@
 >
 > **Challenge #6 — Incomplete, Unstructured, or Hard-to-Access Medical Information (Pediatric Pulmonology)**
 
+**Live prototype:** the Direction B pre-visit intake demo is served at **<https://tbvtbv.github.io/aisprint/>** (all data fictional; deployed from [previsit-intake.html](previsit-intake.html) on every push to `main` via GitHub Pages).
+
 This repository holds our team's work for the AI Product Sprint. Our challenge: a large share of every pediatric pulmonology visit is spent reconstructing a child's clinical history — symptoms, inhaler use, prior hospitalisations, treatment responses, and environmental exposures — from partial, unstructured input, because families often don't know which details matter. **We are focusing on the moment *before* the visit: how history is collected from families as pre-visit intake, and why it reaches the clinician incomplete.**
 
 ## Team
