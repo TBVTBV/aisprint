@@ -105,6 +105,9 @@ h2{font-size:16px}
 .cwhy{font-size:14px;margin-top:8px}
 .corigin{font-size:12.5px;color:var(--mut);border:1px dashed var(--line);border-radius:4px;padding:6px 9px;margin-top:8px}
 .cardacts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.cardacts .btn-sec,.cardacts .filelab,.cardacts .btn-text{display:flex;align-items:center;justify-content:center;gap:8px}
+.bicon{flex:none}
+.btn-sec.sel{border:2px solid var(--ink);background:var(--soft);padding:10px 15px}
 .filelab{position:relative;display:block;width:100%;background:#fff;border:1px solid var(--ink);border-radius:4px;padding:11px 16px;font-weight:600;text-align:center;cursor:pointer}
 .filelab:focus-within{outline:2px solid var(--ink);outline-offset:2px}
 .follow,.offer{margin-top:10px;border-top:1px solid var(--soft);padding-top:10px;display:flex;flex-direction:column;gap:8px}
@@ -123,6 +126,12 @@ h2{font-size:16px}
 /* review */
 .rsec{margin-block-end:20px}
 .rsec h2{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:2px}
+.rsec summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:2px}
+.rsec summary::-webkit-details-marker{display:none}
+.rsec summary::after{content:"▸";font-size:12px;color:var(--mut)}
+[dir="rtl"] .rsec summary::after{content:"◂"}
+.rsec[open] summary::after{content:"▾"}
+.rsec summary h2{border-bottom:none;padding-bottom:0;margin-bottom:0}
 .row{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 2px;border-bottom:1px solid var(--soft);text-align:start}
 .rq{color:var(--mut);font-size:13px;flex:1}
 .ra{font-weight:600;font-size:14px;text-align:end;max-width:60%}
@@ -190,6 +199,8 @@ const STRINGS = {
     willBringOpt:"I have it, I'll bring it on the day",
     willGetOpt:"I can get it before Thursday",
     cantGetOpt:"I can't get it",
+    addLaterOpt:"I'll add it here later",
+    stAddLater:"You'll add it here later",
     moveOffer:"Would it help to move the appointment?",
     moveAppt:"Move my appointment", comeAnyway:"No, I'll come anyway",
     stAttached:"Attached", stWillBring:"You'll bring it on the day",
@@ -307,6 +318,8 @@ const STRINGS = {
     willBringOpt:"יש לי, אביא ביום התור", // TODO: native review
     willGetOpt:"אוכל להשיג עד יום חמישי", // TODO: native review
     cantGetOpt:"אין לי דרך להשיג את זה", // TODO: native review
+    addLaterOpt:"אוסיף את זה כאן אחר כך", // TODO: native review
+    stAddLater:"תוסיפו את זה כאן אחר כך", // TODO: native review
     moveOffer:"יעזור להזיז את התור?", // TODO: native review
     moveAppt:"להזיז את התור", // TODO: native review
     comeAnyway:"לא, נגיע בכל מקרה", // TODO: native review
@@ -729,7 +742,7 @@ const CASE = {
 const FRESH = () => ({
   locale:"he", loggedIn:false, phone:"", respondent:null, branch:null,
   answers:{}, cards:{}, note:"", submitted:false, rescheduledTo:null,
-  screen:"landing"
+  screen:"login_phone"                      // the gate comes first: nothing medical renders before it
 });
 let STATE = FRESH();
 let MEM = null;                       // in-memory fallback when localStorage is blocked
@@ -741,7 +754,7 @@ const UI = {
   followCard:null, offerCard:null,
   cam:"idle", stream:null, captured:null,
   readLoading:false, readDraft:null,
-  resendLeft:0, lastScreen:null, focus:null
+  resendLeft:0, lastScreen:null, focus:null, revClosed:{}
 };
 
 function saveState(){
@@ -754,7 +767,7 @@ function loadState(){
   if (s && typeof s === "object"){
     STATE = Object.assign(FRESH(), s);
     Object.values(STATE.cards || {}).forEach(c => (c.files || []).forEach(f => { f.objectUrl = null; }));
-    if (!STATE.loggedIn && !["landing","login_phone","login_code"].includes(STATE.screen)) STATE.screen = "landing";
+    if (!STATE.loggedIn) STATE.screen = "login_phone";  // nothing renders before the gate
     if (/^(capture|read):/.test(STATE.screen)) STATE.screen = "docs";   // transient sub-screens do not resume
     if (STATE.screen === "login_code") STATE.screen = "login_phone";
   }
@@ -875,7 +888,7 @@ function backTarget(){
   const s = STATE.screen;
   if (UI.returnTo === "review" && (s === "respondent" || s === "docs" || s === "note" || s.startsWith("q:"))) return "review";
   if (s === "login_code") return "login_phone";
-  if (s === "login_phone") return "landing";
+  if (s === "login_phone") return "login_phone";        // first screen, no back
   if (s === "respondent") return "landing";
   if (s.startsWith("q:")){
     const p = pathQuestions(); const i = p.findIndex(x => "q:" + x.id === s);
@@ -924,7 +937,7 @@ A["restart"] = () => {
   try { localStorage.removeItem(KEY); } catch(e){}
   MEM = null; stopStream();
   STATE = FRESH();
-  Object.assign(UI, { menuOpen:false, sheet:null, loader:null, toast:null, returnTo:null, resFrom:null, resDone:false, followCard:null, offerCard:null, captured:null, readDraft:null, readLoading:false });
+  Object.assign(UI, { menuOpen:false, sheet:null, loader:null, toast:null, returnTo:null, resFrom:null, resDone:false, followCard:null, offerCard:null, captured:null, readDraft:null, readLoading:false, revClosed:{} });
   applyDir(); render();
 };
 
@@ -1061,7 +1074,7 @@ function handleCode(el){
   const vals = [...document.querySelectorAll("[data-code]")].map(x => x.value);
   if (vals.length === 4 && vals.every(v => v.length === 1)){
     UI.loader = t("checking"); render();                 // 10.2 any four digits are accepted
-    setTimeout(() => { UI.loader = null; STATE.loggedIn = true; goto("respondent"); }, 1000);
+    setTimeout(() => { UI.loader = null; STATE.loggedIn = true; goto("landing"); }, 1000);
   }
 }
 function handleOpenText(el){
@@ -1114,6 +1127,10 @@ document.addEventListener("input", e => {
   if (el.dataset.open){ handleOpenText(el); return; }
   if (el.dataset.note !== undefined){ STATE.note = el.value; saveState(); return; }
   if (el.dataset.readfield){ if (UI.readDraft) UI.readDraft[el.dataset.readfield] = el.value; return; }
+});
+document.addEventListener("click", e => {
+  const sm = e.target.closest("details[data-sec] > summary");
+  if (sm){ const d = sm.parentElement; UI.revClosed[d.dataset.sec] = d.open; }  // default action flips it after this
 });
 document.addEventListener("change", e => {
   const el = e.target;
@@ -1252,7 +1269,8 @@ function landingBody(){
 
 function loginPhoneBody(){
   const ok = /^05\d{8}$/.test(STATE.phone);
-  return '<h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
+  return '<div class="landtop"><button class="btn-text" data-act="toggle-lang" lang="' + (STATE.locale === "he" ? "en" : "he") + '">' + (STATE.locale === "he" ? "English" : "עברית") + "</button></div>" +
+    '<h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
     '<div class="field"><label for="phone">' + t("phoneLabel") + '</label>' +
     '<input id="phone" class="txt" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" data-phone value="' + esc(STATE.phone) + '">' +
     '<p class="hint">' + t("phoneHelp") + "</p></div>" +
@@ -1281,6 +1299,14 @@ function thumbsHTML(files){
   return '<div class="thumbs">' + th + '</div><p class="small mut">' + files.map(f => esc(f.name)).join(", ") + "</p>";
 }
 
+/* small monochrome line icons for the document actions; inline, stroked in currentColor */
+const ICONS = {
+  find:'<svg class="bicon" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><line x1="10.6" y1="10.6" x2="14" y2="14"/></svg>',
+  photo:'<svg class="bicon" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.6 4.2l.9-1.7h3l.9 1.7"/><rect x="1.5" y="4.2" width="13" height="9.3" rx="1"/><circle cx="8" cy="8.8" r="2.4"/></svg>',
+  none:'<svg class="bicon" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><line x1="3.9" y1="12.1" x2="12.1" y2="3.9"/></svg>',
+  what:'<svg class="bicon" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M6.4 6.3a1.7 1.7 0 1 1 2.5 1.6c-.6.3-.9.7-.9 1.2"/><line x1="8" y1="11.2" x2="8" y2="11.3"/></svg>'
+};
+
 function cardStateHTML(c){
   const cs = STATE.cards[c.id]; const s = cs ? cs.status : "untouched";
   if (s === "attached"){
@@ -1290,7 +1316,7 @@ function cardStateHTML(c){
     return h;
   }
   if (s !== "untouched"){
-    const map = { will_bring:"stWillBring", will_get:"stWillGet", cannot_get:"stCannotGet" };
+    const map = { will_bring:"stWillBring", will_get:"stWillGet", add_later:"stAddLater", cannot_get:"stCannotGet" };
     let h = '<div class="cardstate"><p class="stt">' + t(map[s]) + "</p>";
     if (s === "cannot_get" && UI.offerCard === c.id)
       h += '<div class="offer"><p>' + t("moveOffer") + '</p><button class="btn-sec" data-act="open-reschedule">' + t("moveAppt") + '</button><button class="btn-sec" data-act="decline-move">' + t("comeAnyway") + "</button></div>";
@@ -1298,15 +1324,16 @@ function cardStateHTML(c){
     return h;
   }
   const acc = c.kind === "video" ? "video/*" : "image/*,.pdf";
+  const open = UI.followCard === c.id;
   let h = '<div class="cardacts">';
-  h += '<label class="filelab">' + t("findOnPhone") + '<input type="file" class="vh" accept="' + acc + '" data-file="1" data-card="' + c.id + '"></label>';
-  if (c.kind === "paper") h += '<button class="btn-sec" data-act="card-capture" data-card="' + c.id + '">' + t("takePhoto") + "</button>";
-  h += '<button class="btn-sec" data-act="card-dont-have" data-card="' + c.id + '">' + (c.kind === "video" ? t("dontHaveVideo") : t("dontHaveIt")) + "</button>";
-  if (c.explain) h += '<button class="btn-text" data-act="card-explain" data-card="' + c.id + '">' + t("whatIsThis") + "</button>";
+  h += '<label class="filelab">' + ICONS.find + "<span>" + t("findOnPhone") + '</span><input type="file" class="vh" accept="' + acc + '" data-file="1" data-card="' + c.id + '"></label>';
+  if (c.kind === "paper") h += '<button class="btn-sec" data-act="card-capture" data-card="' + c.id + '">' + ICONS.photo + "<span>" + t("takePhoto") + "</span></button>";
+  h += '<button class="btn-sec' + (open ? " sel" : "") + '" data-act="card-dont-have" data-card="' + c.id + '" aria-expanded="' + open + '">' + ICONS.none + "<span>" + (c.kind === "video" ? t("dontHaveVideo") : t("dontHaveIt")) + "</span></button>";
+  if (c.explain) h += '<button class="btn-text" data-act="card-explain" data-card="' + c.id + '">' + ICONS.what + "<span>" + t("whatIsThis") + "</span></button>";
   h += "</div>";
-  if (UI.followCard === c.id){
+  if (open){
     h += '<div class="follow">';
-    [["will_bring","willBringOpt"],["will_get","willGetOpt"],["cannot_get","cantGetOpt"]].forEach(([sid, k]) => {
+    [["will_bring","willBringOpt"],["will_get","willGetOpt"],["add_later","addLaterOpt"],["cannot_get","cantGetOpt"]].forEach(([sid, k]) => {
       h += '<button class="opt" data-act="card-set" data-card="' + c.id + '" data-status="' + sid + '"><span class="mark" aria-hidden="true"></span><span>' + t(k) + "</span></button>";
     });
     h += "</div>";
@@ -1319,8 +1346,8 @@ function dxHTML(){
   let h = '<section class="card dx"><h2 class="ctitle">' + t("dxTitle") + "</h2>";
   if (cs && cs.files.length) h += thumbsHTML(cs.files);
   if (cs && cs.extracted) h += '<p class="small mut">' + ["docType","date","place","childName"].map(k => esc(cs.extracted[k])).filter(Boolean).join(" · ") + "</p>";
-  h += '<div class="cardacts"><label class="filelab">' + t("findOnPhone") + '<input type="file" class="vh" accept="image/*,.pdf" data-file="1" data-card="DX"></label>' +
-       '<button class="btn-sec" data-act="card-capture" data-card="DX">' + t("takePhoto") + "</button></div></section>";
+  h += '<div class="cardacts"><label class="filelab">' + ICONS.find + "<span>" + t("findOnPhone") + '</span><input type="file" class="vh" accept="image/*,.pdf" data-file="1" data-card="DX"></label>' +
+       '<button class="btn-sec" data-act="card-capture" data-card="DX">' + ICONS.photo + "<span>" + t("takePhoto") + "</span></button></div></section>";
   return h;
 }
 
@@ -1405,7 +1432,7 @@ function rowsFor(ids){
   return out || null;
 }
 function docRows(){
-  const stWord = { attached:"stAttached", will_bring:"stWillBring", will_get:"stWillGet", cannot_get:"stCannotGet", untouched:"stUntouched" };
+  const stWord = { attached:"stAttached", will_bring:"stWillBring", will_get:"stWillGet", add_later:"stAddLater", cannot_get:"stCannotGet", untouched:"stUntouched" };
   let out = "";
   namedCards().forEach(c => {
     const cs = STATE.cards[c.id]; const s = cs ? cs.status : "untouched";
@@ -1476,7 +1503,10 @@ function reviewBody(){
     ["secDocs", docRows()],
     ["secNote", noteRows()]
   ];
-  secs.forEach(([k, rows]) => { if (rows) h += '<section class="rsec"><h2>' + t(k) + "</h2>" + rows + "</section>"; });
+  secs.forEach(([k, rows]) => {
+    if (!rows) return;                                    // collapsible, open by default; collapse survives edit-and-return
+    h += '<details class="rsec" data-sec="' + k + '"' + (UI.revClosed[k] ? "" : " open") + '><summary><h2>' + t(k) + "</h2></summary>" + rows + "</details>";
+  });
   h += gapsHTML();
   const sum = summaryLine();
   if (sum) h += '<p class="sumline">' + sum + "</p>";
@@ -1486,7 +1516,7 @@ function reviewBody(){
 function sentBody(){
   const bring = CASE.cards.filter(c => {
     const cs = STATE.cards[c.id];
-    return cs && (cs.status === "will_bring" || cs.status === "will_get");
+    return cs && (cs.status === "will_bring" || cs.status === "will_get" || cs.status === "add_later");
   });
   let h = '<div class="sent"><h1 tabindex="-1">' + t("sentTitle") + "</h1>";
   h += '<div class="sentbox"><h2>' + t("stillBring") + "</h2>";
