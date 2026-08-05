@@ -5,7 +5,7 @@ Direction B, "The Named Ask", from `Group7_S2_Ideation.html`.
 
 **Audience:** Claude Code. **Deliverable:** one self-contained `.html` file.
 
-> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated on the landing screen and in the app footer.
+> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated on the landing screen and in the menu.
 
 ## How to use this document
 
@@ -209,7 +209,7 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 
 **Menu** is reachable from `[0]` (as "What is this?" plus a language control) and from every screen that has a top bar, so language can be changed from anywhere. `[L.1]` also carries the small language control, since it is now the first thing the caregiver sees.
 
-**Sticky bottom bar** with the progress bar and **"Send what I have"** on `[1]` through `[V]`. Enabled from `[1]` onward, never disabled.
+**Sticky bottom bar** with the progress bar on `[1]` through `[V]`. On `[V]` it also carries the primary **Send to Dr. Oren** action. There is no "Send what I have" shortcut: the flow is short enough that review is always reached by walking it, and Skip on every question keeps that walk unblocked.
 
 ### 7.1 `[0]` Landing
 
@@ -327,7 +327,7 @@ Every field is editable and written back to `CardState.extracted`. The flagged f
 
 ### 7.9 `[C]` Note
 
-One free-text box: "Is there anything you want Dr. Oren to know before you come in?" Optional, and the bottom bar makes leaving it empty obviously fine.
+One free-text box: "Is there anything you want Dr. Oren to know before you come in?" Optional, and the copy makes leaving it empty obviously fine.
 
 ### 7.10 `[V]` Review
 
@@ -389,7 +389,7 @@ Slide-over sheet from the top bar:
 - **Save and continue later**
 - **Change my appointment**
 - **How we handle this information** (7.11)
-- **Restart demo**, labelled as a demo affordance. Clears `STATE` and returns to `[L.1]`. A small **Reset** control beside the demo line in the footer does the same from any screen.
+- **Restart demo**, labelled as a demo affordance. Clears `STATE` and returns to `[L.1]`. This is the only reset control; the sticky bottom bar carries no demo chrome.
 
 ### 7.15 The progress bar
 
@@ -560,7 +560,6 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 | Confidence | Stored per answer, rendered in words on review |
 | Skip | A real control on every question screen, feeding the passed-on counter |
 | Progress | Segments per 7.15. Never claims completion when things were skipped |
-| Send what I have | Enabled from `[1]`, always reaches `[V]`, never blocked |
 | File picker | Real, with a real local thumbnail. No upload |
 | Camera | Real `getUserMedia` where available, silent fallback to the picker |
 | Review edit | Real jump-back-and-return with state preserved |
@@ -573,7 +572,7 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 
 A build that violates one of these is wrong, not merely unpolished.
 
-1. **No real patient data anywhere.** Everything fictional, and labelled fictional on `[0]` and in the footer.
+1. **No real patient data anywhere.** Everything fictional, and labelled fictional on `[0]` and in the menu.
 2. **The app never concludes.** No screen tells the caregiver what Yotam has, what is wrong, or what to do. It collects and routes. Nothing more.
 3. **Machine output is labelled and correctable.** The document read, every time.
 4. **Uncertainty is surfaced, never smoothed.** "I don't know" is a value, confidence is captured, and the read admits where it is unsure.
@@ -609,7 +608,7 @@ Deliberately low fidelity, so that mentors comment on the flow rather than the s
 9. `[S]` and `[R]`.
 10. `[Menu]`, the English locale and the language switch.
 11. Save and resume, including the logged-in session.
-12. "Send what I have" from every screen, the progress bar per 7.15, and the accessibility floor.
+12. The progress bar per 7.15, and the accessibility floor.
 
 ## 16. Acceptance criteria
 
@@ -621,7 +620,6 @@ The prototype is done when someone handed a phone can do all of this unaided.
 - [ ] Confirm the app boots in Hebrew and RTL. Switch to English from any screen, watch layout, text and progress all follow, then switch back.
 - [ ] Answer `q1` "A cough that will not go away", then "I don't know" at every subsequent question that offers it, and "Nothing comes to mind" at `q9`. Reach review and send. Review lists every one of them.
 - [ ] Answer `q1` "Noisy breathing or wheezing", then Skip every subsequent question. Review shows them all under "passed on", and the don't-knows sentence and term are **absent entirely rather than printed as 0**.
-- [ ] Reach review from `[1]` via "Send what I have". Review shows the respondent answer, no invented questions, and sending is allowed.
 - [ ] Go back from a Branch A question, change `q1` to `infections`, and confirm Branch A's answers are gone, `D4` has disappeared, and the progress denominator has recomputed without un-filling a passed segment.
 - [ ] Answer `q5a` "Yes, I have a video", reach `[D]`, and see a fourth card with its origin note.
 - [ ] Photograph a document, correct the flagged name field, reach review, and see the corrected value.
