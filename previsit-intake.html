@@ -47,6 +47,7 @@ h2{font-size:16px}
 .pseg.ind{flex:6;background:repeating-linear-gradient(45deg,#fff,#fff 6px,var(--soft) 6px,var(--soft) 12px)}
 .pcount{font-size:12px;color:var(--mut);margin:4px 0 8px}
 .demoline{font-size:11px;color:var(--mut);text-align:center;margin-top:6px}
+.resetbtn{font:inherit;font-size:11px;color:var(--mut);text-decoration:underline;padding:0 2px}
 /* buttons */
 .btn-primary{display:block;width:100%;background:var(--accent);border:1px solid var(--accent);color:#fff;border-radius:4px;padding:12px 16px;font-weight:600;text-align:center}
 .btn-primary:disabled{background:var(--soft);border-color:var(--line);color:var(--mut);cursor:not-allowed}
@@ -241,7 +242,7 @@ const STRINGS = {
     saveLater:"Save and continue later",
     savedToast:"Saved. You can close this page and come back with the same link.",
     howHandle:"How we handle this information",
-    restart:"Restart demo", restartTag:"Demo control",
+    restart:"Restart demo", restartTag:"Demo control", reset:"Reset",
     privacyTitle:"How we handle this information",
     p1:"This is a prototype. Nothing here is a real medical record.",
     p2:"Right now everything you enter stays on this phone, in this browser. Nothing is sent anywhere.",
@@ -382,6 +383,7 @@ const STRINGS = {
     howHandle:"איך אנחנו שומרים על המידע", // TODO: native review
     restart:"התחלת הדמו מחדש", // TODO: native review
     restartTag:"כלי הדגמה", // TODO: native review
+    reset:"איפוס", // TODO: native review
     privacyTitle:"איך אנחנו שומרים על המידע", // TODO: native review
     p1:"זהו אב־טיפוס. שום דבר כאן אינו תיק רפואי אמיתי.", // TODO: native review
     p2:"כרגע כל מה שמוזן נשאר בטלפון הזה, בדפדפן הזה. שום דבר לא נשלח לשום מקום.", // TODO: native review
@@ -1536,7 +1538,7 @@ function segIndex(){
 function bottombarHTML(){
   const s = STATE.screen;
   const flow = s === "respondent" || s.startsWith("q:") || s === "docs" || s.startsWith("capture:") || s.startsWith("read:") || s === "note" || s === "review";
-  if (!flow) return '<footer class="bbar bare"><p class="demoline">' + t("demoLine") + "</p></footer>";
+  if (!flow) return '<footer class="bbar bare"><p class="demoline">' + t("demoLine") + ' · <button class="resetbtn" data-act="restart">' + t("reset") + "</button></p></footer>";
   const known = !!st("q1");                               // denominator unknown until q1 has any status
   let segs = "", count = "";
   if (!known){
@@ -1551,7 +1553,7 @@ function bottombarHTML(){
   const btn = s === "review"
     ? '<button class="btn-primary" data-act="submit">' + t("send") + "</button>"
     : '<button class="btn-sec" data-act="goto-review">' + t("sendWhatIHave") + "</button>";
-  return '<footer class="bbar"><div class="psegs" aria-hidden="true">' + segs + '</div><p class="pcount" aria-live="polite">' + count + "</p>" + btn + '<p class="demoline">' + t("demoLine") + "</p></footer>";
+  return '<footer class="bbar"><div class="psegs" aria-hidden="true">' + segs + '</div><p class="pcount" aria-live="polite">' + count + "</p>" + btn + '<p class="demoline">' + t("demoLine") + ' · <button class="resetbtn" data-act="restart">' + t("reset") + "</button></p></footer>";
 }
 
 function overlaysHTML(){
