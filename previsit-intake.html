@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>לפני הביקור של יותם · דמו</title>
+<!--
+  Pre-Visit Intake, low-fidelity clickable prototype.
+  Group 7 · AI Product Sprint 2026 · Challenge #6 · Direction B, "The Named Ask".
+  Built from PRD.md. Everything in this prototype is fictional: no real patient,
+  no real family, no real clinician data. No network. State stays on the device.
+-->
+<style>
+:root{
+  --ink:#1c1c1c; --mut:#55524c; --line:#b9b7b2; --soft:#eeedea;
+  --bg:#ffffff; --ground:#e4e2dd; --accent:#1d5fae;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
+#stage{min-height:100dvh;display:flex;justify-content:center}
+#app{position:relative;width:100%;max-width:390px;min-height:100dvh;background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+@media (min-width:700px){
+  #stage{align-items:center;padding:24px 0}
+  #app{min-height:0;height:844px;border:1px solid var(--line);border-radius:4px}
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.small{font-size:13px}
+.mut{color:var(--mut)}
+h1{font-size:21px;line-height:1.3;margin-block-end:10px}
+h2{font-size:16px}
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:10px 12px;flex:none}
+.tbtitle{font-size:14px;font-weight:600;letter-spacing:.02em}
+.tbtn{border:1px solid var(--line);border-radius:4px;padding:6px 10px;font-size:13px;background:#fff}
+/* content */
+.content{flex:1;overflow-y:auto;padding:20px 16px 28px}
+/* bottom bar */
+.bbar{flex:none;border-top:1px solid var(--line);background:#fff;padding:10px 16px 8px}
+.bbar.bare{padding:6px 16px}
+.psegs{display:flex;gap:3px}
+.pseg{flex:1;height:8px;border:1px solid var(--line);background:#fff;border-radius:2px}
+.pseg.fill{background:var(--accent);border-color:var(--accent)}
+.pseg.cur{border-color:var(--accent)}
+.pseg.ind{flex:6;background:repeating-linear-gradient(45deg,#fff,#fff 6px,var(--soft) 6px,var(--soft) 12px)}
+.pcount{font-size:12px;color:var(--mut);margin:4px 0 8px}
+.demoline{font-size:11px;color:var(--mut);text-align:center;margin-top:6px}
+/* buttons */
+.btn-primary{display:block;width:100%;background:var(--accent);border:1px solid var(--accent);color:#fff;border-radius:4px;padding:12px 16px;font-weight:600;text-align:center}
+.btn-primary:disabled{background:var(--soft);border-color:var(--line);color:var(--mut);cursor:not-allowed}
+.btn-sec{display:block;width:100%;background:#fff;border:1px solid var(--ink);border-radius:4px;padding:11px 16px;font-weight:600;text-align:center}
+.btn-sec.slim{width:auto;display:inline-block;padding:8px 12px;font-weight:400;font-size:14px}
+.btn-text{text-decoration:underline;color:var(--ink);padding:8px 2px;font-size:14px;text-align:start}
+.qacts{margin-top:22px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.qacts .btn-primary{width:100%}
+/* options + chips */
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.opt{position:relative;display:flex;gap:8px;align-items:baseline;width:100%;text-align:start;border:1px solid var(--line);border-radius:4px;padding:12px;background:#fff}
+.opt.sel{border:2px solid var(--ink);padding:11px;font-weight:600}
+.opt:disabled{color:var(--mut);background:var(--soft);cursor:not-allowed}
+.opt .mark{flex:none;width:16px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{border:1px solid var(--line);border-radius:4px;padding:7px 11px;background:#fff;font-size:14px}
+.chip.sel{border:2px solid var(--ink);padding:6px 10px;font-weight:600}
+.dots{display:flex;gap:6px;margin-top:10px}
+.dot{width:46px;height:46px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:16px}
+.dot.sel{border:2px solid var(--ink);font-weight:700}
+.anch{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-top:12px}
+.hint{font-size:14px;color:var(--mut);margin-block:4px 6px}
+.inline{border-inline-start:2px solid var(--line);padding-inline-start:12px;margin-top:20px}
+.qt2{font-size:16px;margin-bottom:4px}
+.confwrap{margin-top:16px}
+.conflabel{font-size:13px;color:var(--mut)}
+.variant{margin-top:10px;font-size:14px;border:1px dashed var(--line);border-radius:4px;padding:8px 10px}
+/* text inputs */
+.txt{width:100%;border:1px solid var(--line);border-radius:4px;padding:10px;font:inherit;background:#fff;color:inherit}
+.txt.area{min-height:120px;resize:vertical}
+.txt.det{margin-top:2px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
+.field.flag .txt{border:1px dashed var(--ink)}
+.flagline{font-size:12.5px;font-weight:600;margin-top:4px}
+.banner{border:1px solid var(--ink);border-radius:4px;padding:10px 12px;font-weight:600;margin-bottom:16px}
+.datesels{display:flex;gap:8px;margin-top:12px}
+.datesels select{flex:1;border:1px solid var(--line);border-radius:4px;padding:10px;font:inherit;background:#fff}
+/* landing */
+.landtop{display:flex;justify-content:flex-end}
+.appt{border:1px solid var(--line);border-radius:4px;padding:12px;margin-block:10px 14px}
+.promise{font-size:19px;font-weight:700;border:1px solid var(--ink);border-radius:4px;padding:12px;margin-block:14px}
+.land p{margin-block:8px}
+.land .btn-primary{margin-top:18px}
+.land .btn-sec{margin-top:10px}
+.fnote{font-size:12px;color:var(--mut);border-top:1px solid var(--soft);padding-top:10px;margin-top:26px}
+/* login */
+.codewrap{display:flex;gap:10px;justify-content:center;direction:ltr;margin-block:18px}
+.codebox{width:54px;height:62px;text-align:center;font-size:24px;border:1px solid var(--line);border-radius:4px}
+.loginacts{margin-top:20px}
+/* documents */
+.card{border:1px solid var(--line);border-radius:4px;padding:14px;margin-block-end:14px}
+.ctitle{font-size:16px;margin-bottom:2px}
+.cmeta{font-size:13px;color:var(--mut)}
+.cwhy{font-size:14px;margin-top:8px}
+.corigin{font-size:12.5px;color:var(--mut);border:1px dashed var(--line);border-radius:4px;padding:6px 9px;margin-top:8px}
+.cardacts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.filelab{position:relative;display:block;width:100%;background:#fff;border:1px solid var(--ink);border-radius:4px;padding:11px 16px;font-weight:600;text-align:center;cursor:pointer}
+.filelab:focus-within{outline:2px solid var(--ink);outline-offset:2px}
+.follow,.offer{margin-top:10px;border-top:1px solid var(--soft);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.offer p{font-weight:600}
+.cardstate{margin-top:12px;border-top:1px solid var(--soft);padding-top:10px}
+.stt{font-weight:600;font-size:14px}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.thumb{width:88px;height:66px;object-fit:cover;border:1px solid var(--line);border-radius:2px}
+.ph{display:inline-block;width:88px;height:66px;border:1px solid var(--line);border-radius:2px;background:linear-gradient(to top left,#fff calc(50% - .5px),var(--line) 50%,#fff calc(50% + .5px))}
+/* capture */
+.tips{margin:12px 0 18px;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.camwrap{position:relative;background:#111;border-radius:4px;overflow:hidden;margin-block:12px}
+.camwrap video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.guide{position:absolute;inset:10%;border:2px dashed #fff;border-radius:4px;pointer-events:none}
+.loaderline{border:1px solid var(--line);border-radius:4px;padding:24px;text-align:center;font-weight:600;margin-top:24px}
+/* review */
+.rsec{margin-block-end:20px}
+.rsec h2{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:2px}
+.row{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 2px;border-bottom:1px solid var(--soft);text-align:start}
+.rq{color:var(--mut);font-size:13px;flex:1}
+.ra{font-weight:600;font-size:14px;text-align:end;max-width:60%}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:0 6px;font-size:11px;font-weight:400;color:var(--mut);margin-inline-start:6px}
+.gaps{border:1px solid var(--line);border-radius:4px;padding:14px;margin-block:18px}
+.gaps h2{font-size:14px;margin-bottom:8px}
+.gaps p{font-size:14px;margin-block:8px 4px}
+.gaps ul{padding-inline-start:20px;font-size:14px;display:flex;flex-direction:column;gap:4px}
+.sumline{font-weight:600;margin-block:14px;border-top:1px solid var(--line);padding-top:12px}
+/* sent + reschedule */
+.sentbox{border:1px solid var(--line);border-radius:4px;padding:14px;margin-block:14px}
+.sentbox h2{font-size:14px;margin-bottom:8px}
+.sentbox ul{padding-inline-start:20px;display:flex;flex-direction:column;gap:4px}
+.sent .btn-sec{margin-top:12px}
+/* overlays */
+.scrim{position:absolute;inset:0;background:rgba(20,20,15,.4);z-index:30;border:none}
+.menu{position:absolute;top:0;bottom:0;inset-inline-end:0;width:280px;max-width:85%;background:#fff;border-inline-start:1px solid var(--line);z-index:31;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.menu .btn-text{padding:10px 2px;border-bottom:1px solid var(--soft);text-decoration:none;width:100%}
+.mlabel{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);margin-top:8px}
+.langrow{display:flex;gap:8px}
+.langrow .chip{flex:1}
+.sheet{position:absolute;inset-inline:0;bottom:0;max-height:78%;overflow-y:auto;background:#fff;border-top:1px solid var(--line);border-radius:4px 4px 0 0;z-index:31;padding:18px 16px}
+.sheet h2{margin-bottom:10px}
+.sheet ul{padding-inline-start:20px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.sheet .btn-sec{margin-top:16px}
+.loadbox{position:absolute;inset:0;z-index:40;background:rgba(255,255,255,.93);display:flex;align-items:center;justify-content:center}
+.loadbox p{border:1px solid var(--line);border-radius:4px;padding:14px 22px;font-weight:600;background:#fff}
+.toast{position:absolute;bottom:110px;inset-inline:24px;background:var(--ink);color:#fff;border-radius:4px;padding:10px 14px;text-align:center;font-size:14px;z-index:50}
+</style>
+</head>
+<body>
+<div id="stage"><div id="app"></div></div>
+<script>
+'use strict';
+
+/* ================= 6.1 STRINGS — interface chrome only ================= */
+const STRINGS = {
+  en: {
+    start:"Start", whatIsThis:"What is this?", cont:"Continue", back:"Back",
+    skip:"Skip this", dontKnow:"I don't know", menu:"Menu", close:"Close",
+    change:"Change", sendWhatIHave:"Send what I have",
+    demoLine:"Demo · everything here is fictional",
+    landingTitle:"Yotam's appointment",
+    apptWhen:"Thursday 6 August 2026, 09:20",
+    apptWhere:"Pulmonary Institute, floor 3, room 312",
+    apptDoc:"Dr. Oren S.",
+    landingFrom:"You got here from the text message about Yotam's appointment.",
+    landingPromise:"Dr. Oren reads this before you walk in.",
+    landingTime:"About 4 minutes. You can stop and come back.",
+    landingDiff:"We are only asking for what your file could not tell us.",
+    fictionalNote:"A demo prototype. The child, the appointment and the documents are entirely fictional.",
+    loginTitle:"Log in", phoneLabel:"Mobile number",
+    phoneHelp:"The same number the clinic texts you on.",
+    codeTitle:"Enter the code", codeSent:"We sent a code to {phone}",
+    resend:"Didn't get it? Send again", resendWait:"Send again in {s} s",
+    checking:"Checking...", demoCode:"Demo: any four digits work.",
+    stepOf:"Step {a} of {b}", stepStart:"Step 1",
+    tRespondent:"Who is answering", tQuestions:"Questions", tDocs:"Documents",
+    tCapture:"Photograph the document", tRead:"Check the reading", tNote:"A note",
+    tReview:"Review", tSent:"Sent", tRes:"Change the appointment",
+    docsHeader:"{n} things Dr. Oren cannot get himself",
+    docsSub:"These are the only ones missing. Everything else he already has.",
+    findOnPhone:"Find it on my phone", takePhoto:"Take a photo",
+    dontHaveIt:"I don't have it", dontHaveVideo:"I don't have it any more",
+    willBringOpt:"I have it, I'll bring it on the day",
+    willGetOpt:"I can get it before Thursday",
+    cantGetOpt:"I can't get it",
+    moveOffer:"Would it help to move the appointment?",
+    moveAppt:"Move my appointment", comeAnyway:"No, I'll come anyway",
+    stAttached:"Attached", stWillBring:"You'll bring it on the day",
+    stWillGet:"You'll get it before Thursday",
+    stCannotGet:"Can't be gotten — that's fine. Dr. Oren will know.",
+    stUntouched:"Not marked yet",
+    dxTitle:"Anything else you think matters?",
+    capTitle:"Before you take the photo",
+    capTip1:"Put the page on a flat surface.",
+    capTip2:"Get all four corners in the frame.",
+    capTip3:"No flash on shiny paper.",
+    capTip4:"One page at a time.",
+    openCamera:"Open the camera", shutter:"Take the photo", choosePhoto:"Choose a photo",
+    reading:"Reading the document...",
+    readBanner:"Read automatically. Please check.",
+    fDocType:"Document type", fDate:"Date", fPlace:"Place", fChildName:"Child's name",
+    notSureRead:"We're not sure we read this correctly",
+    saveRead:"Looks right", notSureVal:"Not sure",
+    noteQ:"Is there anything you want Dr. Oren to know before you come in?",
+    noteHint:"Optional. It is completely fine to leave this empty.",
+    reviewTitle:"Check before sending",
+    secAbout:"About Yotam", secWhat:"What is happening", secMeds:"Medicines",
+    secHistory:"History", secDocs:"Documents", secNote:"Your note",
+    secondHand:"Heard from someone else",
+    confLabel:"How sure are you?", conf_sure:"Sure", conf_roughly:"Roughly", conf_guessing:"Guessing",
+    skippedWord:"Passed on",
+    gapsTitle:"The gaps, and why they help",
+    gapsDK:"You told us you don't know {n} things. That is useful. Dr. Oren now knows exactly where to check.",
+    gapsDK1:"You told us you don't know one thing. That is useful. Dr. Oren now knows exactly where to check.",
+    gapsPass:"You passed on {n} questions.",
+    gapsPass1:"You passed on one question.",
+    answerNow:"Answer now",
+    sumAnswersN:"{n} answers", sumAnswers1:"1 answer",
+    sumDocsN:"{n} documents", sumDocs1:"1 document",
+    sumVideosN:"{n} videos", sumVideos1:"1 video",
+    sumDKN:"{n} don't knows", sumDK1:"1 don't know",
+    sumPassN:"{n} passed on", sumPass1:"1 passed on",
+    send:"Send to Dr. Oren", sending:"Sending...",
+    sentTitle:"Sent. Dr. Oren will read this before Thursday morning.",
+    stillBring:"What you still need to bring",
+    nothingToBring:"Nothing left to bring. Everything is already in.",
+    addCal:"Add to calendar", addedCal:"Added to your calendar (demo)",
+    changeAppt:"Change my appointment",
+    resTitle:"Would more time help?",
+    resBody:"If getting the documents needs more time, you can move the appointment. Your answers are saved either way.",
+    resKept:"Your answers are saved. The documents we asked for stay the same.",
+    resMoved:"Your appointment was moved to:",
+    done:"Done",
+    langLabel:"Language / שפה",
+    saveLater:"Save and continue later",
+    savedToast:"Saved. You can close this page and come back with the same link.",
+    howHandle:"How we handle this information",
+    restart:"Restart demo", restartTag:"Demo control",
+    privacyTitle:"How we handle this information",
+    p1:"This is a prototype. Nothing here is a real medical record.",
+    p2:"Right now everything you enter stays on this phone, in this browser. Nothing is sent anywhere.",
+    p3:"In the real version this would be stored securely in the clinic's system and seen only by Yotam's care team.",
+    p4:"Your photos are not uploaded. They stay on your device.",
+    p5:"Nothing here is a diagnosis, and no machine draws a clinical conclusion.",
+    langLoading:"Switching language...",
+    chipLastMonth:"In the last month", chipLtYear:"Less than a year ago",
+    chipGtYear:"More than a year ago",
+    monthLabel:"Month", yearLabel:"Year",
+    detailPh:"You can say more here",
+    shParent:"That is useful to know. Dr. Oren will check that one himself.",
+    shGrand:"That is useful to know. If Yotam's parent was there, Dr. Oren may ask them too."
+  },
+  he: {
+    start:"התחלה", // TODO: native review
+    whatIsThis:"מה זה?", // TODO: native review
+    cont:"המשך", // TODO: native review
+    back:"חזרה", // TODO: native review
+    skip:"דילוג על השאלה", // TODO: native review
+    dontKnow:"לא ידוע לי", // TODO: native review
+    menu:"תפריט", // TODO: native review
+    close:"סגירה", // TODO: native review
+    change:"שינוי", // TODO: native review
+    sendWhatIHave:"לשלוח מה שיש", // TODO: native review
+    demoLine:"דמו · כל המידע כאן בדוי", // TODO: native review
+    landingTitle:"התור של יותם", // TODO: native review
+    apptWhen:"יום חמישי, 6 באוגוסט 2026, 09:20", // TODO: native review
+    apptWhere:"המכון הריאתי, קומה 3, חדר 312", // TODO: native review
+    apptDoc:"ד״ר אורן ס.", // TODO: native review
+    landingFrom:"הגעת לכאן מההודעה על התור של יותם.", // TODO: native review
+    landingPromise:"ד״ר אורן קורא את זה לפני שנכנסים אליו.", // TODO: native review
+    landingTime:"בערך 4 דקות. אפשר לעצור ולחזור.", // TODO: native review
+    landingDiff:"אנחנו שואלים רק על מה שהתיק הרפואי לא יכול לספר לנו.", // TODO: native review
+    fictionalNote:"אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.", // TODO: native review
+    loginTitle:"כניסה", // TODO: native review
+    phoneLabel:"מספר נייד", // TODO: native review
+    phoneHelp:"אותו מספר שהמרפאה שולחת אליו הודעות.", // TODO: native review
+    codeTitle:"הקוד שקיבלת", // TODO: native review
+    codeSent:"שלחנו קוד אל {phone}", // TODO: native review
+    resend:"לא הגיע? לשלוח שוב", // TODO: native review
+    resendWait:"אפשר לשלוח שוב בעוד {s} שניות", // TODO: native review
+    checking:"בודקים...", // TODO: native review
+    demoCode:"דמו: כל ארבע ספרות יתקבלו.", // TODO: native review
+    stepOf:"שלב {a} מתוך {b}", // TODO: native review
+    stepStart:"שלב 1", // TODO: native review
+    tRespondent:"מי עונה", // TODO: native review
+    tQuestions:"שאלות", // TODO: native review
+    tDocs:"מסמכים", // TODO: native review
+    tCapture:"צילום המסמך", // TODO: native review
+    tRead:"בדיקת הקריאה", // TODO: native review
+    tNote:"הערה", // TODO: native review
+    tReview:"בדיקה", // TODO: native review
+    tSent:"נשלח", // TODO: native review
+    tRes:"שינוי התור", // TODO: native review
+    docsHeader:"{n} דברים שד״ר אורן לא יכול להשיג בעצמו", // TODO: native review
+    docsSub:"אלה הפריטים היחידים שחסרים. כל השאר כבר אצלו.", // TODO: native review
+    findOnPhone:"לחפש בטלפון", // TODO: native review
+    takePhoto:"לצלם", // TODO: native review
+    dontHaveIt:"אין לי את זה", // TODO: native review
+    dontHaveVideo:"כבר אין לי אותו", // TODO: native review
+    willBringOpt:"יש לי, אביא ביום התור", // TODO: native review
+    willGetOpt:"אוכל להשיג עד יום חמישי", // TODO: native review
+    cantGetOpt:"אין לי דרך להשיג את זה", // TODO: native review
+    moveOffer:"יעזור להזיז את התור?", // TODO: native review
+    moveAppt:"להזיז את התור", // TODO: native review
+    comeAnyway:"לא, נגיע בכל מקרה", // TODO: native review
+    stAttached:"צורף", // TODO: native review
+    stWillBring:"תביאו ביום התור", // TODO: native review
+    stWillGet:"תשיגו עד יום חמישי", // TODO: native review
+    stCannotGet:"אי אפשר להשיג — זה בסדר. ד״ר אורן יידע.", // TODO: native review
+    stUntouched:"עוד לא סומן", // TODO: native review
+    dxTitle:"עוד משהו שנראה לך חשוב?", // TODO: native review
+    capTitle:"לפני הצילום", // TODO: native review
+    capTip1:"להניח את הדף על משטח ישר.", // TODO: native review
+    capTip2:"שכל ארבע הפינות ייכנסו למסגרת.", // TODO: native review
+    capTip3:"בלי פלאש על נייר מבריק.", // TODO: native review
+    capTip4:"דף אחד בכל פעם.", // TODO: native review
+    openCamera:"לפתוח את המצלמה", // TODO: native review
+    shutter:"צילום", // TODO: native review
+    choosePhoto:"לבחור תמונה", // TODO: native review
+    reading:"קוראים את המסמך...", // TODO: native review
+    readBanner:"נקרא אוטומטית. חשוב לבדוק.", // TODO: native review
+    fDocType:"סוג המסמך", // TODO: native review
+    fDate:"תאריך", // TODO: native review
+    fPlace:"מקום", // TODO: native review
+    fChildName:"שם הילד", // TODO: native review
+    notSureRead:"לא בטוח שקראנו את זה נכון", // TODO: native review
+    saveRead:"נראה נכון", // TODO: native review
+    notSureVal:"לא ברור", // TODO: native review
+    noteQ:"יש משהו שחשוב לך שד״ר אורן יידע לפני שאתם מגיעים?", // TODO: native review
+    noteHint:"לא חובה. לגמרי בסדר להשאיר ריק.", // TODO: native review
+    reviewTitle:"בדיקה לפני שליחה", // TODO: native review
+    secAbout:"על יותם", // TODO: native review
+    secWhat:"מה קורה", // TODO: native review
+    secMeds:"תרופות", // TODO: native review
+    secHistory:"היסטוריה", // TODO: native review
+    secDocs:"מסמכים", // TODO: native review
+    secNote:"ההערה שלך", // TODO: native review
+    secondHand:"נשמע ממישהו אחר", // TODO: native review
+    confLabel:"עד כמה התשובה בטוחה?", // TODO: native review
+    conf_sure:"בטוח", // TODO: native review
+    conf_roughly:"בערך", // TODO: native review
+    conf_guessing:"ניחוש", // TODO: native review
+    skippedWord:"דילגת", // TODO: native review
+    gapsTitle:"הפערים, ולמה הם עוזרים", // TODO: native review
+    gapsDK:"סימנת ״לא ידוע לי״ על {n} דברים. זה שימושי: עכשיו ד״ר אורן יודע בדיוק איפה לבדוק.", // TODO: native review
+    gapsDK1:"סימנת ״לא ידוע לי״ על דבר אחד. זה שימושי: עכשיו ד״ר אורן יודע בדיוק איפה לבדוק.", // TODO: native review
+    gapsPass:"דילגת על {n} שאלות.", // TODO: native review
+    gapsPass1:"דילגת על שאלה אחת.", // TODO: native review
+    answerNow:"לענות עכשיו", // TODO: native review
+    sumAnswersN:"{n} תשובות", // TODO: native review
+    sumAnswers1:"תשובה אחת", // TODO: native review
+    sumDocsN:"{n} מסמכים", // TODO: native review
+    sumDocs1:"מסמך אחד", // TODO: native review
+    sumVideosN:"{n} סרטונים", // TODO: native review
+    sumVideos1:"סרטון אחד", // TODO: native review
+    sumDKN:"{n} ״לא ידוע לי״", // TODO: native review
+    sumDK1:"״לא ידוע לי״ אחד", // TODO: native review
+    sumPassN:"{n} דילוגים", // TODO: native review
+    sumPass1:"דילוג אחד", // TODO: native review
+    send:"לשלוח לד״ר אורן", // TODO: native review
+    sending:"שולחים...", // TODO: native review
+    sentTitle:"נשלח. ד״ר אורן יקרא את זה לפני יום חמישי בבוקר.", // TODO: native review
+    stillBring:"מה שעוד צריך להביא", // TODO: native review
+    nothingToBring:"אין מה להביא. הכול כבר נשלח.", // TODO: native review
+    addCal:"הוספה ליומן", // TODO: native review
+    addedCal:"נוסף ליומן (דמו)", // TODO: native review
+    changeAppt:"שינוי התור", // TODO: native review
+    resTitle:"יעזור לכם עוד זמן?", // TODO: native review
+    resBody:"אם צריך עוד זמן כדי להשיג את המסמכים, אפשר להזיז את התור. התשובות נשמרות בכל מקרה.", // TODO: native review
+    resKept:"התשובות שלך נשמרו. המסמכים שביקשנו נשארים אותם מסמכים.", // TODO: native review
+    resMoved:"התור הוזז אל:", // TODO: native review
+    done:"סיום", // TODO: native review
+    langLabel:"שפה / Language", // TODO: native review
+    saveLater:"לשמור ולהמשיך אחר כך", // TODO: native review
+    savedToast:"נשמר. אפשר לסגור את הדף ולחזור מאותו קישור.", // TODO: native review
+    howHandle:"איך אנחנו שומרים על המידע", // TODO: native review
+    restart:"התחלת הדמו מחדש", // TODO: native review
+    restartTag:"כלי הדגמה", // TODO: native review
+    privacyTitle:"איך אנחנו שומרים על המידע", // TODO: native review
+    p1:"זהו אב־טיפוס. שום דבר כאן אינו תיק רפואי אמיתי.", // TODO: native review
+    p2:"כרגע כל מה שמוזן נשאר בטלפון הזה, בדפדפן הזה. שום דבר לא נשלח לשום מקום.", // TODO: native review
+    p3:"בגרסה האמיתית המידע יישמר באופן מאובטח במערכת המרפאה, וייחשף רק לצוות המטפל של יותם.", // TODO: native review
+    p4:"התמונות שלך לא מועלות לשום מקום. הן נשארות במכשיר.", // TODO: native review
+    p5:"שום דבר כאן אינו אבחנה, ואף מכונה לא מסיקה מסקנה רפואית.", // TODO: native review
+    langLoading:"מחליפים שפה...", // TODO: native review
+    chipLastMonth:"בחודש האחרון", // TODO: native review
+    chipLtYear:"לפני פחות משנה", // TODO: native review
+    chipGtYear:"לפני יותר משנה", // TODO: native review
+    monthLabel:"חודש", // TODO: native review
+    yearLabel:"שנה", // TODO: native review
+    detailPh:"אפשר לפרט כאן", // TODO: native review
+    shParent:"טוב לדעת. את הביקור הזה ד״ר אורן יבדוק בעצמו.", // TODO: native review
+    shGrand:"טוב לדעת. אם אחד ההורים של יותם היה שם, ייתכן שד״ר אורן ישאל גם אותם." // TODO: native review
+  }
+};
+
+const MONTHS = {
+  en:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  he:["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"] // TODO: native review
+};
+
+/* ================= 6.2 CASE — the fixture ================= */
+const CASE = {
+  questions: [
+    { id:"respondent", type:"single", branch:null, screen:true, notInPath:true, parent:null, showIf:null,
+      unknown:false, confidence:false,
+      text:{ en:"Who is answering?", he:"מי ממלא את השאלון?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"mother", text:{ en:"Mother", he:"אמא" } }, // TODO: native review
+        { id:"father", text:{ en:"Father", he:"אבא" } }, // TODO: native review
+        { id:"grandparent", text:{ en:"Grandparent", he:"סבא או סבתא" } }, // TODO: native review
+        { id:"other_guardian", text:{ en:"Another guardian", he:"אפוטרופוס אחר" } } // TODO: native review
+      ] },
+
+    { id:"q1", type:"single", branch:null, screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"What is the main reason for Yotam's visit?", he:"מה הסיבה העיקרית לביקור של יותם?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"cough", text:{ en:"A cough that will not go away", he:"שיעול שלא עובר" } }, // TODO: native review
+        { id:"noisy", text:{ en:"Noisy breathing or wheezing", he:"נשימה רועשת או צפצופים" } }, // TODO: native review
+        { id:"breathless", text:{ en:"He gets out of breath easily", he:"הוא מתנשף בקלות" } }, // TODO: native review
+        { id:"infections", text:{ en:"Chest infections that keep coming back", he:"דלקות בדרכי הנשימה שחוזרות שוב ושוב" } }, // TODO: native review
+        { id:"other", detail:"open_text", text:{ en:"Something else", he:"משהו אחר" } } // TODO: native review
+      ] },
+
+    { id:"q2", type:"approx_date", branch:null, screen:true, parent:null, showIf:null,
+      unknown:true, confidence:true,
+      text:{ en:"Roughly when did it start?", he:"בערך מתי זה התחיל?" }, // TODO: native review
+      help:null },
+
+    /* ---- Branch A, cough ---- */
+    { id:"q3a", type:"multi", branch:"A", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false, exclusiveOptions:["no_pattern"],
+      text:{ en:"When is the cough worst?", he:"מתי השיעול הכי קשה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"at_night", text:{ en:"At night", he:"בלילה" } }, // TODO: native review
+        { id:"early_am", text:{ en:"Early morning", he:"מוקדם בבוקר" } }, // TODO: native review
+        { id:"exertion", text:{ en:"During or after running", he:"בזמן ריצה או אחריה" } }, // TODO: native review
+        { id:"cold_air", text:{ en:"In cold air", he:"באוויר קר" } }, // TODO: native review
+        { id:"after_cold", text:{ en:"After a cold", he:"אחרי הצטננות" } }, // TODO: native review
+        { id:"no_pattern", text:{ en:"No pattern I can see", he:"בלי דפוס שאני מזהה" } } // TODO: native review
+      ] },
+
+    { id:"q4a", type:"bucketed", branch:"A", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:true,
+      text:{ en:"In the last month, how many nights did the cough wake him?", he:"בחודש האחרון, בכמה לילות השיעול העיר אותו?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"none", text:{ en:"None", he:"אף לילה" } }, // TODO: native review
+        { id:"1to3", text:{ en:"1 to 3", he:"1 עד 3" } }, // TODO: native review
+        { id:"4to10", text:{ en:"4 to 10", he:"4 עד 10" } }, // TODO: native review
+        { id:"gt10", text:{ en:"More than 10", he:"יותר מ־10" } } // TODO: native review
+      ] },
+
+    { id:"q4a_wheezy", type:"single", branch:"A", screen:false, parent:"q4a",
+      showIf:{ questionId:"q4a", in:["4to10","gt10"] }, unknown:true, confidence:false,
+      text:{ en:"On those nights, did he also sound wheezy or short of breath?", he:"באותם לילות, הוא גם נשמע מצפצף או קצר נשימה?" }, // TODO: native review
+      options:[
+        { id:"yes", text:{ en:"Yes", he:"כן" } }, // TODO: native review
+        { id:"no", text:{ en:"No", he:"לא" } } // TODO: native review
+      ] },
+
+    { id:"q5a", type:"single", branch:"A", screen:true, parent:null,
+      showIf:{ questionId:"q3a", in:["at_night"] }, unknown:true, confidence:false,
+      text:{ en:"Have you ever filmed or recorded it?", he:"צילמתם או הקלטתם את זה פעם?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"has_video", text:{ en:"Yes, I have a video", he:"כן, יש לי סרטון" } }, // TODO: native review
+        { id:"could_film", text:{ en:"No, but I could film it", he:"לא, אבל אפשר לצלם" } }, // TODO: native review
+        { id:"no", text:{ en:"No", he:"לא" } } // TODO: native review
+      ] },
+
+    /* ---- Branch B, noisy breathing ---- */
+    { id:"q3b", type:"single", branch:"B", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"What does it sound like?", he:"איך זה נשמע?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"whistle", text:{ en:"Whistling", he:"שריקה" } }, // TODO: native review
+        { id:"rattle", text:{ en:"Rattling or bubbling", he:"רשרוש או בעבוע" } }, // TODO: native review
+        { id:"bark", text:{ en:"A bark", he:"כמו נביחה" } }, // TODO: native review
+        { id:"hard", detail:"open_text", text:{ en:"Hard to describe", he:"קשה לתאר" } } // TODO: native review
+      ] },
+
+    { id:"q4b", type:"bucketed", branch:"B", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:true,
+      text:{ en:"How often in the last month?", he:"באיזו תדירות בחודש האחרון?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"not_this_month", text:{ en:"Not in the last month", he:"לא בחודש האחרון" } }, // TODO: native review
+        { id:"few", text:{ en:"A few times", he:"כמה פעמים" } }, // TODO: native review
+        { id:"most_weeks", text:{ en:"Most weeks", he:"ברוב השבועות" } }, // TODO: native review
+        { id:"most_days", text:{ en:"Most days", he:"ברוב הימים" } } // TODO: native review
+      ] },
+
+    { id:"q5b", type:"scale", branch:"B", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"How much does it stop him doing things?", he:"כמה זה מפריע לו לעשות דברים?" }, // TODO: native review
+      scale:{ min:0, max:5,
+        minLabel:{ en:"Not at all", he:"בכלל לא" }, // TODO: native review
+        maxLabel:{ en:"A lot", he:"מאוד" } } }, // TODO: native review
+
+    /* ---- Branch C, breathless ---- */
+    { id:"q3c", type:"multi", branch:"C", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false, exclusiveOptions:[],
+      text:{ en:"When does it happen?", he:"מתי זה קורה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"sport", text:{ en:"Running or sport", he:"בריצה או בספורט" } }, // TODO: native review
+        { id:"stairs", text:{ en:"Stairs or uphill", he:"במדרגות או בעלייה" } }, // TODO: native review
+        { id:"at_rest", text:{ en:"At rest", he:"במנוחה" } }, // TODO: native review
+        { id:"when_ill", text:{ en:"Only when he is unwell", he:"רק כשהוא חולה" } } // TODO: native review
+      ] },
+
+    { id:"q4c", type:"single", branch:"C", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"Does he keep up with other children his age?", he:"הוא עומד בקצב של ילדים בני גילו?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"yes", text:{ en:"Yes", he:"כן" } }, // TODO: native review
+        { id:"mostly", text:{ en:"Mostly", he:"בדרך כלל" } }, // TODO: native review
+        { id:"stops_sooner", text:{ en:"No, he stops sooner", he:"לא, הוא עוצר קודם" } } // TODO: native review
+      ] },
+
+    { id:"q5c", type:"scale", branch:"C", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"How much does it stop him doing things?", he:"כמה זה מפריע לו לעשות דברים?" }, // TODO: native review
+      scale:{ min:0, max:5,
+        minLabel:{ en:"Not at all", he:"בכלל לא" }, // TODO: native review
+        maxLabel:{ en:"A lot", he:"מאוד" } } }, // TODO: native review
+
+    /* ---- Branch D, repeat infections ---- */
+    { id:"q3d", type:"bucketed", branch:"D", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:true,
+      text:{ en:"How many chest infections in the last 12 months?", he:"כמה דלקות בדרכי הנשימה היו בשנה האחרונה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"one", text:{ en:"1", he:"1" } },
+        { id:"2to3", text:{ en:"2 to 3", he:"2 עד 3" } }, // TODO: native review
+        { id:"gte4", text:{ en:"4 or more", he:"4 או יותר" } } // TODO: native review
+      ] },
+
+    { id:"q3d_abx", type:"single", branch:"D", screen:false, parent:"q3d",
+      showIf:{ questionId:"q3d", in:["2to3","gte4"] }, unknown:true, confidence:false,
+      text:{ en:"Did any of them need antibiotics?", he:"היו מהן שהצריכו אנטיביוטיקה?" }, // TODO: native review
+      options:[
+        { id:"most", text:{ en:"Yes, most", he:"כן, רובן" } }, // TODO: native review
+        { id:"some", text:{ en:"Yes, some", he:"כן, חלקן" } }, // TODO: native review
+        { id:"no", text:{ en:"No", he:"לא" } } // TODO: native review
+      ] },
+
+    { id:"q4d", type:"single", branch:"D", screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"Was he ever kept in hospital overnight for his breathing?", he:"הוא אושפז פעם ללילה בגלל הנשימה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"yes", text:{ en:"Yes", he:"כן" } }, // TODO: native review
+        { id:"no", text:{ en:"No", he:"לא" } } // TODO: native review
+      ] },
+
+    /* ---- Common tail, every path ---- */
+    { id:"q6", type:"single", branch:null, screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"Is he taking any inhaler or breathing medicine?", he:"הוא מקבל משאף או תרופה לנשימה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"daily", text:{ en:"Yes, every day", he:"כן, כל יום" } }, // TODO: native review
+        { id:"prn", text:{ en:"Yes, only when he needs it", he:"כן, רק כשהוא צריך" } }, // TODO: native review
+        { id:"stopped", text:{ en:"He tried one and stopped", he:"ניסה אחד והפסיק" } }, // TODO: native review
+        { id:"no", text:{ en:"No", he:"לא" } } // TODO: native review
+      ] },
+
+    { id:"q6_which", type:"multi", branch:null, screen:false, parent:"q6",
+      showIf:{ questionId:"q6", in:["daily","prn","stopped"] },
+      unknown:true, confidence:false, exclusiveOptions:[],
+      unknownLabel:{ en:"I don't remember the name", he:"לא זוכרים את השם" }, // TODO: native review
+      text:{ en:"Which ones?", he:"אילו?" }, // TODO: native review
+      options:[
+        { id:"inh_a", text:{ en:"Airolin", he:"אירולין" } }, // fictional inhaler // TODO: native review
+        { id:"inh_b", text:{ en:"Ventimist", he:"ונטימיסט" } }, // fictional inhaler // TODO: native review
+        { id:"inh_c", text:{ en:"Flumaro", he:"פלומרו" } }, // fictional inhaler // TODO: native review
+        { id:"inh_d", text:{ en:"Brizal", he:"בריזאל" } }, // fictional inhaler // TODO: native review
+        { id:"other", detail:"open_text", text:{ en:"Other", he:"אחר" } } // TODO: native review
+      ] },
+
+    { id:"q6_helps", type:"scale", branch:null, screen:false, parent:"q6",
+      showIf:{ questionId:"q6", in:["daily","prn","stopped"] },
+      unknown:true, confidence:false,
+      text:{ en:"Does it help?", he:"זה עוזר?" }, // TODO: native review
+      scale:{ min:0, max:5,
+        minLabel:{ en:"Not at all", he:"בכלל לא" }, // TODO: native review
+        maxLabel:{ en:"A lot", he:"מאוד" } } }, // TODO: native review
+
+    { id:"q7", type:"multi", branch:null, screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false, exclusiveOptions:["none"],
+      text:{ en:"Is there anything he reacts to?", he:"יש משהו שהוא מגיב אליו?" }, // TODO: native review
+      help:{ en:"Only tick what you have actually seen happen.", he:"סמנו רק דברים שראיתם קורים בפועל." }, // TODO: native review
+      options:[
+        { id:"dust", text:{ en:"Dust", he:"אבק" } }, // TODO: native review
+        { id:"animals", text:{ en:"Animals", he:"בעלי חיים" } }, // TODO: native review
+        { id:"pollen", text:{ en:"Pollen or seasons", he:"אבקה או עונות השנה" } }, // TODO: native review
+        { id:"cold_air", text:{ en:"Cold air", he:"אוויר קר" } }, // TODO: native review
+        { id:"exercise", text:{ en:"Exercise", he:"מאמץ גופני" } }, // TODO: native review
+        { id:"smoke", text:{ en:"Cigarette smoke", he:"עשן סיגריות" } }, // TODO: native review
+        { id:"none", text:{ en:"Nothing we have noticed", he:"לא שמנו לב למשהו" } } // TODO: native review
+      ] },
+
+    { id:"q8", type:"single", branch:null, screen:true, parent:null, showIf:null,
+      unknown:true, confidence:false,
+      text:{ en:"Has he been to an emergency room or urgent care for his breathing?", he:"הוא היה במיון או במוקד רפואה דחופה בגלל הנשימה?" }, // TODO: native review
+      help:null,
+      options:[
+        { id:"never", text:{ en:"Never", he:"אף פעם" } }, // TODO: native review
+        { id:"once", text:{ en:"Once", he:"פעם אחת" } }, // TODO: native review
+        { id:"2to3", text:{ en:"2 to 3 times", he:"2 עד 3 פעמים" } }, // TODO: native review
+        { id:"gt3", text:{ en:"More than 3 times", he:"יותר מ־3 פעמים" } } // TODO: native review
+      ] },
+
+    { id:"q8a", type:"single", branch:null, screen:false, parent:"q8",
+      showIf:{ questionId:"q8", in:["once","2to3","gt3"] }, unknown:true, confidence:false,
+      text:{ en:"Were you there each time?", he:"היית שם בכל פעם?" }, // TODO: native review
+      options:[
+        { id:"yes", text:{ en:"Yes, every time", he:"כן, בכל פעם" } }, // TODO: native review
+        { id:"someone_else", text:{ en:"No, someone else took him at least once", he:"לא, מישהו אחר לקח אותו לפחות פעם אחת" } } // TODO: native review
+      ] },
+
+    { id:"q9", type:"open_text", branch:null, screen:true, parent:null, showIf:null,
+      unknown:false, confidence:false,
+      nothingLabel:{ en:"Nothing comes to mind", he:"לא עולה לי משהו" }, // TODO: native review
+      text:{ en:"Anything else you have noticed that we have not asked about?", he:"עוד משהו ששמתם לב אליו ולא שאלנו עליו?" }, // TODO: native review
+      help:null }
+  ],
+
+  /* ---- 5.1 document cards ---- */
+  cards: [
+    { id:"D1", kind:"paper", base:true, trigger:null,
+      title:{ en:"Discharge letter from Terem urgent care", he:"מכתב שחרור מטרם" }, // TODO: native review
+      date:{ en:"14 March 2026", he:"14 במרץ 2026" }, // TODO: native review
+      source:{ en:"Terem urgent care", he:"טרם, רפואה דחופה" }, // TODO: native review
+      why:{ en:"It says what they found and what they gave him that night.", he:"כתוב שם מה מצאו ומה נתנו לו באותו לילה." }, // TODO: native review
+      explain:{ en:"A discharge letter is the page you were given when you left urgent care. It lists what was checked, what was found and any medicine given. Usually one page.", he:"מכתב שחרור הוא הדף שקיבלתם ביציאה מהמוקד. כתוב בו מה נבדק, מה נמצא ואיזו תרופה ניתנה. בדרך כלל עמוד אחד." }, // TODO: native review
+      origin:null,
+      read:{ docType:{ en:"Discharge letter", he:"מכתב שחרור" }, // TODO: native review
+             date:{ en:"14 March 2026", he:"14 במרץ 2026" }, // TODO: native review
+             place:{ en:"Terem urgent care", he:"טרם, רפואה דחופה" }, // TODO: native review
+             childName:{ en:"Yotam", he:"יותם" } } }, // TODO: native review
+
+    { id:"D2", kind:"paper", base:true, trigger:null,
+      title:{ en:"Sleep study report", he:"דו״ח בדיקת שינה" }, // TODO: native review
+      date:{ en:"November 2025", he:"נובמבר 2025" }, // TODO: native review
+      source:{ en:"Private sleep lab", he:"מעבדת שינה פרטית" }, // TODO: native review
+      why:{ en:"Dr. Oren cannot open private clinic results. Only you can bring this one.", he:"ד״ר אורן לא יכול לפתוח תוצאות ממכונים פרטיים. רק אתם יכולים להביא את זה." }, // TODO: native review
+      explain:{ en:"A sleep study is an overnight test that records breathing while a child sleeps. If Yotam had one at a private clinic, you would have been given a report, usually two or three pages.", he:"בדיקת שינה היא בדיקת לילה שמתעדת את הנשימה בזמן שהילד ישן. אם יותם עבר אחת במכון פרטי, קיבלתם דו״ח, בדרך כלל שניים־שלושה עמודים." }, // TODO: native review
+      origin:null,
+      read:{ docType:{ en:"Sleep study report", he:"דו״ח בדיקת שינה" }, // TODO: native review
+             date:{ en:"November 2025", he:"נובמבר 2025" }, // TODO: native review
+             place:{ en:"Private sleep lab", he:"מעבדת שינה פרטית" }, // TODO: native review
+             childName:{ en:"Yotam", he:"יותם" } } }, // TODO: native review
+
+    { id:"D3", kind:"paper", base:true, trigger:null,
+      title:{ en:"Chest X-ray report", he:"דו״ח צילום חזה" }, // TODO: native review
+      date:{ en:"January 2026", he:"ינואר 2026" }, // TODO: native review
+      source:{ en:"Private imaging institute", he:"מכון דימות פרטי" }, // TODO: native review
+      why:{ en:"He can see that it exists. He cannot see the image.", he:"הוא רואה שהצילום קיים. את התמונה עצמה הוא לא רואה." }, // TODO: native review
+      explain:{ en:"An X-ray report is the radiologist's written description of the image. It is usually one page, separate from the image itself.", he:"דו״ח צילום הוא התיאור הכתוב של הרדיולוג. בדרך כלל עמוד אחד, נפרד מהתמונה עצמה." }, // TODO: native review
+      origin:null,
+      read:{ docType:{ en:"Chest X-ray report", he:"דו״ח צילום חזה" }, // TODO: native review
+             date:{ en:"January 2026", he:"ינואר 2026" }, // TODO: native review
+             place:{ en:"Private imaging institute", he:"מכון דימות פרטי" }, // TODO: native review
+             childName:{ en:"Yotam", he:"יותם" } } }, // TODO: native review
+
+    { id:"D4", kind:"video", base:false, trigger:{ questionId:"q5a", optionId:"has_video" },
+      title:{ en:"The video you mentioned of Yotam's night cough", he:"הסרטון שסיפרת עליו, של השיעול הלילי של יותם" }, // TODO: native review
+      date:{ en:"2am, last winter", he:"שתיים בלילה, בחורף שעבר" }, // TODO: native review
+      source:{ en:"Your phone", he:"הטלפון שלך" }, // TODO: native review
+      why:{ en:"You already filmed the thing he needs to hear.", he:"כבר צילמתם בדיוק את מה שהוא צריך לשמוע." }, // TODO: native review
+      explain:{ en:"Any phone video of the cough at its worst. Hearing it once tells Dr. Oren more than a description.", he:"כל סרטון מהטלפון של השיעול ברגע קשה. לשמוע אותו פעם אחת אומר לד״ר אורן יותר מכל תיאור." }, // TODO: native review
+      origin:{ en:"Added because you told us about the video.", he:"נוסף כי סיפרתם לנו על הסרטון." }, // TODO: native review
+      read:null },
+
+    { id:"D5", kind:"paper", base:false, trigger:{ questionId:"q8a", optionId:"someone_else" },
+      title:{ en:"The paper from the emergency room visit you were not at", he:"המסמך מהביקור במיון שלא היית בו" }, // TODO: native review
+      date:null,
+      source:{ en:"Emergency room", he:"חדר מיון" }, // TODO: native review
+      why:{ en:"You weren't there, so this is the only account of it.", he:"לא היית שם, אז זה התיאור היחיד של מה שקרה." }, // TODO: native review
+      explain:{ en:"Whoever took him was handed a summary page when they left. It may still be with them, or photographed on their phone.", he:"מי שלקח אותו קיבל דף סיכום ביציאה. ייתכן שהוא עדיין אצלו, או מצולם אצלו בטלפון." }, // TODO: native review
+      origin:{ en:"Added because someone else took him that time.", he:"נוסף כי מישהו אחר לקח אותו באותה פעם." }, // TODO: native review
+      read:{ docType:{ en:"Emergency room summary", he:"דף סיכום ממיון" }, // TODO: native review
+             date:{ en:"12 January 2026", he:"12 בינואר 2026" }, // TODO: native review
+             place:{ en:"Emergency room", he:"חדר מיון" }, // TODO: native review
+             childName:{ en:"Yotam", he:"יותם" } } }, // TODO: native review
+
+    { id:"D6", kind:"paper", base:false, trigger:{ questionId:"q4d", optionId:"yes" },
+      title:{ en:"The hospital discharge summary from when he stayed in", he:"סיכום האשפוז מהפעם שבה הוא נשאר בבית החולים" }, // TODO: native review
+      date:null,
+      source:{ en:"Hospital ward", he:"מחלקת אשפוז" }, // TODO: native review
+      why:{ en:"An overnight stay produces the single most useful document.", he:"אשפוז לילה מייצר את המסמך השימושי ביותר שיש." }, // TODO: native review
+      explain:{ en:"When a child stays in hospital overnight, the ward writes a discharge summary: what happened, what was given, what to follow up. Usually two or three pages.", he:"כשילד נשאר ללילה בבית חולים, המחלקה כותבת סיכום אשפוז: מה קרה, מה ניתן ומה בהמשך. בדרך כלל שניים־שלושה עמודים." }, // TODO: native review
+      origin:{ en:"Added because he stayed in hospital overnight.", he:"נוסף כי הוא אושפז ללילה." }, // TODO: native review
+      read:{ docType:{ en:"Hospital discharge summary", he:"סיכום אשפוז" }, // TODO: native review
+             date:{ en:"3 February 2026", he:"3 בפברואר 2026" }, // TODO: native review
+             place:{ en:"Children's ward", he:"מחלקת ילדים" }, // TODO: native review
+             childName:{ en:"Yotam", he:"יותם" } } }, // TODO: native review
+
+    { id:"DX", kind:"paper", base:true, trigger:null,
+      title:null, date:null, source:null, why:null, explain:null, origin:null, read:null }
+  ],
+
+  /* ---- 7.13 reschedule slots, fixed content ---- */
+  slots: [
+    { id:"s1", text:{ en:"Sunday 9 August, 10:40", he:"יום ראשון, 9 באוגוסט, 10:40" } }, // TODO: native review
+    { id:"s2", text:{ en:"Tuesday 11 August, 08:30", he:"יום שלישי, 11 באוגוסט, 08:30" } }, // TODO: native review
+    { id:"s3", text:{ en:"Thursday 13 August, 09:20 (the following week)", he:"יום חמישי, 13 באוגוסט, 09:20 (שבוע אחרי)" } } // TODO: native review
+  ]
+};
+
+/* ================= 6.3 STATE ================= */
+const FRESH = () => ({
+  locale:"he", loggedIn:false, phone:"", respondent:null, branch:null,
+  answers:{}, cards:{}, note:"", submitted:false, rescheduledTo:null,
+  screen:"landing"
+});
+let STATE = FRESH();
+let MEM = null;                       // in-memory fallback when localStorage is blocked
+const KEY = "previsit_demo_v1";
+
+const UI = {
+  menuOpen:false, sheet:null, loader:null, toast:null,
+  returnTo:null, resFrom:null, resDone:false,
+  followCard:null, offerCard:null,
+  cam:"idle", stream:null, captured:null,
+  readLoading:false, readDraft:null,
+  resendLeft:0, lastScreen:null, focus:null
+};
+
+function saveState(){
+  try { localStorage.setItem(KEY, JSON.stringify(STATE)); }
+  catch(e){ MEM = JSON.parse(JSON.stringify(STATE)); }
+}
+function loadState(){
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(KEY)); } catch(e){ s = MEM; }
+  if (s && typeof s === "object"){
+    STATE = Object.assign(FRESH(), s);
+    Object.values(STATE.cards || {}).forEach(c => (c.files || []).forEach(f => { f.objectUrl = null; }));
+    if (!STATE.loggedIn && !["landing","login_phone","login_code"].includes(STATE.screen)) STATE.screen = "landing";
+    if (/^(capture|read):/.test(STATE.screen)) STATE.screen = "docs";   // transient sub-screens do not resume
+    if (STATE.screen === "login_code") STATE.screen = "login_phone";
+  }
+}
+
+/* ================= derivation helpers ================= */
+const BRANCH_OF = { cough:"A", noisy:"B", breathless:"C", infections:"D", other:"other" };
+function q(id){ return CASE.questions.find(x => x.id === id); }
+function st(id){ return STATE.answers[id]; }
+function t(k){ return (STRINGS[STATE.locale] && STRINGS[STATE.locale][k]) ?? STRINGS.en[k] ?? k; }
+function L(o){ return o ? (o[STATE.locale] ?? o.en ?? "") : ""; }
+function fmt(s, map){ return s.replace(/\{(\w+)\}/g, (_, k) => map[k] !== undefined ? map[k] : "{"+k+"}"); }
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function plural(n, k1, kn){ return n === 1 ? t(k1) : fmt(t(kn), { n }); }
+
+function currentBranch(){
+  const a = st("q1");
+  if (!a || a.status !== "answered") return null;
+  return BRANCH_OF[a.value] || null;
+}
+function showIfOk(c){
+  if (!c) return true;
+  const a = st(c.questionId);
+  if (!a || a.status !== "answered") return false;      // unknown / skipped never satisfy a showIf
+  const v = a.value;
+  return Array.isArray(v) ? v.some(x => c.in.includes(x)) : c.in.includes(v);
+}
+function isActiveQ(qd){
+  if (qd.branch && qd.branch !== currentBranch()) return false;
+  if (qd.parent){ const p = q(qd.parent); if (!p || !isActiveQ(p)) return false; }
+  return showIfOk(qd.showIf);
+}
+function pathQuestions(){ return CASE.questions.filter(x => x.screen && !x.notInPath && isActiveQ(x)); }
+
+/* card presence is derived, never stored */
+function namedCards(){
+  return CASE.cards.filter(c => c.id !== "DX").filter(c => {
+    if (c.base) return true;
+    const qd = q(c.trigger.questionId);
+    if (!qd || !isActiveQ(qd)) return false;
+    const a = st(c.trigger.questionId);
+    if (!a || a.status !== "answered") return false;
+    return Array.isArray(a.value) ? a.value.includes(c.trigger.optionId) : a.value === c.trigger.optionId;
+  });
+}
+function cardState(id){
+  if (!STATE.cards[id]) STATE.cards[id] = { status:"untouched", files:[], extracted:null, opened:false };
+  return STATE.cards[id];
+}
+function pruneCards(){
+  const keep = new Set(namedCards().map(c => c.id)); keep.add("DX");
+  Object.keys(STATE.cards).forEach(k => { if (!keep.has(k)) delete STATE.cards[k]; });
+}
+
+/* only a change to q1 clears answers */
+function q1Changed(newBranch){
+  CASE.questions.forEach(x => { if (x.branch && x.branch !== newBranch) delete STATE.answers[x.id]; });
+  pruneCards();
+}
+function syncSecondHand(){
+  const a8 = st("q8"); if (!a8) return;
+  const a = st("q8a");
+  a8.secondHand = !!(a && a.status === "answered" && a.value === "someone_else");
+}
+
+function setSingle(qid, optId){
+  if (qid === "q1"){
+    const prev = st("q1");
+    const prevV = prev && prev.status === "answered" ? prev.value : undefined;
+    if (prevV !== optId) q1Changed(BRANCH_OF[optId] || null);
+  }
+  const ex = st(qid) || {};
+  STATE.answers[qid] = {
+    status:"answered", value:optId,
+    detail:(ex.status === "answered" && ex.value === optId) ? ex.detail : null,
+    confidence:ex.confidence || null, secondHand:false
+  };
+  if (qid === "respondent") STATE.respondent = optId;
+  if (qid === "q8a") syncSecondHand();
+  STATE.branch = currentBranch();
+  const o = (q(qid).options || []).find(x => x.id === optId);
+  if (o && o.detail) UI.focus = "#det_" + qid;
+}
+
+function toggleMulti(qid, optId){
+  const qd = q(qid); const a = st(qid);
+  let arr = (a && a.status === "answered" && Array.isArray(a.value)) ? a.value.slice() : [];
+  if (arr.includes(optId)) arr = arr.filter(x => x !== optId);
+  else if ((qd.exclusiveOptions || []).includes(optId)) arr = [optId];
+  else { arr = arr.filter(x => !(qd.exclusiveOptions || []).includes(x)); arr.push(optId); }
+  if (!arr.length) delete STATE.answers[qid];
+  else STATE.answers[qid] = { status:"answered", value:arr, detail:(a && a.detail) || null, confidence:(a && a.confidence) || null, secondHand:false };
+  pruneCards();
+}
+
+function stopStream(){
+  if (UI.stream){ UI.stream.getTracks().forEach(x => x.stop()); UI.stream = null; }
+  UI.cam = "idle";
+}
+
+function goto(s){
+  if (/^capture:/.test(STATE.screen) && !/^read:/.test(s)) stopStream();
+  STATE.screen = s;
+  UI.followCard = null; UI.offerCard = UI.offerCard && s === "docs" ? UI.offerCard : null;
+  if (/^read:/.test(s)){
+    const id = s.split(":")[1];
+    const c = CASE.cards.find(x => x.id === id);
+    UI.readDraft = c.read
+      ? { docType:L(c.read.docType), date:L(c.read.date), place:L(c.read.place), childName:L(c.read.childName) }
+      : { docType:t("notSureVal"), date:"", place:"", childName:"" };
+    UI.readLoading = true;
+    setTimeout(() => { UI.readLoading = false; render(); }, 1500);   // 10.1 faked document reading
+  }
+  saveState(); render();
+}
+
+function backTarget(){
+  const s = STATE.screen;
+  if (UI.returnTo === "review" && (s === "respondent" || s === "docs" || s === "note" || s.startsWith("q:"))) return "review";
+  if (s === "login_code") return "login_phone";
+  if (s === "login_phone") return "landing";
+  if (s === "respondent") return "landing";
+  if (s.startsWith("q:")){
+    const p = pathQuestions(); const i = p.findIndex(x => "q:" + x.id === s);
+    return i > 0 ? "q:" + p[i-1].id : "respondent";
+  }
+  if (s === "docs"){ const p = pathQuestions(); return p.length ? "q:" + p[p.length-1].id : "respondent"; }
+  if (s.startsWith("capture:") || s.startsWith("read:")) return "docs";
+  if (s === "note") return "docs";
+  if (s === "review") return "note";
+  if (s === "sent") return "review";
+  if (s === "reschedule") return UI.resFrom || "docs";
+  return "landing";
+}
+
+function toast(msg){
+  UI.toast = msg; render();
+  setTimeout(() => { UI.toast = null; const el = document.querySelector(".toast"); if (el) el.remove(); }, 2400);
+}
+
+/* ================= actions ================= */
+const A = {};
+
+A["start"] = () => goto(STATE.loggedIn ? "respondent" : "login_phone");
+A["back"] = () => {
+  if (UI.sheet){ UI.sheet = null; render(); return; }
+  const b = backTarget();
+  if (b === "review") UI.returnTo = null;
+  goto(b);
+};
+A["open-menu"] = () => { UI.menuOpen = true; render(); };
+A["close-menu"] = () => { UI.menuOpen = false; render(); };
+A["open-privacy"] = () => { UI.sheet = "privacy"; UI.menuOpen = false; render(); };
+A["close-sheet"] = () => { UI.sheet = null; render(); };
+A["toggle-lang"] = () => A["set-lang"]({ loc: STATE.locale === "he" ? "en" : "he" });
+A["set-lang"] = d => {
+  UI.menuOpen = false;
+  if (d.loc === STATE.locale){ render(); return; }
+  UI.loader = t("langLoading"); render();
+  setTimeout(() => {                                    // 10.3 faked language switch, then a real re-render + dir flip
+    STATE.locale = d.loc; UI.loader = null;
+    applyDir(); saveState(); render();
+  }, 1200);
+};
+A["menu-save"] = () => { UI.menuOpen = false; saveState(); toast(t("savedToast")); };
+A["restart"] = () => {
+  try { localStorage.removeItem(KEY); } catch(e){}
+  MEM = null; stopStream();
+  STATE = FRESH();
+  Object.assign(UI, { menuOpen:false, sheet:null, loader:null, toast:null, returnTo:null, resFrom:null, resDone:false, followCard:null, offerCard:null, captured:null, readDraft:null, readLoading:false });
+  applyDir(); render();
+};
+
+A["login-continue"] = () => { UI.resendLeft = 0; goto("login_code"); };
+A["resend"] = () => {                                    // 10.2 resend runs a countdown and does nothing else
+  if (UI.resendLeft > 0) return;
+  UI.resendLeft = 30;
+  const tick = () => {
+    UI.resendLeft--;
+    const b = document.getElementById("resendbtn");
+    if (b) b.textContent = UI.resendLeft > 0 ? fmt(t("resendWait"), { s: UI.resendLeft }) : t("resend");
+    if (UI.resendLeft > 0) setTimeout(tick, 1000);
+  };
+  const b = document.getElementById("resendbtn");
+  if (b) b.textContent = fmt(t("resendWait"), { s: 30 });
+  setTimeout(tick, 1000);
+};
+
+A["select-option"] = d => { setSingle(d.q, d.opt); saveState(); render(); };
+A["toggle-multi"] = d => { toggleMulti(d.q, d.opt); saveState(); render(); };
+A["set-unknown"] = d => {
+  if (d.q === "q1"){ const prev = st("q1"); if (!(prev && prev.status === "unknown")) q1Changed(null); }
+  STATE.answers[d.q] = { status:"unknown", value:null, detail:null, confidence:null, secondHand:false };
+  if (d.q === "q8a") syncSecondHand();
+  STATE.branch = currentBranch(); pruneCards(); saveState(); render();
+};
+A["set-scale"] = d => {
+  STATE.answers[d.q] = { status:"answered", value:parseInt(d.v, 10), detail:null, confidence:(st(d.q) || {}).confidence || null, secondHand:false };
+  saveState(); render();
+};
+A["set-conf"] = d => {
+  const a = st(d.q); if (!a) return;
+  a.confidence = a.confidence === d.conf ? null : d.conf;
+  saveState(); render();
+};
+A["set-nothing"] = d => {
+  STATE.answers[d.q] = { status:"answered", value:"__nothing", detail:null, confidence:null, secondHand:false };
+  saveState(); render();
+};
+A["chip-date"] = d => {
+  const map = { last_month:{ month:7, year:2026 }, lt_year:{ month:4, year:2026 }, gt_year:{ month:3, year:2025 } };
+  STATE.answers[d.q] = { status:"answered", value:{ ...map[d.chip] }, detail:d.chip, confidence:(st(d.q) || {}).confidence || null, secondHand:false };
+  saveState(); render();
+};
+A["skip"] = d => {
+  if (d.q === "q1"){ const prev = st("q1"); if (!(prev && prev.status === "skipped")) q1Changed(null); }
+  STATE.answers[d.q] = { status:"skipped", value:null, detail:null, confidence:null, secondHand:false };
+  STATE.branch = currentBranch(); pruneCards(); saveState();
+  A["q-continue"](d);
+};
+A["q-continue"] = d => {
+  if (UI.returnTo){ const r = UI.returnTo; UI.returnTo = null; goto(r); return; }
+  if (d.q === "respondent"){ goto("q:q1"); return; }
+  const p = pathQuestions(); const i = p.findIndex(x => x.id === d.q);
+  if (i >= 0 && i < p.length - 1) goto("q:" + p[i+1].id); else goto("docs");
+};
+A["goto-review"] = () => { UI.returnTo = null; goto("review"); };
+A["docs-continue"] = () => goto("note");
+A["note-continue"] = () => goto("review");
+
+A["card-dont-have"] = d => { UI.followCard = UI.followCard === d.card ? null : d.card; render(); };
+A["card-set"] = d => {
+  const cs = cardState(d.card);
+  cs.status = d.status; cs.files = []; cs.extracted = null;
+  UI.followCard = null;
+  UI.offerCard = d.status === "cannot_get" ? d.card : null;
+  saveState(); render();
+};
+A["decline-move"] = () => { UI.offerCard = null; render(); };
+A["card-reset"] = d => {
+  const cs = cardState(d.card);
+  cs.status = "untouched"; cs.files = []; cs.extracted = null;
+  if (UI.offerCard === d.card) UI.offerCard = null;
+  saveState(); render();
+};
+A["card-explain"] = d => { UI.sheet = "explain:" + d.card; render(); };
+A["card-capture"] = d => { UI.cam = "idle"; UI.captured = null; goto("capture:" + d.card); };
+A["open-camera"] = () => {
+  if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){ UI.cam = "fallback"; render(); return; }
+  navigator.mediaDevices.getUserMedia({ video:{ facingMode:"environment" } })
+    .then(s => { UI.stream = s; UI.cam = "on"; render(); })
+    .catch(() => { UI.cam = "fallback"; render(); });     // silent fallback, never dead-end
+};
+A["shutter"] = () => {
+  const v = document.getElementById("camvid");
+  const c = document.createElement("canvas");
+  c.width = (v && v.videoWidth) || 390; c.height = (v && v.videoHeight) || 520;
+  try { c.getContext("2d").drawImage(v, 0, 0); UI.captured = c.toDataURL("image/jpeg", .8); }
+  catch(e){ UI.captured = null; }
+  const id = STATE.screen.split(":")[1];
+  stopStream(); goto("read:" + id);
+};
+A["read-save"] = d => {
+  const cs = cardState(d.card);
+  cs.status = "attached"; cs.extracted = { ...UI.readDraft };
+  const f = { name:"photo.jpg", kind:"image/jpeg", objectUrl:UI.captured || null };
+  if (d.card === "DX") cs.files.push(f); else cs.files = [f];
+  UI.captured = null;
+  goto("docs");
+};
+
+A["edit-row"] = d => { UI.returnTo = "review"; goto(d.target); };
+A["submit"] = () => {                                    // 10.4 faked submission
+  UI.loader = t("sending"); render();
+  setTimeout(() => { UI.loader = null; STATE.submitted = true; goto("sent"); }, 900);
+};
+A["open-reschedule"] = () => {
+  if (STATE.screen !== "reschedule") UI.resFrom = STATE.screen;
+  UI.resDone = false; UI.menuOpen = false;
+  goto("reschedule");
+};
+A["choose-slot"] = d => { STATE.rescheduledTo = d.slot; UI.resDone = true; saveState(); render(); };
+A["res-done"] = () => {
+  const f = UI.resFrom && UI.resFrom !== "reschedule" ? UI.resFrom : "docs";
+  UI.resDone = false; goto(f);
+};
+A["add-calendar"] = () => toast(t("addedCal"));          // 10.6 inert, confirmation only
+
+function onAttach(cardId, file){
+  const cs = cardState(cardId);
+  let url = null; try { url = URL.createObjectURL(file); } catch(e){}
+  const f = { name:file.name, kind:file.type || "", objectUrl:url };
+  if (cardId === "DX") cs.files.push(f); else cs.files = [f];
+  cs.status = "attached";
+  saveState(); render();
+}
+
+function handleCode(el){
+  el.value = el.value.replace(/\D/g, "").slice(-1);
+  if (el.value){
+    const nxt = document.querySelector('[data-code="' + (parseInt(el.dataset.code, 10) + 1) + '"]');
+    if (nxt) nxt.focus();
+  }
+  const vals = [...document.querySelectorAll("[data-code]")].map(x => x.value);
+  if (vals.length === 4 && vals.every(v => v.length === 1)){
+    UI.loader = t("checking"); render();                 // 10.2 any four digits are accepted
+    setTimeout(() => { UI.loader = null; STATE.loggedIn = true; goto("respondent"); }, 1000);
+  }
+}
+function handleOpenText(el){
+  const qid = el.dataset.open; const v = el.value;
+  if (v.trim()) STATE.answers[qid] = { status:"answered", value:v, detail:null, confidence:null, secondHand:false };
+  else delete STATE.answers[qid];
+  saveState();
+  const btn = document.querySelector('[data-act="q-continue"][data-q="' + qid + '"]');
+  if (btn) btn.disabled = !st(qid);
+}
+function handleDateSel(el){
+  const qid = el.dataset.q;
+  const m = parseInt((document.getElementById("msel_" + qid) || {}).value, 10) || null;
+  const y = parseInt((document.getElementById("ysel_" + qid) || {}).value, 10) || null;
+  if (m && y){
+    STATE.answers[qid] = { status:"answered", value:{ month:m, year:y }, detail:null, confidence:(st(qid) || {}).confidence || null, secondHand:false };
+    saveState(); render();
+  }
+}
+
+/* ================= event delegation ================= */
+function selectorFor(el){
+  let s = "";
+  for (const [k, v] of Object.entries(el.dataset))
+    s += '[data-' + k.replace(/[A-Z]/g, m => "-" + m.toLowerCase()) + '="' + v + '"]';
+  return s || null;
+}
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]");
+  if (!el || el.disabled) return;
+  const fn = A[el.dataset.act];
+  if (!fn) return;
+  e.preventDefault();
+  const sel = selectorFor(el); const scr = STATE.screen;
+  fn(el.dataset, el);
+  if (STATE.screen === scr && sel && (document.activeElement === document.body || !document.activeElement)){
+    const n = document.querySelector(sel); if (n) n.focus();
+  }
+});
+document.addEventListener("input", e => {
+  const el = e.target;
+  if (el.dataset.phone !== undefined){
+    STATE.phone = el.value.replace(/\D/g, ""); saveState();
+    const b = document.getElementById("phonebtn");
+    if (b) b.disabled = !/^05\d{8}$/.test(STATE.phone);
+    return;
+  }
+  if (el.dataset.code !== undefined){ handleCode(el); return; }
+  if (el.dataset.detail){ const a = st(el.dataset.detail); if (a){ a.detail = el.value; saveState(); } return; }
+  if (el.dataset.open){ handleOpenText(el); return; }
+  if (el.dataset.note !== undefined){ STATE.note = el.value; saveState(); return; }
+  if (el.dataset.readfield){ if (UI.readDraft) UI.readDraft[el.dataset.readfield] = el.value; return; }
+});
+document.addEventListener("change", e => {
+  const el = e.target;
+  if (el.dataset.file){ if (el.files && el.files[0]) onAttach(el.dataset.card, el.files[0]); return; }
+  if (el.dataset.capfile){
+    if (el.files && el.files[0]){
+      try { UI.captured = URL.createObjectURL(el.files[0]); } catch(err){ UI.captured = null; }
+      goto("read:" + el.dataset.card);
+    }
+    return;
+  }
+  if (el.dataset.datesel){ handleDateSel(el); return; }
+});
+
+/* ================= rendering ================= */
+function applyDir(){
+  const he = STATE.locale === "he";
+  document.documentElement.lang = he ? "he" : "en";
+  document.documentElement.dir = he ? "rtl" : "ltr";
+  document.title = he ? "לפני הביקור של יותם · דמו" : "Before Yotam's visit · demo";
+}
+
+function confHTML(qd, a){
+  const chips = ["sure","roughly","guessing"].map(c =>
+    '<button class="chip' + (a && a.confidence === c ? " sel" : "") + '" data-act="set-conf" data-q="' + qd.id + '" data-conf="' + c + '" aria-pressed="' + !!(a && a.confidence === c) + '">' + t("conf_" + c) + "</button>"
+  ).join("");
+  return '<div class="confwrap"><p class="conflabel" id="confl_' + qd.id + '">' + t("confLabel") + '</p><div class="chips" role="group" aria-labelledby="confl_' + qd.id + '">' + chips + "</div></div>";
+}
+
+function optListHTML(qd, a){
+  const multi = qd.type === "multi";
+  let h = '<div class="opts" role="group" aria-label="' + esc(L(qd.text)) + '">';
+  (qd.options || []).forEach(o => {
+    const sel = !!(a && a.status === "answered" && (multi ? a.value.includes(o.id) : a.value === o.id));
+    let dis = false;
+    if (multi && a && a.status === "answered"){
+      const exSel = (qd.exclusiveOptions || []).some(x => a.value.includes(x));
+      if (exSel && !a.value.includes(o.id)) dis = true;   // exclusives clear and disable the rest
+    }
+    h += '<button class="opt' + (sel ? " sel" : "") + '" data-act="' + (multi ? "toggle-multi" : "select-option") + '" data-q="' + qd.id + '" data-opt="' + o.id + '" aria-pressed="' + sel + '"' + (dis ? " disabled" : "") + '><span class="mark" aria-hidden="true">' + (sel ? "✓" : "") + "</span><span>" + L(o.text) + "</span></button>";
+    if (sel && o.detail)
+      h += '<input class="txt det" id="det_' + qd.id + '" data-detail="' + qd.id + '" value="' + esc(a.detail) + '" placeholder="' + esc(t("detailPh")) + '" aria-label="' + esc(L(o.text)) + '">';
+  });
+  if (qd.unknown){
+    const us = !!(a && a.status === "unknown");
+    h += '<button class="opt' + (us ? " sel" : "") + '" data-act="set-unknown" data-q="' + qd.id + '" aria-pressed="' + us + '"><span class="mark" aria-hidden="true">' + (us ? "✓" : "") + "</span><span>" + (qd.unknownLabel ? L(qd.unknownLabel) : t("dontKnow")) + "</span></button>";
+  }
+  return h + "</div>";
+}
+
+function scaleHTML(qd, a){
+  const sel = a && a.status === "answered" ? a.value : null;
+  let h = '<div class="anch" aria-hidden="true"><span>' + L(qd.scale.minLabel) + "</span><span>" + L(qd.scale.maxLabel) + '</span></div><div class="dots" role="group" aria-label="' + esc(L(qd.scale.minLabel)) + " – " + esc(L(qd.scale.maxLabel)) + '">';
+  for (let i = qd.scale.min; i <= qd.scale.max; i++)
+    h += '<button class="dot' + (sel === i ? " sel" : "") + '" data-act="set-scale" data-q="' + qd.id + '" data-v="' + i + '" aria-pressed="' + (sel === i) + '">' + i + "</button>";
+  h += "</div>";
+  if (qd.unknown){
+    const us = !!(a && a.status === "unknown");
+    h += '<div class="chips"><button class="chip' + (us ? " sel" : "") + '" data-act="set-unknown" data-q="' + qd.id + '" aria-pressed="' + us + '">' + t("dontKnow") + "</button></div>";
+  }
+  return h;
+}
+
+function approxDateHTML(qd, a){
+  const chips = [["last_month","chipLastMonth"],["lt_year","chipLtYear"],["gt_year","chipGtYear"]];
+  let h = '<div class="chips">';
+  chips.forEach(([id, k]) => {
+    const sel = !!(a && a.status === "answered" && a.detail === id);
+    h += '<button class="chip' + (sel ? " sel" : "") + '" data-act="chip-date" data-q="' + qd.id + '" data-chip="' + id + '" aria-pressed="' + sel + '">' + t(k) + "</button>";
+  });
+  const us = !!(a && a.status === "unknown");
+  h += '<button class="chip' + (us ? " sel" : "") + '" data-act="set-unknown" data-q="' + qd.id + '" aria-pressed="' + us + '">' + t("dontKnow") + "</button></div>";
+  const v = (a && a.status === "answered" && a.value) || {};
+  h += '<div class="datesels">';
+  h += '<label class="vh" for="msel_' + qd.id + '">' + t("monthLabel") + '</label><select id="msel_' + qd.id + '" data-datesel="month" data-q="' + qd.id + '"><option value="">' + t("monthLabel") + "</option>" +
+       MONTHS[STATE.locale].map((m, i) => '<option value="' + (i+1) + '"' + (v.month === i+1 ? " selected" : "") + ">" + m + "</option>").join("") + "</select>";
+  let yopts = '<option value="">' + t("yearLabel") + "</option>";
+  for (let y = 2026; y >= 2019; y--) yopts += '<option value="' + y + '"' + (v.year === y ? " selected" : "") + ">" + y + "</option>";
+  h += '<label class="vh" for="ysel_' + qd.id + '">' + t("yearLabel") + '</label><select id="ysel_' + qd.id + '" data-datesel="year" data-q="' + qd.id + '">' + yopts + "</select></div>";
+  return h;
+}
+
+function openTextHTML(qd, a){
+  const isNothing = !!(a && a.status === "answered" && a.value === "__nothing");
+  const txt = a && a.status === "answered" && !isNothing ? a.value : "";
+  let h = '<textarea class="txt area" data-open="' + qd.id + '" aria-label="' + esc(L(qd.text)) + '">' + esc(txt) + "</textarea>";
+  if (qd.nothingLabel)
+    h += '<div class="chips"><button class="chip' + (isNothing ? " sel" : "") + '" data-act="set-nothing" data-q="' + qd.id + '" aria-pressed="' + isNothing + '">' + L(qd.nothingLabel) + "</button></div>";
+  return h;
+}
+
+function inputHTML(qd, a){
+  switch (qd.type){
+    case "single": case "bucketed": case "multi": return optListHTML(qd, a);
+    case "scale": return scaleHTML(qd, a);
+    case "approx_date": return approxDateHTML(qd, a);
+    case "open_text": return openTextHTML(qd, a);
+  }
+  return "";
+}
+
+function variantHTML(qd, a){
+  if (qd.id !== "q8a" || !a || a.status !== "answered" || a.value !== "someone_else") return "";
+  const parent = ["mother","father"].includes(STATE.respondent);
+  return '<p class="variant">' + t(parent ? "shParent" : "shGrand") + "</p>";
+}
+
+function questionBody(qd){
+  const a = st(qd.id);
+  let h = '<h1 class="qt" tabindex="-1">' + L(qd.text) + "</h1>";
+  if (qd.help) h += '<p class="hint">' + L(qd.help) + "</p>";
+  h += inputHTML(qd, a);
+  if (qd.confidence) h += confHTML(qd, a);
+  CASE.questions.filter(c => c.parent === qd.id).forEach(c => {
+    if (!isActiveQ(c)) return;                            // inline reveals appear and disappear with the parent answer
+    const ca = st(c.id);
+    h += '<div class="inline"><h2 class="qt2">' + L(c.text) + "</h2>" + inputHTML(c, ca) + (c.confidence ? confHTML(c, ca) : "") + variantHTML(c, ca) + "</div>";
+  });
+  h += '<div class="qacts"><button class="btn-primary" data-act="q-continue" data-q="' + qd.id + '"' + (a ? "" : " disabled") + ">" + t("cont") + "</button>" +
+       (qd.notInPath ? "" : '<button class="btn-text" data-act="skip" data-q="' + qd.id + '">' + t("skip") + "</button>") + "</div>";
+  return h;
+}
+
+function landingBody(){
+  return '<div class="land"><div class="landtop"><button class="btn-text" data-act="toggle-lang" lang="' + (STATE.locale === "he" ? "en" : "he") + '">' + (STATE.locale === "he" ? "English" : "עברית") + "</button></div>" +
+    '<h1 tabindex="-1">' + t("landingTitle") + "</h1>" +
+    '<p class="appt"><strong>' + t("apptWhen") + "</strong><br>" + t("apptWhere") + " · " + t("apptDoc") + "</p>" +
+    '<p class="mut">' + t("landingFrom") + "</p>" +
+    '<p class="promise">' + t("landingPromise") + "</p>" +
+    "<p>" + t("landingTime") + "</p>" +
+    "<p>" + t("landingDiff") + "</p>" +
+    '<button class="btn-primary" data-act="start">' + t("start") + "</button>" +
+    '<button class="btn-sec" data-act="open-privacy">' + t("whatIsThis") + "</button>" +
+    '<p class="fnote">' + t("fictionalNote") + "</p></div>";
+}
+
+function loginPhoneBody(){
+  const ok = /^05\d{8}$/.test(STATE.phone);
+  return '<h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
+    '<div class="field"><label for="phone">' + t("phoneLabel") + '</label>' +
+    '<input id="phone" class="txt" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" data-phone value="' + esc(STATE.phone) + '">' +
+    '<p class="hint">' + t("phoneHelp") + "</p></div>" +
+    '<div class="loginacts"><button id="phonebtn" class="btn-primary" data-act="login-continue"' + (ok ? "" : " disabled") + ">" + t("cont") + "</button></div>";
+}
+
+function loginCodeBody(){
+  const shown = STATE.phone ? STATE.phone.slice(0,3) + "-" + STATE.phone.slice(3) : "05X-XXXXXXX";
+  let boxes = "";
+  for (let i = 0; i < 4; i++)
+    boxes += '<input class="codebox" type="text" inputmode="numeric" maxlength="2" data-code="' + i + '" aria-label="' + (i+1) + '">';
+  return '<h1 tabindex="-1">' + t("codeTitle") + "</h1>" +
+    "<p>" + fmt(t("codeSent"), { phone:'<bdo dir="ltr">' + esc(shown) + "</bdo>" }) + "</p>" +
+    '<div class="codewrap">' + boxes + "</div>" +
+    '<button class="btn-text" id="resendbtn" data-act="resend">' + t("resend") + "</button>" +
+    '<p class="hint" style="margin-top:18px">' + t("demoCode") + "</p>";
+}
+
+function thumbsHTML(files){
+  if (!files || !files.length) return "";
+  const th = files.map(f =>
+    f.objectUrl && (f.kind || "").startsWith("image")
+      ? '<img class="thumb" src="' + f.objectUrl + '" alt="' + esc(f.name) + '">'
+      : '<span class="ph" role="img" aria-label="' + esc(f.name) + '"></span>'
+  ).join("");
+  return '<div class="thumbs">' + th + '</div><p class="small mut">' + files.map(f => esc(f.name)).join(", ") + "</p>";
+}
+
+function cardStateHTML(c){
+  const cs = STATE.cards[c.id]; const s = cs ? cs.status : "untouched";
+  if (s === "attached"){
+    let h = '<div class="cardstate"><p class="stt">✓ ' + t("stAttached") + "</p>" + thumbsHTML(cs.files);
+    if (cs.extracted) h += '<p class="small mut">' + ["docType","date","place","childName"].map(k => esc(cs.extracted[k])).filter(Boolean).join(" · ") + "</p>";
+    h += '<button class="btn-text" data-act="card-reset" data-card="' + c.id + '">' + t("change") + "</button></div>";
+    return h;
+  }
+  if (s !== "untouched"){
+    const map = { will_bring:"stWillBring", will_get:"stWillGet", cannot_get:"stCannotGet" };
+    let h = '<div class="cardstate"><p class="stt">' + t(map[s]) + "</p>";
+    if (s === "cannot_get" && UI.offerCard === c.id)
+      h += '<div class="offer"><p>' + t("moveOffer") + '</p><button class="btn-sec" data-act="open-reschedule">' + t("moveAppt") + '</button><button class="btn-sec" data-act="decline-move">' + t("comeAnyway") + "</button></div>";
+    h += '<button class="btn-text" data-act="card-reset" data-card="' + c.id + '">' + t("change") + "</button></div>";
+    return h;
+  }
+  const acc = c.kind === "video" ? "video/*" : "image/*,.pdf";
+  let h = '<div class="cardacts">';
+  h += '<label class="filelab">' + t("findOnPhone") + '<input type="file" class="vh" accept="' + acc + '" data-file="1" data-card="' + c.id + '"></label>';
+  if (c.kind === "paper") h += '<button class="btn-sec" data-act="card-capture" data-card="' + c.id + '">' + t("takePhoto") + "</button>";
+  h += '<button class="btn-sec" data-act="card-dont-have" data-card="' + c.id + '">' + (c.kind === "video" ? t("dontHaveVideo") : t("dontHaveIt")) + "</button>";
+  if (c.explain) h += '<button class="btn-text" data-act="card-explain" data-card="' + c.id + '">' + t("whatIsThis") + "</button>";
+  h += "</div>";
+  if (UI.followCard === c.id){
+    h += '<div class="follow">';
+    [["will_bring","willBringOpt"],["will_get","willGetOpt"],["cannot_get","cantGetOpt"]].forEach(([sid, k]) => {
+      h += '<button class="opt" data-act="card-set" data-card="' + c.id + '" data-status="' + sid + '"><span class="mark" aria-hidden="true"></span><span>' + t(k) + "</span></button>";
+    });
+    h += "</div>";
+  }
+  return h;
+}
+
+function dxHTML(){
+  const cs = STATE.cards["DX"];
+  let h = '<section class="card dx"><h2 class="ctitle">' + t("dxTitle") + "</h2>";
+  if (cs && cs.files.length) h += thumbsHTML(cs.files);
+  if (cs && cs.extracted) h += '<p class="small mut">' + ["docType","date","place","childName"].map(k => esc(cs.extracted[k])).filter(Boolean).join(" · ") + "</p>";
+  h += '<div class="cardacts"><label class="filelab">' + t("findOnPhone") + '<input type="file" class="vh" accept="image/*,.pdf" data-file="1" data-card="DX"></label>' +
+       '<button class="btn-sec" data-act="card-capture" data-card="DX">' + t("takePhoto") + "</button></div></section>";
+  return h;
+}
+
+function docsBody(){
+  const cards = namedCards(); const n = cards.length;    // header count is a numeral, never a word
+  let h = '<h1 tabindex="-1">' + fmt(t("docsHeader"), { n }) + '</h1><p class="hint">' + t("docsSub") + "</p>";
+  cards.forEach(c => {
+    h += '<section class="card"><h2 class="ctitle">' + L(c.title) + "</h2>" +
+      '<p class="cmeta">' + [L(c.date), L(c.source)].filter(Boolean).join(" · ") + "</p>" +
+      '<p class="cwhy">' + L(c.why) + "</p>" +
+      (c.origin ? '<p class="corigin">' + L(c.origin) + "</p>" : "") +
+      cardStateHTML(c) + "</section>";
+  });
+  h += dxHTML();
+  h += '<button class="btn-primary" data-act="docs-continue">' + t("cont") + "</button>";
+  return h;
+}
+
+function captureBody(id){
+  let h = '<h1 tabindex="-1">' + t("capTitle") + "</h1>";
+  const tips = '<ul class="tips"><li>' + t("capTip1") + "</li><li>" + t("capTip2") + "</li><li>" + t("capTip3") + "</li><li>" + t("capTip4") + "</li></ul>";
+  if (UI.cam === "idle") h += tips + '<button class="btn-primary" data-act="open-camera">' + t("openCamera") + "</button>";
+  if (UI.cam === "fallback") h += tips + '<label class="filelab">' + t("choosePhoto") + '<input type="file" class="vh" accept="image/*" data-capfile="1" data-card="' + id + '"></label>';
+  if (UI.cam === "on") h += '<div class="camwrap"><video id="camvid" autoplay playsinline muted></video><div class="guide" aria-hidden="true"></div></div><button class="btn-primary" data-act="shutter">' + t("shutter") + "</button>";
+  return h;
+}
+
+function readBody(id){
+  if (UI.readLoading) return '<div class="loaderline" role="status">' + t("reading") + "</div>";
+  const isDX = id === "DX";
+  const flagged = f => isDX ? true : f === "childName";   // the correction moment exists on every card
+  let h = '<p class="banner">' + t("readBanner") + "</p>";
+  [["docType","fDocType"],["date","fDate"],["place","fPlace"],["childName","fChildName"]].forEach(([f, k]) => {
+    h += '<div class="field' + (flagged(f) ? " flag" : "") + '"><label for="rf_' + f + '">' + t(k) + '</label>' +
+         '<input id="rf_' + f + '" class="txt" data-readfield="' + f + '" value="' + esc(UI.readDraft ? UI.readDraft[f] : "") + '">' +
+         (flagged(f) ? '<p class="flagline">' + t("notSureRead") + "</p>" : "") + "</div>";
+  });
+  h += '<button class="btn-primary" data-act="read-save" data-card="' + id + '">' + t("saveRead") + "</button>";
+  return h;
+}
+
+function noteBody(){
+  return '<h1 tabindex="-1">' + t("noteQ") + '</h1><p class="hint">' + t("noteHint") + "</p>" +
+    '<textarea class="txt area" data-note aria-label="' + esc(t("noteQ")) + '">' + esc(STATE.note) + "</textarea>" +
+    '<div class="qacts"><button class="btn-primary" data-act="note-continue">' + t("cont") + "</button></div>";
+}
+
+function answerDisp(qd, a){
+  if (a.status === "unknown") return qd.unknownLabel ? L(qd.unknownLabel) : t("dontKnow");
+  if (a.status === "skipped") return t("skippedWord");
+  const v = a.value;
+  switch (qd.type){
+    case "single": case "bucketed": {
+      const o = (qd.options || []).find(x => x.id === v);
+      let s = o ? L(o.text) : esc(v);
+      if (a.detail) s += " — " + esc(a.detail);
+      return s;
+    }
+    case "multi": {
+      let s = v.map(id => { const o = qd.options.find(x => x.id === id); return o ? L(o.text) : esc(id); }).join(", ");
+      if (a.detail) s += " — " + esc(a.detail);
+      return s;
+    }
+    case "scale": return v + " / " + qd.scale.max;
+    case "approx_date": return MONTHS[STATE.locale][v.month - 1] + " " + v.year;
+    case "open_text": return v === "__nothing" ? L(qd.nothingLabel) : esc(v);
+  }
+  return "";
+}
+
+function reviewRow(qd){
+  const a = st(qd.id); if (!a) return "";
+  const tgt = qd.id === "respondent" ? "respondent" : "q:" + (qd.screen ? qd.id : qd.parent);
+  let ans = answerDisp(qd, a);
+  if (a.confidence) ans += '<span class="tag">' + t("conf_" + a.confidence) + "</span>";
+  if (a.secondHand) ans += '<span class="tag">' + t("secondHand") + "</span>";
+  return '<button class="row" data-act="edit-row" data-target="' + tgt + '"><span class="rq">' + L(qd.text) + '</span><span class="ra">' + ans + "</span></button>";
+}
+function rowsFor(ids){
+  let out = "";
+  ids.forEach(id => { const qd = q(id); if (qd && isActiveQ(qd)) out += reviewRow(qd); });
+  return out || null;
+}
+function docRows(){
+  const stWord = { attached:"stAttached", will_bring:"stWillBring", will_get:"stWillGet", cannot_get:"stCannotGet", untouched:"stUntouched" };
+  let out = "";
+  namedCards().forEach(c => {
+    const cs = STATE.cards[c.id]; const s = cs ? cs.status : "untouched";
+    let ans = t(stWord[s]);
+    if (cs && cs.extracted) ans += '<span class="small mut" style="display:block;font-weight:400">' + ["docType","date","place","childName"].map(k => esc(cs.extracted[k])).filter(Boolean).join(" · ") + "</span>";
+    out += '<button class="row" data-act="edit-row" data-target="docs"><span class="rq">' + L(c.title) + '</span><span class="ra">' + ans + "</span></button>";
+  });
+  const dx = STATE.cards["DX"];
+  if (dx && (dx.files.length || dx.status !== "untouched"))
+    out += '<button class="row" data-act="edit-row" data-target="docs"><span class="rq">' + t("dxTitle") + '</span><span class="ra">' + t(stWord[dx.status]) + "</span></button>";
+  return out || null;
+}
+function noteRows(){
+  let out = rowsFor(["q9"]) || "";
+  if (STATE.note.trim())
+    out += '<button class="row" data-act="edit-row" data-target="note"><span class="rq">' + t("tNote") + '</span><span class="ra">' + esc(STATE.note) + "</span></button>";
+  return out || null;
+}
+
+function gapsHTML(){
+  const act = CASE.questions.filter(isActiveQ);
+  const dk = act.filter(x => st(x.id) && st(x.id).status === "unknown");
+  const pass = act.filter(x => st(x.id) && st(x.id).status === "skipped");
+  if (!dk.length && !pass.length) return "";              // a counter at zero is not rendered at all
+  let h = '<section class="gaps"><h2>' + t("gapsTitle") + "</h2>";
+  if (dk.length){
+    h += "<p>" + (dk.length === 1 ? t("gapsDK1") : fmt(t("gapsDK"), { n: dk.length })) + "</p><ul>" +
+         dk.map(x => "<li>" + L(x.text) + "</li>").join("") + "</ul>";
+  }
+  if (pass.length){
+    h += "<p>" + (pass.length === 1 ? t("gapsPass1") : fmt(t("gapsPass"), { n: pass.length })) + "</p><ul>" +
+         pass.map(x => {
+           const tgt = x.id === "respondent" ? "respondent" : "q:" + (x.screen ? x.id : x.parent);
+           return '<li><button class="btn-text" data-act="edit-row" data-target="' + tgt + '">' + L(x.text) + " — " + t("answerNow") + "</button></li>";
+         }).join("") + "</ul>";
+  }
+  return h + "</section>";
+}
+
+function summaryLine(){
+  const act = CASE.questions.filter(isActiveQ);
+  const ans = act.filter(x => st(x.id) && st(x.id).status === "answered").length;
+  const dk = act.filter(x => st(x.id) && st(x.id).status === "unknown").length;
+  const pass = act.filter(x => st(x.id) && st(x.id).status === "skipped").length;
+  let P = 0, V = 0;
+  namedCards().concat([CASE.cards.find(c => c.id === "DX")]).forEach(c => {
+    const cs = STATE.cards[c.id];
+    if (!cs || cs.status !== "attached") return;
+    if (c.kind === "video") V++;
+    else P += c.id === "DX" ? Math.max(1, cs.files.length) : 1;
+  });
+  const terms = [];                                       // any zero term is dropped, never printed as "0"
+  if (ans) terms.push(plural(ans, "sumAnswers1", "sumAnswersN"));
+  if (P) terms.push(plural(P, "sumDocs1", "sumDocsN"));
+  if (V) terms.push(plural(V, "sumVideos1", "sumVideosN"));
+  if (dk) terms.push(plural(dk, "sumDK1", "sumDKN"));
+  if (pass) terms.push(plural(pass, "sumPass1", "sumPassN"));
+  return terms.join(" · ");
+}
+
+function reviewBody(){
+  let h = '<h1 tabindex="-1">' + t("reviewTitle") + "</h1>";
+  const secs = [
+    ["secAbout", rowsFor(["respondent"])],
+    ["secWhat", rowsFor(["q1","q2","q3a","q4a","q4a_wheezy","q5a","q3b","q4b","q5b","q3c","q4c","q5c","q3d","q3d_abx","q4d"])],
+    ["secMeds", rowsFor(["q6","q6_which","q6_helps"])],
+    ["secHistory", rowsFor(["q7","q8","q8a"])],
+    ["secDocs", docRows()],
+    ["secNote", noteRows()]
+  ];
+  secs.forEach(([k, rows]) => { if (rows) h += '<section class="rsec"><h2>' + t(k) + "</h2>" + rows + "</section>"; });
+  h += gapsHTML();
+  const sum = summaryLine();
+  if (sum) h += '<p class="sumline">' + sum + "</p>";
+  return h;
+}
+
+function sentBody(){
+  const bring = CASE.cards.filter(c => {
+    const cs = STATE.cards[c.id];
+    return cs && (cs.status === "will_bring" || cs.status === "will_get");
+  });
+  let h = '<div class="sent"><h1 tabindex="-1">' + t("sentTitle") + "</h1>";
+  h += '<div class="sentbox"><h2>' + t("stillBring") + "</h2>";
+  h += bring.length
+    ? "<ul>" + bring.map(c => "<li>" + (c.id === "DX" ? t("dxTitle") : L(c.title)) + "</li>").join("") + "</ul>"
+    : "<p>" + t("nothingToBring") + "</p>";
+  h += "</div>";
+  const slot = STATE.rescheduledTo ? CASE.slots.find(x => x.id === STATE.rescheduledTo) : null;
+  h += '<div class="sentbox"><p><strong>' + (slot ? L(slot.text) : t("apptWhen")) + "</strong><br>" + t("apptWhere") + " · " + t("apptDoc") + "</p></div>";
+  h += '<button class="btn-sec" data-act="add-calendar">' + t("addCal") + "</button>";
+  h += '<button class="btn-text" data-act="open-reschedule">' + t("changeAppt") + "</button></div>";
+  return h;
+}
+
+function rescheduleBody(){
+  if (UI.resDone){
+    const slot = CASE.slots.find(x => x.id === STATE.rescheduledTo);
+    return '<h1 tabindex="-1">' + t("resMoved") + '</h1><div class="sentbox"><p><strong>' + L(slot.text) + "</strong><br>" + t("apptWhere") + " · " + t("apptDoc") + "</p></div>" +
+      "<p><strong>" + t("resKept") + "</strong></p>" +
+      '<div class="qacts"><button class="btn-primary" data-act="res-done">' + t("done") + "</button></div>";
+  }
+  let h = '<h1 tabindex="-1">' + t("resTitle") + '</h1><p class="hint">' + t("resBody") + '</p><div class="opts">';
+  CASE.slots.forEach(s => {
+    h += '<button class="opt" data-act="choose-slot" data-slot="' + s.id + '"><span class="mark" aria-hidden="true"></span><span>' + L(s.text) + "</span></button>";
+  });
+  return h + "</div>";
+}
+
+function topbarHTML(){
+  const s = STATE.screen;
+  if (s === "landing" || s === "login_phone" || s === "login_code") return "";
+  let title = { respondent:t("tRespondent"), docs:t("tDocs"), note:t("tNote"), review:t("tReview"), sent:t("tSent"), reschedule:t("tRes") }[s] || "";
+  if (s.startsWith("q:")) title = t("tQuestions");
+  if (s.startsWith("capture:")) title = t("tCapture");
+  if (s.startsWith("read:")) title = t("tRead");
+  return '<header class="topbar"><button class="tbtn" data-act="back">' + t("back") + '</button><h2 class="tbtitle">' + title + '</h2><button class="tbtn" data-act="open-menu" aria-haspopup="true">' + t("menu") + "</button></header>";
+}
+
+function segIndex(){
+  const s = STATE.screen, p = pathQuestions();
+  if (s === "respondent") return 0;
+  if (s.startsWith("q:")){ const i = p.findIndex(x => "q:" + x.id === s); return 1 + Math.max(0, i); }
+  if (s === "docs" || s.startsWith("capture:") || s.startsWith("read:")) return 1 + p.length;
+  if (s === "note") return 2 + p.length;
+  if (s === "review") return 3 + p.length;
+  return 0;
+}
+
+function bottombarHTML(){
+  const s = STATE.screen;
+  const flow = s === "respondent" || s.startsWith("q:") || s === "docs" || s.startsWith("capture:") || s.startsWith("read:") || s === "note" || s === "review";
+  if (!flow) return '<footer class="bbar bare"><p class="demoline">' + t("demoLine") + "</p></footer>";
+  const known = !!st("q1");                               // denominator unknown until q1 has any status
+  let segs = "", count = "";
+  if (!known){
+    segs = '<div class="pseg fill"></div><div class="pseg ind"></div>';
+    count = t("stepStart");
+  } else {
+    const total = 4 + pathQuestions().length;             // [1] + path + [D] + [C] + [V]
+    const cur = segIndex();
+    for (let i = 0; i < total; i++) segs += '<div class="pseg' + (i < cur ? " fill" : i === cur ? " cur" : "") + '"></div>';
+    count = fmt(t("stepOf"), { a: cur + 1, b: total });
+  }
+  const btn = s === "review"
+    ? '<button class="btn-primary" data-act="submit">' + t("send") + "</button>"
+    : '<button class="btn-sec" data-act="goto-review">' + t("sendWhatIHave") + "</button>";
+  return '<footer class="bbar"><div class="psegs" aria-hidden="true">' + segs + '</div><p class="pcount" aria-live="polite">' + count + "</p>" + btn + '<p class="demoline">' + t("demoLine") + "</p></footer>";
+}
+
+function overlaysHTML(){
+  let h = "";
+  if (UI.menuOpen){
+    h += '<button class="scrim" data-act="close-menu" aria-label="' + t("close") + '"></button>' +
+      '<nav class="menu" role="dialog" aria-label="' + t("menu") + '">' +
+      '<button class="tbtn" data-act="close-menu" style="align-self:flex-start">' + t("close") + "</button>" +
+      '<p class="mlabel">' + t("langLabel") + '</p>' +
+      '<div class="langrow">' +
+      '<button class="chip' + (STATE.locale === "he" ? " sel" : "") + '" data-act="set-lang" data-loc="he" aria-pressed="' + (STATE.locale === "he") + '" lang="he">עברית</button>' +
+      '<button class="chip' + (STATE.locale === "en" ? " sel" : "") + '" data-act="set-lang" data-loc="en" aria-pressed="' + (STATE.locale === "en") + '" lang="en">English</button></div>' +
+      '<button class="btn-text" data-act="menu-save">' + t("saveLater") + "</button>" +
+      '<button class="btn-text" data-act="open-reschedule">' + t("changeAppt") + "</button>" +
+      '<button class="btn-text" data-act="open-privacy">' + t("howHandle") + "</button>" +
+      '<button class="btn-text" data-act="restart">' + t("restart") + ' <span class="tag">' + t("restartTag") + "</span></button>" +
+      '<p class="demoline" style="margin-top:auto">' + t("demoLine") + "</p></nav>";
+  }
+  if (UI.sheet === "privacy"){
+    h += '<button class="scrim" data-act="close-sheet" aria-label="' + t("close") + '"></button>' +
+      '<div class="sheet" role="dialog" aria-label="' + t("privacyTitle") + '"><h2>' + t("privacyTitle") + "</h2><ul>" +
+      ["p1","p2","p3","p4","p5"].map(k => "<li>" + t(k) + "</li>").join("") + "</ul>" +
+      '<button class="btn-sec" data-act="close-sheet">' + t("close") + "</button></div>";
+  }
+  if (UI.sheet && UI.sheet.startsWith("explain:")){
+    const c = CASE.cards.find(x => x.id === UI.sheet.split(":")[1]);
+    h += '<button class="scrim" data-act="close-sheet" aria-label="' + t("close") + '"></button>' +
+      '<div class="sheet" role="dialog" aria-label="' + t("whatIsThis") + '"><h2>' + L(c.title) + "</h2><p>" + L(c.explain) + "</p>" +
+      '<button class="btn-sec" data-act="close-sheet">' + t("close") + "</button></div>";
+  }
+  if (UI.loader) h += '<div class="loadbox" role="status"><p>' + UI.loader + "</p></div>";
+  if (UI.toast) h += '<div class="toast" role="status">' + UI.toast + "</div>";
+  return h;
+}
+
+function screenBody(){
+  const s = STATE.screen;
+  if (s === "landing") return landingBody();
+  if (s === "login_phone") return loginPhoneBody();
+  if (s === "login_code") return loginCodeBody();
+  if (s === "respondent") return questionBody(q("respondent"));
+  if (s.startsWith("q:")){ const qd = q(s.slice(2)); return qd ? questionBody(qd) : landingBody(); }
+  if (s === "docs") return docsBody();
+  if (s.startsWith("capture:")) return captureBody(s.split(":")[1]);
+  if (s.startsWith("read:")) return readBody(s.split(":")[1]);
+  if (s === "note") return noteBody();
+  if (s === "review") return reviewBody();
+  if (s === "sent") return sentBody();
+  if (s === "reschedule") return rescheduleBody();
+  return landingBody();
+}
+
+function render(){
+  pruneCards();
+  const prev = UI.lastScreen;
+  document.getElementById("app").innerHTML =
+    topbarHTML() + '<main id="content" class="content">' + screenBody() + "</main>" + bottombarHTML() + overlaysHTML();
+  const v = document.getElementById("camvid");
+  if (v && UI.stream) v.srcObject = UI.stream;
+  if (UI.focus){
+    const el = document.querySelector(UI.focus);
+    if (el) el.focus();
+    UI.focus = null;
+  } else if (prev !== STATE.screen){
+    const content = document.getElementById("content");
+    if (content) content.scrollTop = 0;
+    if (STATE.screen === "login_code"){
+      const b = document.querySelector('[data-code="0"]'); if (b) b.focus();
+    } else {
+      const hd = document.querySelector('#content h1[tabindex]'); if (hd) hd.focus();
+    }
+  }
+  UI.lastScreen = STATE.screen;
+}
+
+/* ================= boot ================= */
+loadState();
+applyDir();
+render();
+
+/* debug hooks for automated walkthroughs; not part of the product surface */
+window.__app = {
+  get STATE(){ return STATE; }, UI, A, goto, render, CASE,
+  testAttach(id, name){
+    const cs = cardState(id);
+    const f = { name: name || "file.jpg", kind:"image/jpeg", objectUrl:null };
+    if (id === "DX") cs.files.push(f); else cs.files = [f];
+    cs.status = "attached"; saveState(); render();
+  }
+};
+</script>
+</body>
+</html>
