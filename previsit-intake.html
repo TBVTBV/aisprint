@@ -128,7 +128,7 @@ h2{font-size:16px}
 .rsec h2{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:2px}
 .rsec summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:4px;margin-bottom:2px}
 .rsec summary::-webkit-details-marker{display:none}
-.rsec summary::after{content:"▸";font-size:12px;color:var(--mut)}
+.rsec summary::after{content:"▸";font-size:21px;line-height:1;color:var(--ink)}
 [dir="rtl"] .rsec summary::after{content:"◂"}
 .rsec[open] summary::after{content:"▾"}
 .rsec summary h2{border-bottom:none;padding-bottom:0;margin-bottom:0}
@@ -233,7 +233,6 @@ const STRINGS = {
     gapsPass:"You passed on {n} questions.",
     gapsPass1:"You passed on one question.",
     answerNow:"Answer now",
-    sumAnswersN:"{n} answers", sumAnswers1:"1 answer",
     sumDocsN:"{n} documents", sumDocs1:"1 document",
     sumVideosN:"{n} videos", sumVideos1:"1 video",
     sumDKN:"{n} don't knows", sumDK1:"1 don't know",
@@ -243,6 +242,7 @@ const STRINGS = {
     stillBring:"What you still need to bring",
     nothingToBring:"Nothing left to bring. Everything is already in.",
     addCal:"Add to calendar", addedCal:"Added to your calendar (demo)",
+    sentBack:"Go back and send again",
     changeAppt:"Change my appointment",
     resTitle:"Would more time help?",
     resBody:"If getting the documents needs more time, you can move the appointment. Your answers are saved either way.",
@@ -366,8 +366,6 @@ const STRINGS = {
     gapsPass:"דילגת על {n} שאלות.", // TODO: native review
     gapsPass1:"דילגת על שאלה אחת.", // TODO: native review
     answerNow:"לענות עכשיו", // TODO: native review
-    sumAnswersN:"{n} תשובות", // TODO: native review
-    sumAnswers1:"תשובה אחת", // TODO: native review
     sumDocsN:"{n} מסמכים", // TODO: native review
     sumDocs1:"מסמך אחד", // TODO: native review
     sumVideosN:"{n} סרטונים", // TODO: native review
@@ -382,6 +380,7 @@ const STRINGS = {
     stillBring:"מה שעוד צריך להביא", // TODO: native review
     nothingToBring:"אין מה להביא. הכול כבר נשלח.", // TODO: native review
     addCal:"הוספה ליומן", // TODO: native review
+    sentBack:"לחזור ולשלוח שוב", // TODO: native review
     addedCal:"נוסף ליומן (דמו)", // TODO: native review
     changeAppt:"שינוי התור", // TODO: native review
     resTitle:"יעזור לכם עוד זמן?", // TODO: native review
@@ -992,6 +991,7 @@ A["q-continue"] = d => {
   const p = pathQuestions(); const i = p.findIndex(x => x.id === d.q);
   if (i >= 0 && i < p.length - 1) goto("q:" + p[i+1].id); else goto("docs");
 };
+A["sent-back"] = () => { UI.returnTo = null; goto("review"); };  // re-open review to change and re-send
 A["docs-continue"] = () => goto("note");
 A["note-continue"] = () => goto("review");
 
@@ -1475,7 +1475,6 @@ function gapsHTML(){
 
 function summaryLine(){
   const act = CASE.questions.filter(isActiveQ);
-  const ans = act.filter(x => st(x.id) && st(x.id).status === "answered").length;
   const dk = act.filter(x => st(x.id) && st(x.id).status === "unknown").length;
   const pass = act.filter(x => st(x.id) && st(x.id).status === "skipped").length;
   let P = 0, V = 0;
@@ -1486,7 +1485,6 @@ function summaryLine(){
     else P += c.id === "DX" ? Math.max(1, cs.files.length) : 1;
   });
   const terms = [];                                       // any zero term is dropped, never printed as "0"
-  if (ans) terms.push(plural(ans, "sumAnswers1", "sumAnswersN"));
   if (P) terms.push(plural(P, "sumDocs1", "sumDocsN"));
   if (V) terms.push(plural(V, "sumVideos1", "sumVideosN"));
   if (dk) terms.push(plural(dk, "sumDK1", "sumDKN"));
@@ -1505,8 +1503,8 @@ function reviewBody(){
     ["secNote", noteRows()]
   ];
   secs.forEach(([k, rows]) => {
-    if (!rows) return;                                    // collapsible, open by default; collapse survives edit-and-return
-    h += '<details class="rsec" data-sec="' + k + '"' + (UI.revClosed[k] ? "" : " open") + '><summary><h2>' + t(k) + "</h2></summary>" + rows + "</details>";
+    if (!rows) return;                                    // collapsible, start collapsed; opening survives edit-and-return
+    h += '<details class="rsec" data-sec="' + k + '"' + (UI.revClosed[k] === false ? " open" : "") + '><summary><h2>' + t(k) + "</h2></summary>" + rows + "</details>";
   });
   h += gapsHTML();
   const sum = summaryLine();
@@ -1528,6 +1526,7 @@ function sentBody(){
   const slot = STATE.rescheduledTo ? CASE.slots.find(x => x.id === STATE.rescheduledTo) : null;
   h += '<div class="sentbox"><p><strong>' + (slot ? L(slot.text) : t("apptWhen")) + "</strong><br>" + t("apptWhere") + " · " + t("apptDoc") + "</p></div>";
   h += '<button class="btn-sec" data-act="add-calendar">' + t("addCal") + "</button>";
+  h += '<button class="btn-sec" data-act="sent-back">' + t("sentBack") + "</button>";
   h += '<button class="btn-text" data-act="open-reschedule">' + t("changeAppt") + "</button></div>";
   return h;
 }

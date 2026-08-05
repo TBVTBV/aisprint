@@ -334,7 +334,7 @@ One free-text box: "Is there anything you want Dr. Oren to know before you come 
 ### 7.10 `[V]` Review
 
 - Six sections, each holding fixed questions. Anything never reached is omitted, and an empty section is not rendered.
-- **Each section is a collapsible disclosure**, all open by default, with a visible open/closed marker on the header. Collapsing is per-section and survives an edit-and-return; the gaps panel and the summary line are never collapsed.
+- **Each section is a collapsible disclosure, starting collapsed**, with a clearly visible open/closed chevron on the header. Opening is per-section and survives an edit-and-return; the gaps panel and the summary line are never collapsed, so what needs attention is readable without opening anything.
 
 | Section | Holds |
 |---|---|
@@ -353,9 +353,8 @@ One free-text box: "Is there anything you want Dr. Oren to know before you come 
   - Never-reached questions appear in neither and are not shown.
   - **A counter at zero is not rendered at all**, neither its sentence nor its list. If both are zero the whole gaps panel is absent.
 - **Summary line, computed at runtime, never hard-coded.** Counting rules, so two builds agree:
-  - *Answers* = questions with `status: "answered"`. Inline reveals count individually. `unknown` is not an answer.
   - *Documents* = cards with `status: "attached"`, split by `kind`, including `DX`.
-  - Rendered "N answers · P documents · V videos · K don't knows · M passed on". **Any zero term is dropped from the line rather than printed as "0".**
+  - Rendered "P documents · V videos · K don't knows · M passed on". There is no answer count: it read as a score and invited completionism. **Any zero term is dropped from the line rather than printed as "0".**
 - Primary: **Send to Dr. Oren**.
 
 ### 7.11 The privacy sheet
@@ -373,6 +372,7 @@ Reachable from `[0]` and the menu. Plain language, one short sheet:
 - "Sent. Dr. Oren will read this before Thursday morning."
 - **What you still need to bring:** every card in `will_bring`, `will_get` or `add_later`, by name. If there are none, say so plainly rather than showing an empty heading.
 - Appointment details again. "Add to calendar" shows a confirmation toast and does nothing else.
+- Secondary: **Go back and send again** returns to `[V]` with everything intact, so a forgotten detail can be fixed and re-sent. Sending again simply lands back here.
 - Secondary: **Change my appointment** goes to `[R]`.
 
 ### 7.13 `[R]` Reschedule
@@ -627,7 +627,8 @@ The prototype is done when someone handed a phone can do all of this unaided.
 - [ ] Photograph a document, correct the flagged name field, reach review, and see the corrected value.
 - [ ] Mark one card "I have it, I'll bring it on the day", send, and see it named on `[S]`.
 - [ ] Mark one card "I'll add it here later" and see it named on `[S]` as well.
-- [ ] Collapse a review section, edit an answer from another section, return, and find it still collapsed while the rest stay open.
+- [ ] Confirm review sections start collapsed. Open one, edit an answer inside it, return, and find it still open while the rest stay collapsed.
+- [ ] From `[S]`, use "Go back and send again", change an answer, and re-send.
 - [ ] Reschedule from `[D]` and be told on screen that answers are kept.
 - [ ] Leave, reload the page, and resume past the login at the same screen.
 - [ ] Tab through an entire question screen, including the confidence chips and Skip, using only the keyboard.
@@ -655,7 +656,7 @@ This exact sequence must be flawless. Everything else can be rough. Copy is quot
 17. `D4` → Find it on my phone
 18. `D5` → I don't have it → **"I have it, I'll bring it on the day"**
 19. `[C]` skip
-20. `[V]` show the gaps panel, the second-hand tag and the confidence words. Tap one answer, change it, return.
+20. `[V]` show the gaps panel. Open a section to show the second-hand tag and the confidence words. Tap one answer, change it, return.
 21. Send → `[S]`, which names `D5` as the one thing still to bring.
 
 Roughly 90 seconds at demo pace.
