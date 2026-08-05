@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P0 Requirements · Pre-Visit Intake · Group 7</title>
+<style>
+:root{
+  --paper:#f7f6f1; --surface:#fdfdfa; --sunk:#f1efe7;
+  --ink-1:#14140f; --ink-2:#45433c; --ink-3:#63605a; --ink-4:#8b887e;
+  --grid-fine:#e8e5da; --grid-major:#d8d4c4; --rule:#c9c5b6; --rule-soft:#e0dccf;
+  --h-access:#1d5fae; --h-ask:#b84714; --h-engine:#0d7a52; --h-honest:#5d5a53; --h-mech:#6a4a9c;
+  --gate:#b23025;
+  --t-xs:.6875rem; --t-sm:.8125rem; --t-md:.9375rem; --t-lg:1.0625rem; --t-xl:1.5rem; --t-2xl:2.375rem;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html[data-theme="dark"]{
+  --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+  --ink-1:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+  --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+  --h-access:#3987e5; --h-ask:#d95926; --h-engine:#199e70; --h-honest:#9d9a90; --h-mech:#a683e0;
+  --gate:#e06a60;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid-fine) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-fine) 1px,transparent 1px),
+    linear-gradient(var(--grid-major) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-major) 1px,transparent 1px);
+  background-size:40px 40px,40px 40px,200px 200px,200px 200px;
+  background-attachment:fixed;
+  color:var(--ink-1);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:var(--t-md); line-height:1.55;
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+a{color:inherit}
+.lab{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);font-weight:600}
+
+/* masthead */
+header.mast{padding:44px 0 0}
+.mast-top{display:flex;justify-content:space-between;align-items:flex-start;gap:32px;flex-wrap:wrap}
+h1{font-size:var(--t-2xl);line-height:1.1;letter-spacing:-.03em;margin:0 0 10px;font-weight:650}
+.sub{color:var(--ink-3);font-size:var(--t-md);max-width:56ch;margin:0}
+.readout{display:grid;grid-template-columns:repeat(3,auto);gap:2px 26px;text-align:right;flex-shrink:0}
+.readout .n{font-size:var(--t-xl);font-weight:600;line-height:1.15}
+.meta{margin-top:22px;padding-top:12px;border-top:1px solid var(--rule);display:flex;gap:20px;flex-wrap:wrap;color:var(--ink-3);font-size:var(--t-sm)}
+.meta b{color:var(--ink-2);font-weight:600}
+
+/* controls */
+.tools{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+button{font:inherit;font-size:var(--t-sm);color:var(--ink-2);background:var(--surface);
+  border:1px solid var(--rule);border-radius:2px;padding:6px 13px;cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease)}
+button:hover{background:var(--sunk);border-color:var(--ink-4)}
+button:focus-visible{outline:2px solid var(--ink-1);outline-offset:2px}
+
+/* rail */
+nav.rail{position:sticky;top:0;z-index:20;background:var(--paper);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);margin-top:26px;display:flex;gap:0;overflow-x:auto}
+nav.rail a{flex:1;min-width:132px;text-decoration:none;padding:11px 14px;color:var(--ink-3);
+  font-size:var(--t-sm);border-right:1px solid var(--rule-soft);white-space:nowrap;
+  transition:color .15s var(--ease),background .15s var(--ease)}
+nav.rail a:last-child{border-right:0}
+nav.rail a:hover{color:var(--ink-1);background:var(--sunk)}
+nav.rail a .lab{display:block;margin-bottom:1px}
+
+/* progress */
+.prog{margin-top:26px;border-top:1px solid var(--rule);padding-top:12px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.bar{flex:1;min-width:200px;height:6px;background:var(--sunk);border:1px solid var(--rule-soft);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ink-1);transition:width .18s var(--ease)}
+.prog .cnt{font-size:var(--t-sm);color:var(--ink-3)}
+.prog .cnt b{color:var(--ink-1);font-weight:600}
+
+/* sections */
+section{margin-top:56px;scroll-margin-top:56px}
+.sec-head{border-top:2px solid var(--hue);padding-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap}
+.sec-head h2{margin:0;font-size:var(--t-xl);letter-spacing:-.015em;font-weight:600}
+.sec-head .tag{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--hue)}
+.sec-note{color:var(--ink-3);font-size:var(--t-sm);margin:8px 0 0;max-width:70ch}
+
+ol.reqs{list-style:none;margin:20px 0 0;padding:0}
+ol.reqs>li{border-top:1px solid var(--rule-soft);background:var(--surface);
+  display:grid;grid-template-columns:44px 30px 1fr;gap:0 12px;padding:15px 16px 16px;align-items:start}
+ol.reqs>li:last-child{border-bottom:1px solid var(--rule-soft)}
+ol.reqs>li[data-done="true"]{background:var(--sunk)}
+ol.reqs>li[data-done="true"] .rt,ol.reqs>li[data-done="true"] .rd{color:var(--ink-3)}
+.num{font-size:var(--t-sm);color:var(--ink-4);font-weight:600;padding-top:3px}
+.chk{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ink-1);cursor:pointer}
+.chk:focus-visible{outline:2px solid var(--ink-1);outline-offset:2px}
+.rt{margin:0;font-weight:600;color:var(--ink-1);line-height:1.4}
+.rd{margin:5px 0 0;color:var(--ink-2);font-size:var(--t-sm);line-height:1.5;max-width:74ch}
+.pin{display:inline-block;margin-left:8px;font-size:var(--t-xs);letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;color:var(--gate);border:1px solid var(--gate);border-radius:2px;padding:0 5px;vertical-align:1px}
+
+/* cut table */
+table{width:100%;border-collapse:collapse;margin-top:20px;background:var(--surface);font-size:var(--t-sm)}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;border-top:1px solid var(--rule-soft)}
+th{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);font-weight:600;
+   border-top:1px solid var(--rule);background:var(--sunk)}
+td:first-child{font-weight:600;width:28%;color:var(--ink-1)}
+td:last-child{color:var(--ink-2)}
+tr:last-child td{border-bottom:1px solid var(--rule-soft)}
+
+footer{margin-top:64px;border-top:1px solid var(--rule);padding-top:14px;color:var(--ink-4);font-size:var(--t-sm)}
+footer p{margin:0 0 6px}
+
+@media (max-width:640px){
+  h1{font-size:1.75rem}
+  .readout{grid-template-columns:repeat(3,1fr);text-align:left;width:100%;margin-top:18px}
+  ol.reqs>li{grid-template-columns:32px 26px 1fr;padding:13px 12px 14px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{
+  body{background:#fff;color:#000}
+  nav.rail,.tools,.prog,.chk{display:none}
+  ol.reqs>li{grid-template-columns:44px 1fr;break-inside:avoid}
+  section{break-inside:avoid-page}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <div class="mast-top">
+    <div>
+      <h1>P0 must-have requirements</h1>
+      <p class="sub">Pre-visit intake, caregiver-side prototype. Cut any of these and the prototype stops making its argument.</p>
+    </div>
+    <div class="readout">
+      <div><div class="lab">Requirements</div><div class="n">25</div></div>
+      <div><div class="lab">Groups</div><div class="n">5</div></div>
+      <div><div class="lab">Cut from P0</div><div class="n">6</div></div>
+    </div>
+  </div>
+  <div class="meta">
+    <span><b>Group 7</b> · AI Product Sprint 2026</span>
+    <span>Challenge #6, pediatric pulmonology</span>
+    <span>Direction B, <b>The Named Ask</b></span>
+    <span>Companions: <b>PRD.md</b>, <b>task-flow.svg</b></span>
+  </div>
+  <div class="tools">
+    <button id="theme" type="button">Dark</button>
+    <button onclick="window.print()" type="button">Print</button>
+    <button id="clear" type="button">Clear ticks</button>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <a href="#access"><span class="lab">01</span>Access</a>
+  <a href="#ask"><span class="lab">02</span>The named ask</a>
+  <a href="#engine"><span class="lab">03</span>Question engine</a>
+  <a href="#honest"><span class="lab">04</span>Completion &amp; honesty</a>
+  <a href="#mech"><span class="lab">05</span>Mechanics</a>
+  <a href="#cut"><span class="lab">06</span>Out of P0</a>
+</nav>
+
+<div class="prog">
+  <span class="lab">Build progress</span>
+  <div class="bar"><i id="fill"></i></div>
+  <span class="cnt" id="cnt" aria-live="polite" role="status"><b>0</b> of 25 done</span>
+</div>
+
+<section id="access" style="--hue:var(--h-access)">
+  <div class="sec-head"><h2>Access</h2><span class="tag">01 · 2 requirements</span></div>
+  <p class="sec-note">The lightest gate a hospital would accept. A caregiver holding an infant will not create an account.</p>
+  <ol class="reqs">
+    <li><span class="num">01</span><input class="chk" type="checkbox" aria-label="Requirement 1 done">
+      <div><p class="rt">No account creation</p>
+      <p class="rd">Entry is a link. The only gate is a phone number plus a one-time code, faked in the prototype so any number and any code are accepted.</p></div></li>
+    <li><span class="num">02</span><input class="chk" type="checkbox" aria-label="Requirement 2 done">
+      <div><p class="rt">The session persists</p>
+      <p class="rd">A returning caregiver lands where they left off rather than back at the gate.</p></div></li>
+  </ol>
+</section>
+
+<section id="ask" style="--hue:var(--h-ask)">
+  <div class="sec-head"><h2>The named ask</h2><span class="tag">02 · 6 requirements</span></div>
+  <p class="sec-note">This is the hypothesis. A generic upload box is the checklist the clinic already tried, and it lapsed.</p>
+  <ol class="reqs">
+    <li><span class="num">03</span><input class="chk" type="checkbox" aria-label="Requirement 3 done">
+      <div><p class="rt">Documents are specifically named<span class="pin">core</span></p>
+      <p class="rd">Each item carries a name, a date and a source. Never a generic upload box. This is the one thing that separates this product from the checklist that already failed.</p></div></li>
+    <li><span class="num">04</span><input class="chk" type="checkbox" aria-label="Requirement 4 done">
+      <div><p class="rt">Each item says why the clinician needs it</p>
+      <p class="rd">One plain line per item, on the card.</p></div></li>
+    <li><span class="num">05</span><input class="chk" type="checkbox" aria-label="Requirement 5 done">
+      <div><p class="rt">At least one item is added at runtime<span class="pin">core</span></p>
+      <p class="rd">Triggered by an earlier answer, and the card says why it appeared. This is the adaptivity the demo turns on.</p></div></li>
+    <li><span class="num">06</span><input class="chk" type="checkbox" aria-label="Requirement 6 done">
+      <div><p class="rt">"I don't have it" is a normal outcome</p>
+      <p class="rd">It has its own follow-up. Not a failure state, no scolding copy, no red.</p></div></li>
+    <li><span class="num">07</span><input class="chk" type="checkbox" aria-label="Requirement 7 done">
+      <div><p class="rt">Attaching works two ways</p>
+      <p class="rd">Choosing a file from the phone, and photographing a page, with capture instructions shown before the camera opens.</p></div></li>
+    <li><span class="num">08</span><input class="chk" type="checkbox" aria-label="Requirement 8 done">
+      <div><p class="rt">Extracted content is labelled, flagged and editable</p>
+      <p class="rd">Anything the app reads from a document is marked as machine-read, flagged where it is unsure, and correctable. At least one field must demonstrate the uncertain state. Do not remove it to make the demo look cleaner.</p></div></li>
+  </ol>
+</section>
+
+<section id="engine" style="--hue:var(--h-engine)">
+  <div class="sec-head"><h2>The question engine</h2><span class="tag">03 · 6 requirements</span></div>
+  <p class="sec-note">Short and adaptive, or it becomes the comprehensive questionnaire that ideation killed.</p>
+  <ol class="reqs">
+    <li><span class="num">09</span><input class="chk" type="checkbox" aria-label="Requirement 9 done">
+      <div><p class="rt">Data-driven and progressively disclosed<span class="pin">core</span></p>
+      <p class="rd">The tree decides what comes next from what has already been answered. Questions are data, not markup.</p></div></li>
+    <li><span class="num">10</span><input class="chk" type="checkbox" aria-label="Requirement 10 done">
+      <div><p class="rt">Up to nine questions on any single path</p>
+      <p class="rd">Never more. If a branch would push a path past nine, cut the branch rather than the cap.</p></div></li>
+    <li><span class="num">11</span><input class="chk" type="checkbox" aria-label="Requirement 11 done">
+      <div><p class="rt">Follow-ups reveal inline</p>
+      <p class="rd">Under their parent question, never as a new screen.</p></div></li>
+    <li><span class="num">12</span><input class="chk" type="checkbox" aria-label="Requirement 12 done">
+      <div><p class="rt">Every question carries an explicit "I don't know"<span class="pin">core</span></p>
+      <p class="rd">Stored as a value that is distinct from skipped and from unanswered. Styled as a normal choice, not a smaller or greyer one.</p></div></li>
+    <li><span class="num">13</span><input class="chk" type="checkbox" aria-label="Requirement 13 done">
+      <div><p class="rt">Recall questions carry a confidence marker</p>
+      <p class="rd">Sure, roughly, guessing. Shown in words on the review screen, so the clinician knows where to spend the check they will do anyway.</p></div></li>
+    <li><span class="num">14</span><input class="chk" type="checkbox" aria-label="Requirement 14 done">
+      <div><p class="rt">Six input types work</p>
+      <p class="rd">Single select, multi select, bucketed ranges, scale, approximate date, free text.</p></div></li>
+  </ol>
+</section>
+
+<section id="honest" style="--hue:var(--h-honest)">
+  <div class="sec-head"><h2>Completion and honesty</h2><span class="tag">04 · 6 requirements</span></div>
+  <p class="sec-note">Published completion for pre-visit questionnaires sits near half. Design against abandonment, not for perfection.</p>
+  <ol class="reqs">
+    <li><span class="num">15</span><input class="chk" type="checkbox" aria-label="Requirement 15 done">
+      <div><p class="rt">Submit is available from the second step and never disabled<span class="pin">core</span></p>
+      <p class="rd">A partial form reaches review and sends. Leaving it unfinished is a success state.</p></div></li>
+    <li><span class="num">16</span><input class="chk" type="checkbox" aria-label="Requirement 16 done">
+      <div><p class="rt">Gaps shown as two separate counters</p>
+      <p class="rd">Don't knows and passed on, kept apart and framed as useful information for the clinician rather than as omissions.</p></div></li>
+    <li><span class="num">17</span><input class="chk" type="checkbox" aria-label="Requirement 17 done">
+      <div><p class="rt">All counts computed at runtime</p>
+      <p class="rd">Never hard-coded. If two builds disagree on a number, the counting rule is wrong, not the number.</p></div></li>
+    <li><span class="num">18</span><input class="chk" type="checkbox" aria-label="Requirement 18 done">
+      <div><p class="rt">Review rows are tappable to edit</p>
+      <p class="rd">Jump back to the question, change it, return to review with state preserved.</p></div></li>
+    <li><span class="num">19</span><input class="chk" type="checkbox" aria-label="Requirement 19 done">
+      <div><p class="rt">The app never states a conclusion about the patient<span class="pin">gate</span></p>
+      <p class="rd">It collects and routes. Nothing more. This is a guardrail, not a preference.</p></div></li>
+    <li><span class="num">20</span><input class="chk" type="checkbox" aria-label="Requirement 20 done">
+      <div><p class="rt">Fictional-data notice and storage disclaimer both present<span class="pin">gate</span></p>
+      <p class="rd">Pediatric hospital context. Nothing here is a real record, and the caregiver is told where the answers live.</p></div></li>
+  </ol>
+</section>
+
+<section id="mech" style="--hue:var(--h-mech)">
+  <div class="sec-head"><h2>Mechanics</h2><span class="tag">05 · 5 requirements</span></div>
+  <p class="sec-note">The caregiver is on a phone, in Hebrew, holding an infant. Everything here follows from that.</p>
+  <ol class="reqs">
+    <li><span class="num">21</span><input class="chk" type="checkbox" aria-label="Requirement 21 done">
+      <div><p class="rt">Phone-first layout</p>
+      <p class="rd">Designed at phone width, and shown inside a device frame on wider viewports so the demo reads correctly on a laptop and a projector.</p></div></li>
+    <li><span class="num">22</span><input class="chk" type="checkbox" aria-label="Requirement 22 done">
+      <div><p class="rt">Hebrew by default, with full RTL<span class="pin">core</span></p>
+      <p class="rd">English available from the menu, switchable from any screen without losing state. A real direction flip, not a text swap.</p></div></li>
+    <li><span class="num">23</span><input class="chk" type="checkbox" aria-label="Requirement 23 done">
+      <div><p class="rt">Save, close, reopen and resume</p>
+      <p class="rd">Where the caregiver left off. She will not do this in one sitting.</p></div></li>
+    <li><span class="num">24</span><input class="chk" type="checkbox" aria-label="Requirement 24 done">
+      <div><p class="rt">Reschedule reachable from the document step and the menu</p>
+      <p class="rd">Stating on screen that answers are kept and the named list stays the same.</p></div></li>
+    <li><span class="num">25</span><input class="chk" type="checkbox" aria-label="Requirement 25 done">
+      <div><p class="rt">Single self-contained HTML file</p>
+      <p class="rd">No build step, no CDN, no network at runtime, no dead ends on the happy path.</p></div></li>
+  </ol>
+</section>
+
+<section id="cut" style="--hue:var(--gate)">
+  <div class="sec-head"><h2>Deliberately out of P0</h2><span class="tag">06 · 6 items</span></div>
+  <p class="sec-note">Not cut for lack of value. Cut so the P0 build lands. Each should be designed around rather than designed out.</p>
+  <table>
+    <thead><tr><th scope="col">Cut</th><th scope="col">Why, and what to preserve</th></tr></thead>
+    <tbody>
+      <tr><td>Error handling and recovery states</td><td>Wrong codes, failed reads, unsupported files, offline. Fail soft and silently rather than spending a screen on messages nobody reads in a demo.</td></tr>
+      <tr><td>Voice input</td><td>Probably the highest-value P1 item for a Hebrew-speaking clinic. A convincing fake needs a recorder, a waveform, a timer and a correction pass, which is a screen's work for one optional question.</td></tr>
+      <tr><td>The post-visit receipt</td><td>The reciprocity mechanism, and the reason a second form ever gets filled. Keep an <code>opened</code> field per document in the data model so it can be added without a rewrite.</td></tr>
+      <tr><td>Real authentication</td><td>Faked end to end. No server, no verification, no account.</td></tr>
+      <tr><td>Real camera access</td><td>The file picker fallback is an acceptable P0 outcome, not a degradation.</td></tr>
+      <tr><td>Unused question branches</td><td>Specified in the PRD, built only if time allows. The demo path is what has to be flawless.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p>Ticks are held in memory for this page view only. Nothing is stored and nothing is sent. Reloading clears them.</p>
+  <p>Every requirement traces to the team's own synthesis or ideation. Anything not traceable should be challenged. Full screen specs, acceptance criteria and the demo click path live in <b>PRD.md</b>.</p>
+  <p>No identifiable patient data appears anywhere. All prototype content is fictional.</p>
+</footer>
+
+</div>
+<script>
+"use strict";
+(function(){
+  var boxes = Array.prototype.slice.call(document.querySelectorAll(".chk"));
+  var fill = document.getElementById("fill");
+  var cnt  = document.getElementById("cnt");
+  var total = boxes.length;
+
+  function sync(){
+    var n = 0;
+    boxes.forEach(function(b){
+      var li = b.closest("li");
+      if(b.checked){ n++; li.setAttribute("data-done","true"); }
+      else { li.setAttribute("data-done","false"); }
+    });
+    fill.style.width = (total ? (n/total*100) : 0) + "%";
+    cnt.innerHTML = "<b>" + n + "</b> of " + total + " done";
+  }
+  boxes.forEach(function(b){ b.addEventListener("change", sync); });
+
+  document.getElementById("clear").addEventListener("click", function(){
+    boxes.forEach(function(b){ b.checked = false; });
+    sync();
+    boxes[0].focus();
+  });
+
+  var root = document.documentElement, tbtn = document.getElementById("theme");
+  function setTheme(t){
+    root.setAttribute("data-theme", t);
+    tbtn.textContent = (t === "dark" ? "Light" : "Dark");
+    tbtn.setAttribute("aria-label", "Switch to " + (t === "dark" ? "light" : "dark") + " theme");
+  }
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  setTheme(mq.matches ? "dark" : "light");
+  mq.addEventListener("change", function(e){ setTheme(e.matches ? "dark" : "light"); });
+  tbtn.addEventListener("click", function(){
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  sync();
+})();
+</script>
+</body>
+</html>

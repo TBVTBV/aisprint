@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group 7 · Competitive Brief · Pre-Visit Intake</title>
+<style>
+/* ============================================================
+   Group 7 · Session 3 · Competitive brief
+   Visual system per DESIGN.md: pen-plotter instrument trace on
+   graph paper. Hairline rules and channel baselines, one ink
+   weight, identity carried only by data-mark hues.
+   Self-contained: no build, no CDN, no network, no storage.
+   ============================================================ */
+
+:root{
+  --paper:#f7f6f1; --surface:#fdfdfa; --sunk:#f1efe7;
+  --ink-1:#14140f; --ink-2:#45433c; --ink-3:#63605a; --ink-4:#8b887e;
+  --grid-fine:#e8e5da; --grid-major:#d8d4c4; --rule:#c9c5b6; --rule-soft:#e0dccf;
+
+  /* Source coding for THIS document. Same four-hue vocabulary as the
+     Session 2 files, re-mapped to the source types competitive research
+     actually has. Vendor claims inherit the synthetic treatment on
+     purpose: marketing is to competitive research what a generated
+     interview is to fieldwork. It is material, it is not evidence. */
+  --peer:#1d5fae;        /* peer-reviewed / academic */
+  --official:#0d7a52;    /* regulator, statute, government, standards body */
+  --vendor:#b84714;      /* vendor claim — hatched, never counted as evidence */
+  --press:#5d5a53;       /* journalism, trade press, analyst */
+  --gate:#b23025;        /* unverified, or a disqualifier */
+
+  --t-xs:.6875rem; --t-sm:.8125rem; --t-md:.9375rem; --t-lg:1.125rem;
+  --t-xl:1.5rem; --t-2xl:2.375rem;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --r:2px;
+}
+html[data-theme="dark"]{
+  --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+  --ink-1:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+  --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+  --peer:#3987e5; --official:#199e70; --vendor:#d95926; --press:#9d9a90; --gate:#e06a60;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink-1);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:var(--t-md); line-height:1.55; font-variant-numeric:tabular-nums;
+  background-image:
+    linear-gradient(to right,var(--grid-fine) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-fine) 1px,transparent 1px),
+    linear-gradient(to right,var(--grid-major) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-major) 1px,transparent 1px);
+  background-size:40px 40px,40px 40px,200px 200px,200px 200px;
+  background-attachment:fixed;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 96px}
+
+h1,h2,h3,h4{margin:0;font-weight:640;letter-spacing:-0.015em;line-height:1.2}
+h1{font-size:var(--t-2xl);letter-spacing:-0.03em}
+h2{font-size:var(--t-xl);letter-spacing:-0.022em}
+h3{font-size:var(--t-lg)}
+h4{font-size:var(--t-md)}
+p{margin:.55em 0}
+a{color:inherit;text-underline-offset:2px;text-decoration-color:var(--rule)}
+a:hover{text-decoration-color:currentColor}
+
+.lab{
+  font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;display:block
+}
+
+/* ---------- skip ---------- */
+.skip{position:absolute;left:-9999px;top:0;background:var(--surface);
+  border:1px solid var(--rule);padding:10px 14px;z-index:60;border-radius:var(--r)}
+.skip:focus{left:12px;top:12px}
+
+/* ---------- masthead ---------- */
+header.mast{border-top:2px solid var(--ink-1);margin-top:28px;padding-top:20px}
+.mast-row{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap}
+.mast-l{flex:1 1 440px;min-width:0}
+.mast-l p.sub{color:var(--ink-2);max-width:62ch;margin-top:.7em}
+.readout{
+  flex:0 0 auto;display:grid;grid-template-columns:repeat(2,minmax(96px,auto));
+  gap:0;border-top:1px solid var(--rule);border-left:1px solid var(--rule)
+}
+.readout div{
+  border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:8px 14px 9px;background:var(--surface)
+}
+.readout b{display:block;font-size:1.35rem;font-weight:600;line-height:1.1}
+.readout span{font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.readout div[data-w="vendor"] b{color:var(--vendor)}
+.readout div[data-w="gate"] b{color:var(--gate)}
+
+.mast-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;align-items:center}
+.btn{
+  font:inherit;font-size:var(--t-sm);background:var(--surface);color:var(--ink-1);
+  border:1px solid var(--rule);border-radius:var(--r);padding:5px 11px;cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease)
+}
+.btn:hover{background:var(--sunk)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,.dot:focus-visible{
+  outline:2px solid var(--peer);outline-offset:2px}
+.btn[aria-pressed="true"]{background:var(--ink-1);color:var(--paper);border-color:var(--ink-1)}
+.byline{margin-top:14px;color:var(--ink-3);font-size:var(--t-sm)}
+
+/* ---------- sticky rail ---------- */
+.rail{
+  position:sticky;top:0;z-index:40;background:var(--paper);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin-top:22px;display:flex;gap:0;overflow-x:auto;scrollbar-width:thin
+}
+.rail a{
+  flex:0 0 auto;padding:9px 16px;font-size:var(--t-xs);letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);text-decoration:none;
+  border-right:1px solid var(--rule-soft);white-space:nowrap;
+  transition:color .15s var(--ease),background .15s var(--ease)
+}
+.rail a:hover{color:var(--ink-1);background:var(--surface)}
+.rail a[aria-current="true"]{color:var(--ink-1);background:var(--surface);box-shadow:inset 0 -2px 0 var(--ink-1)}
+
+/* ---------- sections ---------- */
+section{margin-top:60px;scroll-margin-top:52px}
+.chan{border-top:1px solid var(--ink-1);padding-top:16px}
+.chan-soft{border-top:1px solid var(--rule);padding-top:14px}
+.lead{color:var(--ink-2);max-width:72ch}
+
+/* ---------- source ticks ---------- */
+.tick{
+  display:inline-flex;align-items:center;gap:5px;font-size:var(--t-xs);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap
+}
+.tick::before{
+  content:"";width:9px;height:9px;flex:0 0 9px;border-radius:1px;background:var(--press)
+}
+.tick[data-w="peer"]::before{background:var(--peer)}
+.tick[data-w="official"]::before{background:var(--official)}
+.tick[data-w="press"]::before{background:var(--press);
+  background-image:repeating-linear-gradient(45deg,transparent 0 2px,var(--paper) 2px 3px)}
+.tick[data-w="vendor"]::before{background:var(--vendor);
+  background-image:repeating-linear-gradient(135deg,transparent 0 2px,var(--paper) 2px 3px)}
+.tick[data-w="gate"]::before{background:transparent;border:1.5px dashed var(--gate)}
+.tick[data-w="vendor"]{color:var(--vendor)}
+.tick[data-w="gate"]{color:var(--gate)}
+
+/* ---------- calibration key ---------- */
+.key{
+  margin-top:18px;border-top:1px solid var(--rule);background:var(--surface);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))
+}
+.key > div{padding:12px 16px 14px;border-right:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft)}
+.key p{margin:.35em 0 0;font-size:var(--t-sm);color:var(--ink-2)}
+
+/* ---------- landscape plot ---------- */
+.plotwrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:28px;margin-top:22px;align-items:start}
+@media(max-width:900px){.plotwrap{grid-template-columns:1fr}}
+.plotbox{border-top:1px solid var(--rule);background:var(--surface);padding:14px 14px 6px;position:relative}
+svg.plot{display:block;width:100%;height:auto;overflow:visible}
+svg.plot .axline{stroke:var(--rule);stroke-width:1}
+svg.plot .qline{stroke:var(--grid-major);stroke-width:1;stroke-dasharray:3 4}
+svg.plot text.axlab{fill:var(--ink-3);font-size:9.5px;letter-spacing:.1em;font-weight:600}
+svg.plot text.quad{fill:var(--ink-4);font-size:10px;letter-spacing:.09em}
+.dot{cursor:pointer;transition:transform .15s var(--ease)}
+.dot circle.mark{stroke:var(--surface);stroke-width:1.5}
+.dot text.num{font-size:8.5px;font-weight:700;fill:var(--surface);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.dot[data-us="true"] rect.mark{stroke:var(--surface);stroke-width:1.5}
+.dot[data-dim="true"]{opacity:.32}
+.dot[aria-pressed="true"] circle.mark,.dot[aria-pressed="true"] rect.mark{stroke:var(--ink-1);stroke-width:2}
+
+.legend{border-top:1px solid var(--rule);background:var(--surface);max-height:520px;overflow:auto}
+.legend ol{margin:0;padding:0;list-style:none}
+.legend li{border-bottom:1px solid var(--rule-soft)}
+.legend button{
+  width:100%;text-align:left;font:inherit;background:none;border:0;cursor:pointer;
+  padding:9px 14px;display:grid;grid-template-columns:26px 1fr;gap:8px;color:inherit;
+  transition:background .15s var(--ease)
+}
+.legend button:hover{background:var(--sunk)}
+.legend button[aria-pressed="true"]{background:var(--sunk);box-shadow:inset 3px 0 0 var(--ink-1)}
+.legend .n{font-size:var(--t-xs);font-weight:700;color:var(--ink-3);padding-top:2px}
+.legend .nm{font-size:var(--t-sm);font-weight:600;line-height:1.3}
+.legend .mt{font-size:var(--t-xs);color:var(--ink-3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.legend li[data-dim="true"] button{color:var(--ink-3)}
+.detail{border-top:1px solid var(--rule);background:var(--sunk);padding:14px 16px;margin-top:0}
+.detail h4{margin-bottom:4px}
+.detail p{font-size:var(--t-sm);color:var(--ink-2);margin:.4em 0}
+.detail .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+
+.cls{
+  font-size:var(--t-xs);letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--rule);border-radius:var(--r);padding:1px 6px;color:var(--ink-2)
+}
+.cls[data-c="direct"]{border-color:var(--gate);color:var(--gate)}
+.cls[data-c="indirect"]{border-color:var(--ink-3)}
+.cls[data-c="adjacent"]{border-color:var(--rule);color:var(--ink-3)}
+.cls[data-c="substitute"]{border-color:var(--ink-3);color:var(--ink-3)}
+.cls[data-c="ours"]{border-color:var(--ink-1);color:var(--ink-1);background:var(--sunk)}
+
+/* ---------- filters ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.chip{
+  font:inherit;font-size:var(--t-xs);letter-spacing:.08em;text-transform:uppercase;
+  background:var(--surface);color:var(--ink-1);border:1px solid var(--rule);
+  border-radius:var(--r);padding:4px 10px;cursor:pointer;
+  transition:background .15s var(--ease),border-color .15s var(--ease)
+}
+.chip[aria-pressed="false"]{border-style:dashed;background:var(--paper);color:var(--ink-2)}
+.chip:focus-visible{outline:2px solid var(--peer);outline-offset:2px}
+.fnote{font-size:var(--t-xs);color:var(--ink-3);margin-left:2px}
+
+/* ---------- matrix ---------- */
+.mxwrap{overflow-x:auto;border-top:1px solid var(--rule);margin-top:18px;background:var(--surface)}
+table.mx{border-collapse:collapse;width:100%;min-width:840px;font-size:var(--t-sm)}
+table.mx th,table.mx td{border-bottom:1px solid var(--rule-soft);padding:8px 12px;text-align:left;vertical-align:top}
+table.mx thead th{
+  font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;border-bottom:1px solid var(--rule);background:var(--surface)
+}
+table.mx tbody th{font-weight:600;width:270px}
+table.mx tr.area th{
+  background:var(--sunk);font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-2);border-bottom:1px solid var(--rule)
+}
+table.mx td.us{background:var(--sunk)}
+.rate{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:var(--t-xs);
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.rate::before{content:"";width:26px;height:7px;flex:0 0 26px;border-radius:1px;border:1px solid var(--rule)}
+.rate[data-r="strong"]::before{background:var(--ink-1);border-color:var(--ink-1)}
+.rate[data-r="adequate"]::before{background:linear-gradient(to right,var(--ink-2) 0 60%,transparent 60%);border-color:var(--ink-3)}
+.rate[data-r="weak"]::before{background:linear-gradient(to right,var(--ink-3) 0 28%,transparent 28%);border-color:var(--rule)}
+.rate[data-r="absent"]::before{background:transparent;border-style:dashed}
+.rate[data-r="unverified"]::before{background:transparent;border-style:dashed;border-color:var(--gate)}
+.rate[data-r="unverified"]{color:var(--gate)}
+.rate[data-r="strong"]{color:var(--ink-1);font-weight:600}
+
+/* ---------- collision cards ---------- */
+.collide{margin-top:20px;display:grid;gap:0}
+.collide > article{border-top:1px solid var(--rule);padding:16px 0 20px}
+.collide h3{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.collide .verdict{
+  border-left:2px solid var(--gate);background:var(--sunk);padding:10px 14px;margin-top:12px
+}
+.collide .verdict p{margin:0;font-size:var(--t-sm)}
+.collide .survives{border-left-color:var(--official)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+
+/* ---------- gap list ---------- */
+.gaps{margin-top:18px;border-top:1px solid var(--rule)}
+.gaps details{border-bottom:1px solid var(--rule-soft);background:var(--surface)}
+.gaps summary{
+  cursor:pointer;padding:12px 16px;display:flex;gap:12px;align-items:baseline;
+  flex-wrap:wrap;list-style:none
+}
+.gaps summary::-webkit-details-marker{display:none}
+.gaps summary::after{content:"Open";margin-left:auto;font-size:var(--t-xs);
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.gaps details[open] summary::after{content:"Close"}
+.gaps summary h3{font-size:var(--t-md)}
+.gaps .body{padding:0 16px 16px;border-top:1px solid var(--rule-soft)}
+.gaps .body p{font-size:var(--t-sm);color:var(--ink-2);max-width:78ch}
+.strength{
+  font-size:var(--t-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  border:1px solid var(--rule);padding:1px 6px;border-radius:var(--r)
+}
+.strength[data-s="high"]{color:var(--official);border-color:var(--official)}
+.strength[data-s="thin"]{color:var(--gate);border-color:var(--gate)}
+
+/* ---------- implications ---------- */
+.imps{margin-top:18px;display:grid;gap:0}
+.imps > div{border-top:1px solid var(--rule);padding:14px 0 18px;display:grid;
+  grid-template-columns:132px 1fr;gap:20px}
+@media(max-width:700px){.imps > div{grid-template-columns:1fr;gap:6px}}
+.imps .k{font-size:var(--t-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;padding-top:3px}
+.imps p{margin:0 0 .5em;max-width:74ch}
+
+.gatebar{border-left:2px solid var(--gate);background:var(--sunk);padding:12px 16px;margin-top:14px}
+.gatebar strong{display:block;font-size:var(--t-xs);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gate);margin-bottom:3px}
+.gatebar p{margin:0;font-size:var(--t-sm)}
+
+/* ---------- sources ---------- */
+.srcs{margin-top:18px;border-top:1px solid var(--rule);background:var(--surface)}
+.srcs ol{margin:0;padding:0;list-style:none;counter-reset:s}
+.srcs li{border-bottom:1px solid var(--rule-soft);padding:10px 16px;
+  display:grid;grid-template-columns:34px 1fr;gap:8px;font-size:var(--t-sm)}
+.srcs li::before{counter-increment:s;content:"S" counter(s);font-size:var(--t-xs);
+  color:var(--ink-3);font-weight:700;padding-top:3px}
+.srcs .t{font-weight:600;line-height:1.35}
+.srcs .u{color:var(--ink-3);font-size:var(--t-xs);word-break:break-all;margin-top:2px}
+.srcs li[data-dim="true"]{display:none}
+
+.cite{font-size:var(--t-xs);color:var(--ink-3);font-weight:700;
+  vertical-align:super;text-decoration:none;padding:0 1px}
+.cite:hover{color:var(--ink-1)}
+
+footer{margin-top:64px;border-top:1px solid var(--ink-1);padding-top:16px;
+  color:var(--ink-3);font-size:var(--t-sm);max-width:82ch}
+
+.empty{padding:22px 16px;color:var(--ink-2);font-size:var(--t-sm)}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+  html{scroll-behavior:auto}
+}
+@media print{
+  body{background:#fff;background-image:none}
+  .rail,.mast-tools,.filters,.chip,.btn{display:none}
+  .legend{max-height:none}
+  section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#landscape">Skip to the landscape</a>
+<div class="wrap">
+
+<header class="mast">
+  <div class="mast-row">
+    <div class="mast-l">
+      <h1>Competitive brief: who already does this</h1>
+      <p class="sub">Group 7 · Pediatric pulmonology, pre-visit intake (Challenge&nbsp;#6). Scanned against the three
+      directions from the Session&nbsp;2 ideation file: <b>A</b> One Route, No Conclusions · <b>B</b> The Named Ask ·
+      <b>C</b> Nothing Arrives Without an Owner. Israel first, international as the frontier we are measured against.
+      Written to be read by a mentor with nobody there to explain it.</p>
+    </div>
+    <div class="readout" aria-label="Calibration readout">
+      <div><b id="cPlayers">0</b><span>Players</span></div>
+      <div><b id="cDirect">0</b><span>Direct</span></div>
+      <div><b id="cPeer">0</b><span>Peer-reviewed</span></div>
+      <div data-w="vendor"><b id="cVendor">0</b><span>Vendor claim</span></div>
+    </div>
+  </div>
+
+  <div class="mast-tools">
+    <button class="btn" id="theme" type="button" aria-label="Switch to dark theme">Dark</button>
+    <button class="btn" id="subtract" type="button" aria-pressed="false">Subtract vendor claims</button>
+    <button class="btn" type="button" onclick="window.print()">Print</button>
+    <span class="fnote" id="subnote">Vendor-only claims are shown. Press subtract to see what survives on independent evidence.</span>
+  </div>
+
+  <p class="byline">Matan Rosen · Anat Katzir · Gal Yeshayahu · Mikhail Yagudaev &nbsp;·&nbsp; Compiled 3 Aug 2026, ahead of the Initial Solution Concept due 6 Aug</p>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <a href="#key">0 · How to read this</a>
+  <a href="#landscape">1 · The landscape</a>
+  <a href="#matrix">2 · Capability matrix</a>
+  <a href="#collisions">3 · Where we are already beaten</a>
+  <a href="#gaps">4 · What survives</a>
+  <a href="#implications">5 · What to do by 6 Aug</a>
+  <a href="#sources">6 · Sources</a>
+</nav>
+
+<main>
+
+<!-- ================= 0 · KEY ================= -->
+<section id="key">
+  <div class="chan">
+    <h2>How to read this: the same evidence rule, applied to competitors</h2>
+    <p class="lead">The Session 2 files separate real material from synthetic at note level and let you subtract the
+    synthetic half to see what stands. This file does the same thing to competitive research. A vendor's own claim about
+    its product is the synthetic material of a competitive scan: it is useful, it is not evidence, and it carries the
+    hatch. Every claim below is coded by where it came from, at the point of use.</p>
+  </div>
+
+  <div class="key">
+    <div>
+      <span class="tick" data-w="peer">Peer-reviewed</span>
+      <p>Journal article, RCT, systematic review, validated instrument. Counted as evidence.</p>
+    </div>
+    <div>
+      <span class="tick" data-w="official">Official</span>
+      <p>Statute, regulator, ministry, standards body, government measure specification. Counted as evidence.</p>
+    </div>
+    <div>
+      <span class="tick" data-w="press">Press</span>
+      <p>Journalism, trade press, analyst report. Counted with caution; independent of the vendor but not peer-reviewed.</p>
+    </div>
+    <div>
+      <span class="tick" data-w="vendor">Vendor claim</span>
+      <p>The company's own site or press release. Hatched. Never counted as evidence, only as a statement of intent.</p>
+    </div>
+    <div>
+      <span class="tick" data-w="gate">Unverified</span>
+      <p>We looked and could not confirm it. Named here rather than quietly dropped, so nobody re-researches it.</p>
+    </div>
+  </div>
+
+  <div class="gatebar">
+    <strong>The honesty condition</strong>
+    <p>Three findings in this brief are bad news for our concept and are stated as such in section 3. A comparison in
+    which we win everywhere is not credible in front of two practising pulmonologists. Where a competitor is genuinely
+    ahead, it says so.</p>
+  </div>
+</section>
+
+<!-- ================= 1 · LANDSCAPE ================= -->
+<section id="landscape">
+  <div class="chan">
+    <h2>The landscape on the two axes our own constraint creates</h2>
+    <p class="lead">Insight I2 says the physicians will not accept another reader's conclusion. That gives the horizontal
+    axis: does a product hand you a <b>conclusion</b>, or hand you the <b>raw artefact</b>? Insight I3 says the holes sit
+    on organisational boundaries, which the record by definition cannot reach. That gives the vertical: does a product
+    work the <b>existing record</b>, or <b>capture what was never recorded</b>? Our three directions sit in the top-right
+    and bottom-right. Almost the entire funded market sits on the left.</p>
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter the landscape">
+    <span class="lab" style="display:inline">Direction</span>
+    <button class="chip" type="button" data-dir="A" aria-pressed="true">A · One route</button>
+    <button class="chip" type="button" data-dir="B" aria-pressed="true">B · Named ask</button>
+    <button class="chip" type="button" data-dir="C" aria-pressed="true">C · Owner</button>
+    <span class="lab" style="display:inline;margin-left:10px">Market</span>
+    <button class="chip" type="button" data-mkt="IL" aria-pressed="true">Israel</button>
+    <button class="chip" type="button" data-mkt="INT" aria-pressed="true">International</button>
+  </div>
+
+  <div class="plotwrap">
+    <div class="plotbox">
+      <svg class="plot" viewBox="0 0 560 470" role="img"
+           aria-label="Scatter plot of competitors. Horizontal axis runs from hands you a conclusion on the left to hands you the raw artefact on the right. Vertical axis runs from works the existing record at the bottom to captures what was never recorded at the top. The full list with positions is given in the numbered legend beside the plot.">
+        <g id="plotAxes"></g>
+        <g id="plotDots"></g>
+      </svg>
+      <p class="fnote" style="padding:4px 2px 10px">Squares are our three directions. Circles are existing players; fill hue is the
+      strongest source class behind our reading of them. Select any point, or any legend row, to read the entry.</p>
+    </div>
+
+    <div>
+      <div class="legend">
+        <ol id="legend"></ol>
+      </div>
+      <div class="detail" id="detail" aria-live="polite">
+        <h4>Select a player</h4>
+        <p>Choose a point on the plot or a row in the list to see what it is, what it does, where it is genuinely
+        stronger than us, and what it does not do.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2 · MATRIX ================= -->
+<section id="matrix">
+  <div class="chan">
+    <h2>Capability matrix, rated on what our physicians said matters</h2>
+    <p class="lead">Rated against the capabilities our own interviews surfaced, not against a generic feature list.
+    Ratings are our reading of public evidence, dated 3 Aug 2026, and every rating carries a text label so the bars are
+    never the only carrier. Where we could not confirm a capability the cell says so rather than guessing.</p>
+  </div>
+
+  <p class="lab" style="margin:22px 0 0">Direction A · physician-side record navigation</p>
+  <div class="mxwrap" style="margin-top:8px">
+    <table class="mx">
+      <thead>
+        <tr>
+          <th scope="col">Capability</th>
+          <th scope="col">Us · Direction A</th>
+          <th scope="col">Epic (Art + Chart Review)</th>
+          <th scope="col">Ambience Patient Summary</th>
+          <th scope="col">Ofek / Eitan (IL)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="area"><th colspan="5" scope="colgroup">Reaching the material</th></tr>
+        <tr>
+          <th scope="row">Pulls every reachable source into one view</th>
+          <td class="us"><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="adequate">Adequate</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Reaches outside the participating network</th>
+          <td class="us"><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row"><b>States what it could not reach</b></th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr class="area"><th colspan="5" scope="colgroup">What it does with the material</th></tr>
+        <tr>
+          <th scope="row">Click from any item to the raw artefact</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="adequate">Adequate</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Declines to produce a conclusion</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Organised by specialty rubric</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Chronological imaging series with readings</th>
+          <td class="us"><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Expands other physicians' acronyms</th>
+          <td class="us"><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="unverified">Unverified</span></td>
+          <td><span class="rate" data-r="unverified">Unverified</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr class="area"><th colspan="5" scope="colgroup">Reality of deployment</th></tr>
+        <tr>
+          <th scope="row">Pediatric-specific</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Deployed in an Israeli hospital today</th>
+          <td class="us"><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="lab" style="margin:26px 0 0">Directions B and C · family-side capture and clinic-side arrival</p>
+  <div class="mxwrap" style="margin-top:8px">
+    <table class="mx">
+      <thead>
+        <tr>
+          <th scope="col">Capability</th>
+          <th scope="col">Us · B and C</th>
+          <th scope="col">Health Note</th>
+          <th scope="col">Phreesia</th>
+          <th scope="col">HMO apps (IL)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="area"><th colspan="5" scope="colgroup">The ask</th></tr>
+        <tr>
+          <th scope="row">Collects clinical history before the visit</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Ask is derived per patient from record gaps</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Short by design, rather than adaptive-long</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Pulmonology / respiratory pack</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr class="area"><th colspan="5" scope="colgroup">Honesty of the answer</th></tr>
+        <tr>
+          <th scope="row"><b>"I don't know" stored as a value</b></th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="unverified">Unverified</span></td>
+          <td><span class="rate" data-r="unverified">Unverified</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row"><b>Caregiver confidence captured per answer</b></th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Child answers separately from the parent</th>
+          <td class="us"><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr class="area"><th colspan="5" scope="colgroup">The loop back</th></tr>
+        <tr>
+          <th scope="row"><b>Family sees which answers were used</b></th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Flags an expected document that never arrived</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+          <td><span class="rate" data-r="absent">Absent</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Reaches families with no portal account</th>
+          <td class="us"><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="strong">Strong</span></td>
+          <td><span class="rate" data-r="adequate">Adequate</span></td>
+          <td><span class="rate" data-r="weak">Weak</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fnote" style="margin-top:10px">Rating scale: <span class="rate" data-r="strong">Strong</span> market-leading
+  · <span class="rate" data-r="adequate">Adequate</span> functional, not differentiated ·
+  <span class="rate" data-r="weak">Weak</span> exists with significant gaps ·
+  <span class="rate" data-r="absent">Absent</span> not present ·
+  <span class="rate" data-r="unverified">Unverified</span> we looked and could not confirm.
+  Our own column is a rating of the <em>design intent</em>, not of a built system. Nothing of ours exists yet.</p>
+</section>
+
+<!-- ================= 3 · COLLISIONS ================= -->
+<section id="collisions">
+  <div class="chan">
+    <h2>Where we are already beaten, and by how much</h2>
+    <p class="lead">Four places where a funded company has already built what we described, and three published numbers
+    that undercut a claim in our ideation file. These are the slides a mentor will find on their own if we do not put
+    them here first.</p>
+  </div>
+
+  <div class="collide">
+
+    <article>
+      <h3>Ambience Patient Summary <span class="cls" data-c="direct">Direct</span></h3>
+      <p>Pre-visit chart summaries, specialty-specific, pulling from the EHR and from Epic Care Everywhere, analysing
+      18 months of history, and <b>linking directly to source notes so physicians can drill down</b><a class="cite" href="#sources">S12</a>.
+      That is Direction A's sentence with two words changed. Announced 24 June 2025; the company raised a
+      $243M Series C on 29 July 2025 at a $1.25B valuation, with 40+ US health systems<a class="cite" href="#sources">S13</a>.</p>
+      <div class="verdict">
+        <p><b>What this kills.</b> "Click through to the raw artefact" is not a differentiator. Provenance-linked
+        summarisation is now table stakes across Epic Art, MEDITECH with Google, Abridge Linked Evidence and Abstractive
+        Health. If our Initial Solution Concept leads on click-to-source, it is describing a 2025 feature.</p>
+      </div>
+      <div class="verdict survives">
+        <p><b>What survives.</b> Ambience summarises and then lets you check. We refuse to summarise at all. That is a
+        real difference, it is the one our physicians actually asked for, and nobody funded is defending it, because
+        "we deliberately produce less output" is a hard thing to sell to a US health system and an easy thing to
+        defend to a pulmonologist.</p>
+      </div>
+    </article>
+
+    <article>
+      <h3>Epic <span class="cls" data-c="direct">Direct</span></h3>
+      <p>Epic already ships the navigation layer we are proposing: <b>Chart Review</b>, <b>Chart Search</b>,
+      <b>Synopsis</b>, and a <b>Lifetime</b> visual timeline of visits, admissions, problems and medications<a class="cite" href="#sources">S9</a>.
+      On top of it, <b>Insights</b> summarises the chart for visit preparation and was used over
+      <b>16 million times a month as of February 2026</b>, roughly triple its November 2025 usage<a class="cite" href="#sources">S10</a>.
+      85% of Epic customers now use Epic AI<a class="cite" href="#sources">S11</a>.</p>
+      <div class="verdict">
+        <p><b>What this kills.</b> In any Epic hospital, our direction is a zero-procurement default away from being
+        redundant. It also means our physicians' stated preference is diverging from the market's revealed preference:
+        KLAS 2026 found <b>51% of physicians already use AI for patient-history summaries</b><a class="cite" href="#sources">S14</a>.</p>
+      </div>
+      <div class="verdict survives">
+        <p><b>What survives.</b> Schneider does not run Epic. Israeli hospitals run Chameleon by Elad Health, per the
+        vendor's own reference list<a class="cite" href="#sources">S6</a>. The Epic AI stack is not the competitor in our room. That is a
+        deployment accident, not a moat, and we should say so rather than pretend it is strategy.</p>
+      </div>
+    </article>
+
+    <article>
+      <h3>Health Note <span class="cls" data-c="direct">Direct</span></h3>
+      <p>Direction B assumes nobody collects clinical history before the visit. That is wrong. Health Note runs
+      conversational text-based pre-visit clinical intake that populates <b>history of present illness, chief complaint,
+      family, medical and social history and medication review</b> into discrete EHR fields, integrated with Epic,
+      Athena, Veradigm and eClinicalWorks<a class="cite" href="#sources">S15</a>. It raised $17M in July 2022 with Cedars-Sinai,
+      Northwell and UnityPoint as investors<a class="cite" href="#sources">S16</a>, and lists Pediatric Associates as a customer.</p>
+      <div class="verdict">
+        <p><b>What this kills.</b> Any sentence in our concept beginning "no one asks families in advance". Phreesia is
+        larger still, processes around one in seven US visits, and already ships validated pediatric instruments
+        including M-CHAT-R, ASQ-3 and PSC-17<a class="cite" href="#sources">S17</a>.</p>
+      </div>
+      <div class="verdict survives">
+        <p><b>What survives.</b> Health Note lists eight specialties and <b>pulmonology is not one of them</b><a class="cite" href="#sources">S15</a>.
+        Both are long adaptive questionnaires optimised for note volume, which is the opposite of a two-question ask.
+        And neither operates in Israel, in Hebrew, or with a "don't know" that is recorded rather than blank.</p>
+      </div>
+    </article>
+
+    <article>
+      <h3>The four numbers that undercut us <span class="cls" data-c="direct">Evidence</span></h3>
+      <div class="two">
+        <div>
+          <h4>1 · The ceiling on time saved is about eighteen seconds</h4>
+          <p>NYU Langone ran a six-month pre and post study of an EHR-integrated GPT-4 summarisation tool across
+          22 clinicians and roughly 16,000 visits. <b>Average chart review time fell from 3:22 to 3:04</b>. Clinicians
+          with a higher baseline saved more, up to 49 seconds. Also: <b>22.7% of providers stopped reading full notes
+          because the summary felt sufficient</b>, which the authors flag as an overreliance risk<a class="cite" href="#sources">S18</a>.</p>
+          <p><b>So what.</b> Our north-star KPI cannot be minutes saved. State-of-the-art moved it by seconds. The
+          defensible claim is <em>what the physician finds</em>, not how fast.</p>
+        </div>
+        <div>
+          <h4>2 · Access alone does not change behaviour</h4>
+          <p>Across eight Atlanta health systems, <b>80.4% of clinicians used the health information exchange at least
+          daily</b>, and <b>89.2% still ordered a duplicate test in the previous month</b> because they could not reach
+          a previous result. The top barrier was "needed information unavailable" at 66.4%; lack of awareness was only
+          11.7%<a class="cite" href="#sources">S19</a>. Separately, each additional hour of documentation was associated with a
+          <b>7.1% reduction</b> in the likelihood of accessing outside records at all<a class="cite" href="#sources">S20</a>.</p>
+          <p><b>So what.</b> This is the strongest evidence <em>for</em> our diagnosis and <em>against</em> our
+          assumption. The gap is availability and findability, not speed. Building the route does not create the time
+          to walk it.</p>
+        </div>
+      </div>
+      <div class="two" style="margin-top:4px">
+        <div>
+          <h4>3 · Pre-visit questionnaires can make the visit longer</h4>
+          <p>A randomised trial of a self-administered pre-visit questionnaire found intervention visits ran
+          <b>6.8 minutes longer</b> (95% CI 0.4 to 13.2), covered 30% more diagnoses, and patient satisfaction
+          <b>tended to be lower</b><a class="cite" href="#sources">S21</a>. Our ideation file already cites this to kill the comprehensive
+          questionnaire, and it applies to Direction B too unless the ask stays genuinely short.</p>
+        </div>
+        <div>
+          <h4>4 · The delivery rail matters more than we assumed</h4>
+          <p>Electronic pre-visit questionnaires delivered by patient portal reached <b>3% completion in a safety-net
+          clinic against 10% in a non-safety-net clinic</b><a class="cite" href="#sources">S22</a>. A tablet in the waiting room reached
+          45.7% overall in an asthma study<a class="cite" href="#sources">S23</a>. In a mixed-language hospital population, portal delivery
+          is not a neutral choice, it is a filter.</p>
+        </div>
+      </div>
+      <div class="verdict survives">
+        <p><b>What survives.</b> All four numbers point the same way, and it is not away from our concept. They point
+        away from <em>speed</em> as the claim and toward <em>completeness and honesty</em> as the claim. A boundary map
+        and a recorded "don't know" are answers to "needed information unavailable, 66.4%". A two-question SMS is an
+        answer to both the 6.8 minutes and the 3%.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ================= 4 · GAPS ================= -->
+<section id="gaps">
+  <div class="chan">
+    <h2>What survives the scan: six positions nobody currently holds</h2>
+    <p class="lead">Each of these was searched for specifically. Where we found nothing, that is recorded as
+    "searched, not located", which is not the same as proof that nothing exists. Evidence strength is marked, and two
+    of the six are thin.</p>
+  </div>
+
+  <div class="gaps">
+
+    <details open>
+      <summary>
+        <h3>1 · The boundary map: stating what could not be reached</h3>
+        <span class="strength" data-s="high">Strong evidence</span>
+        <span class="cls" data-c="ours">Direction A</span>
+      </summary>
+      <div class="body">
+        <p>We searched for a clinical product that displays what it could <em>not</em> retrieve and found none. The
+        nearest neighbours are academic data-completeness methods and legal-sector record-gap catching. Every
+        aggregator, from Epic Happy Together to Zus to Ofek, tells you what it has and is silent about what it
+        missed.</p>
+        <p><b>Why it holds up.</b> The single largest barrier clinicians report is "needed information unavailable" at
+        66.4%<a class="cite" href="#sources">S19</a>. Naming the hole is a direct answer to the most-cited complaint in the literature,
+        and it is the one thing a system can do honestly when it cannot fetch the document. It also converts an unknown
+        into a named list a family or a secretary can act on, which is what wires Direction A to Directions B and C.</p>
+        <p><b>Why the boundary is unstable, which makes it more defensible rather than less.</b> Particle Health's
+        antitrust case against Epic survived a motion to dismiss in September 2025 and went to discovery on
+        monopolisation claims<a class="cite" href="#sources">S24</a>. What a system is permitted to reach turns on purpose-of-use
+        assertions and on the largest vendor's reading of them. A map of the boundary is durable precisely because the
+        boundary keeps moving.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <h3>2 · "I don't know" stored as a clinical value</h3>
+        <span class="strength" data-s="high">Strong evidence</span>
+        <span class="cls" data-c="ours">Direction B</span>
+      </summary>
+      <div class="body">
+        <p>This is the cleanest gap in the brief, because the data model already exists and no product uses it. HL7's
+        NullFlavor vocabulary, current in HL7 Terminology v6.5.0, distinguishes <b>ASKU</b>, "information was sought but
+        not found, e.g. patient was asked but didn't know", from <b>NASK</b>, "this information has not been
+        sought"<a class="cite" href="#sources">S25</a>. That distinction is Direction B's thesis, already standardised and encodable in FHIR.</p>
+        <p>We searched for an intake product that surfaces "I don't know" as a first-class answer and stores it as ASKU
+        rather than leaving a blank. We found none. The gap is not the standard, it is that every intake product treats
+        a non-answer as an absence.</p>
+        <p><b>Where the literature pushes back, honestly.</b> Survey methods research is split. Prompting respondents to
+        use the scale cut "don't know" responses from 55.7% to 19.6% and produced stronger construct
+        correlations<a class="cite" href="#sources">S26</a>. But "don't know" responses are systematically more likely among marginalised groups,
+        predicted by lower health literacy and lower education, and dismissing them threatens the validity and
+        generalisability of the research<a class="cite" href="#sources">S27</a>. The reconciliation the evidence actually supports: use the
+        confidence dial as the prompt, so "roughly" and "guessing" capture a value plus its uncertainty, and reserve a
+        recorded "I don't know" for genuine non-knowledge.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <h3>3 · The receipt: showing the family which answers were used</h3>
+        <span class="strength" data-s="thin">Thin evidence, novel</span>
+        <span class="cls" data-c="ours">Direction B</span>
+      </summary>
+      <div class="body">
+        <p>Searched specifically for portal read-receipts on questionnaire responses, PROM acknowledgement features and
+        closing-the-loop on patient-submitted data. Nothing found. This appears to be the most genuinely novel
+        sub-concept we hold.</p>
+        <p><b>The supporting literature is suggestive, not conclusive.</b> Patients may lose motivation to complete
+        patient-reported measures over time if results are not discussed or used clinically, and valued having the
+        significance of questions and results explained<a class="cite" href="#sources">S28</a>. A realist synthesis reports more patients
+        found the measure easy and helpful for remembering than felt the doctor had used the information<a class="cite" href="#sources">S29</a>.
+        Neither establishes that a visible receipt improves subsequent completion. That causal link is unproven and we
+        should not claim it.</p>
+        <div class="gatebar">
+          <strong>The risk we are choosing</strong>
+          <p>A truthful receipt will sometimes read "the doctor opened none of your answers." In the one study with a
+          number, provider responses appeared in the visit note for 70% and 62% of completed questionnaires across two
+          clinic types<a class="cite" href="#sources">S22</a>, meaning roughly a third left no trace. Ship the receipt only with a mechanism
+          that raises the chance the answers get used, or it becomes a machine for documenting neglect.</p>
+        </div>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <h3>4 · Refusing to summarise, on purpose</h3>
+        <span class="strength" data-s="high">Strong evidence</span>
+        <span class="cls" data-c="ours">Direction A</span>
+      </summary>
+      <div class="body">
+        <p>Every funded player in this space summarises. The differentiation race has moved to <em>citing</em> the
+        summary, not to declining to make one. Epic Art references the notes, Ambience links to source notes,
+        MEDITECH with Google grounds summaries to note sections, Abridge ships Linked Evidence, Abstractive Health
+        offers sentence-level provenance, Zus traces every input to its source.</p>
+        <p><b>The evidence for refusal is better than the market implies.</b> Errors of omission, not hallucination,
+        are the dominant failure. A UC San Diego Health study of Epic-integrated GPT-4 note summarisation logged
+        46 reports of missing information against 5 of hallucination, and concluded summaries should be a starting
+        point when time is short but <b>not a replacement for manual chart review</b><a class="cite" href="#sources">S30</a>. A separate
+        framework study measured a 1.47% hallucination rate against a <b>3.45% omission rate</b>, with hallucinations
+        far more likely to be major errors<a class="cite" href="#sources">S31</a>. And the NYU study found nearly a quarter of clinicians
+        stopped opening full notes<a class="cite" href="#sources">S18</a>.</p>
+        <p>Our concept 20, the Devil's Advocate, whose only permitted output is doubt, sits precisely here. It was
+        marked deliberately weird in ideation. On this evidence it is the most defensible weird idea we have.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <h3>5 · Pediatric, and specifically the proxy-informant problem</h3>
+        <span class="strength" data-s="high">Strong evidence</span>
+        <span class="cls" data-c="ours">Directions A and B</span>
+      </summary>
+      <div class="body">
+        <p>No pediatric-specific longitudinal record navigation viewer was found. Pediatric EHR vendors market well-child,
+        immunisation and growth-chart workflows, not cross-institution history navigation.</p>
+        <p>On the family side, the intake-AI players are adult. Kahun's own JMIR validation study, 2,550 patients, was
+        <b>aged 16 and over with a median age of 35</b><a class="cite" href="#sources">S32</a>. K Health's co-founder is on record on why
+        pediatrics is harder: "you are not speaking to the child"<a class="cite" href="#sources">S33</a>.</p>
+        <p><b>An important correction to our own concept 18.</b> We proposed asking the child separately, citing
+        proxy-agreement figures. The instrument evidence says make it <em>additive</em>, not a replacement. A child-only
+        four-item version of the c-ACT performed measurably worse than the full instrument on every metric: internal
+        consistency 0.67 against 0.76, test-retest 0.66 against 0.72, correlation with the ACQ −0.46 against
+        −0.56, and the authors concluded it did not perform to a high enough standard for immediate
+        use<a class="cite" href="#sources">S34</a>. The parent items strengthen the instrument. The <em>disagreement</em> between the two
+        accounts is the clinical signal, not the child's answer alone.</p>
+        <p><b>And our two questions are already validated, with specific recall windows.</b> The c-ACT asks the caregiver
+        about nights woken "during the last 4 weeks"<a class="cite" href="#sources">S35</a>. TRACK, for under-fives, deliberately uses
+        different windows per item: night awakenings at 4 weeks, rescue medication use at <b>3 months</b><a class="cite" href="#sources">S36</a>.
+        The ACQ uses a 1-week symptom window<a class="cite" href="#sources">S37</a>. Our "nights woken last month" matches c-ACT and TRACK.
+        Our "reliever uses last week" matches the ACQ, not TRACK. Cite which instrument we are borrowing from, or a
+        pulmonologist will ask.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>
+        <h3>6 · Arrived but never attached, with an owner and a deadline</h3>
+        <span class="strength" data-s="high">Strong evidence</span>
+        <span class="cls" data-c="ours">Direction C</span>
+      </summary>
+      <div class="body">
+        <p>Every incumbent stops one step short of Direction C, and the gap is documented in each of their own sources.</p>
+        <p><b>The regulator tracks receipt, not filing.</b> CMS quality measure #374, "Closing the Referral Loop", measures
+        whether the referring clinician receives a report. Its own rationale cites an analysis of <b>103,737 referral
+        scheduling attempts of which only 34.8% resulted in a documented complete appointment</b><a class="cite" href="#sources">S38</a>.
+        The measure ends at receipt.</p>
+        <p><b>Epic reconciles what arrived, and does not know what should have arrived.</b> Reconcile Outside Information
+        lets a clinician review data from Care Everywhere and MyChart and decide whether to add it to the chart. The
+        documentation contains nothing about tracking expected-but-missing documents, audit trails, or flags for
+        unreconciled outside records<a class="cite" href="#sources">S39</a>.</p>
+        <p><b>The leading published protocol names the artefacts and assigns nobody.</b> The AMA's STEPS Forward pre-visit
+        planning module enumerates exactly the expected artefacts, including outside provider notes from interval care,
+        and assigns ownership by role. It establishes <b>no owner, no deadline and no tracking mechanism for missing
+        outside records</b>, saying only that staff can call that office to obtain the information<a class="cite" href="#sources">S40</a>.
+        Direction C's entire thesis is the documented hole in the field's own best practice.</p>
+        <p><b>And the failure is measured elsewhere too.</b> A systematic review of failure to follow up test results
+        found abnormal laboratory results not followed up in 6.8% to 62% of cases and radiology results in 1.0% to
+        35.7%, with the authors noting the true rate is likely underestimated<a class="cite" href="#sources">S41</a>.</p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- ================= 5 · IMPLICATIONS ================= -->
+<section id="implications">
+  <div class="chan">
+    <h2>What this changes before Thursday</h2>
+    <p class="lead">The Initial Solution Concept is due 6 Aug and the ideation file says to write it off Direction A.
+    This scan does not change that recommendation. It changes the claim Direction A makes, and it raises Direction C's
+    priority.</p>
+  </div>
+
+  <div class="imps">
+    <div>
+      <div class="k">Change the claim</div>
+      <div>
+        <p>Stop leading on speed and on click-to-source. Both are occupied and the measured headroom on speed is about
+        eighteen seconds<a class="cite" href="#sources">S18</a>. Lead on <b>completeness that is honest about its own limits</b>: the one
+        route <em>plus</em> the named list of what it could not reach. That is a claim no funded product makes, it
+        answers the most-cited barrier in the literature, and it is the bridge from A into B and C.</p>
+        <p>Concretely, the one-sentence concept becomes closer to: <em>we help a pediatric pulmonologist reach every
+        accessible piece of a child's respiratory history in one route, and see a named list of what could not be
+        reached, without anything being summarised or concluded.</em></p>
+      </div>
+    </div>
+
+    <div>
+      <div class="k">Differentiate</div>
+      <div>
+        <p>Four positions to hold: the <b>boundary map</b>, the <b>recorded "I don't know"</b> backed by HL7
+        ASKU<a class="cite" href="#sources">S25</a>, the <b>receipt</b>, and <b>refusal to summarise</b>. All four are unoccupied, all four
+        follow from our own insights, and three of the four have real evidence behind them.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="k">Achieve parity, do not build</div>
+      <div>
+        <p>Record aggregation, click-to-source, chronological imaging and acronym expansion are all solved or nearly
+        solved. Visage's Study Navigator has offered chronological federated imaging history with automatic prior
+        display since 2015<a class="cite" href="#sources">S42</a>, so the X-ray reel is not novel to radiology, only to a pulmonologist who
+        does not live in the PACS. Frame it that way. Acronym expansion is validated at 95.7% on MIMIC-III, exceeding
+        board-certified physicians in the same comparison, with code and a 3,758-abbreviation dictionary released and
+        no commercial deployment found<a class="cite" href="#sources">S43</a>. That is a build-on, not a build.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="k">Raise Direction C</div>
+      <div>
+        <p>C came third in ideation on the grounds that it was cheap. On this scan it is also the <b>best-evidenced
+        gap</b>: the regulator stops at receipt, Epic stops at reconciliation, the AMA protocol names the artefacts and
+        assigns nobody. It is still one afternoon with the nurse and no build. It should be argued as a co-equal
+        finding, not a parallel freebie.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="k">The Israeli reading</div>
+      <div>
+        <p>Ofek and Eitan are infrastructure, not competitors, and the gap is by definition what sits outside them. The
+        2014 Knesset review of Ofek is explicit that the private medical sector, independent physicians and private
+        hospitals do not participate<a class="cite" href="#sources">S1</a>. That is a 2014 document and we should date it rather than
+        present it as current. Meanwhile <b>88% of Israeli adults hold supplementary or commercial cover on top of the
+        basket and around 20% of health spending is out of pocket</b><a class="cite" href="#sources">S2</a>, which is the best available
+        proxy for how much care is bought privately and therefore sits outside the exchange.</p>
+        <p>None of the four HMO apps offers a general pre-visit clinical history questionnaire. Clalit, Maccabi,
+        Meuhedet and Leumit are all view, book and transact surfaces. The only questionnaires found were Maccabi's
+        teledermatology triage and Clalit Connect's monitoring plans<a class="cite" href="#sources">S3</a>. That absence is our white space and
+        it is well evidenced.</p>
+        <p>Two live Israeli developments change what is buildable and neither existed two years ago. The Medical
+        Information Mobility Law was approved on 24 July 2024, and its FHIR-based certification programme has a
+        <b>Phase 1 deadline of 26 November 2026</b> and Phase 2 in March 2027<a class="cite" href="#sources">S4</a>. And the Innovation Authority
+        and Ministry of Health opened a regulatory sandbox for high-autonomy medical AI, with submissions closing
+        14 April 2026 and decisions at the end of June<a class="cite" href="#sources">S5</a>. Both belong in the concept's feasibility section.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="k">Monitor</div>
+      <div>
+        <p>Four things worth a line in the final presentation. Epic's Art roadmap, which dates contextualised AI
+        summaries and "chat with Art" to November 2026<a class="cite" href="#sources">S11</a>. The UCLA randomised trial of Epic's generative
+        chart summariser, protocol published February 2026, results pending, which will be the first randomised
+        evidence in this space<a class="cite" href="#sources">S44</a>. Ambience's expansion into inpatient and ED. And the Israeli
+        certification deadline in November 2026, which is the first date a patient-initiated pull of a child's record
+        becomes a statutory right rather than a negotiation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gatebar">
+    <strong>What this brief could not verify</strong>
+    <p>Whether Ofek or Eitan reach Terem urgent care, private imaging institutes, private sleep labs or school health
+    services in 2026, which is exactly the boundary Direction A wants to map. Eitan's current coverage, whose newest
+    hard figure is from 2022. Schneider's own pre-visit process and patient portal, because every relevant page on
+    schneider.org.il refused automated access and needs opening by hand. And whether any Hebrew-language pre-visit
+    intake product exists, where we found nothing but cannot prove absence. These are named so the team does not
+    re-research them and does not assert them.</p>
+  </div>
+</section>
+
+<!-- ================= 6 · SOURCES ================= -->
+<section id="sources">
+  <div class="chan">
+    <h2>Sources</h2>
+    <p class="lead">Every numbered citation above resolves here. Source class is marked on each. With
+    "subtract vendor claims" engaged, vendor-only sources are removed from this list and from the calibration readout,
+    so a mentor can see exactly what the argument rests on without them.</p>
+  </div>
+  <div class="srcs"><ol id="srcList"></ol></div>
+  <p class="empty" id="srcEmpty" hidden>All remaining sources are vendor claims. Turn the subtract filter off to see them.</p>
+</section>
+
+</main>
+
+<footer>
+  <p>Companion to <b>Group7_S2_Synthesis.html</b> and <b>Group7_S2_Ideation.html</b>. Same evidence rules apply: every
+  claim carries its source class at the point of use, vendor marketing is labelled and never counted as evidence, and
+  no identifiable patient data appears anywhere. Competitive analysis has a shelf life; this one is dated 3 August 2026
+  and the AI sections of it will be stale within months. Nothing in this file requires a network connection or stores
+  anything in your browser.</p>
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+/* ---------- tiny helpers ---------- */
+const $ = s => document.querySelector(s);
+const el = (t,c) => { const e = document.createElement(t); if(c) e.className = c; return e; };
+
+/* ============================================================
+   DATA
+   x: 0 = hands you a conclusion .. 100 = hands you the raw artefact
+   y: 0 = works the existing record .. 100 = captures what was never recorded
+   w: strongest source class behind our reading (peer|official|press|vendor|gate)
+   ============================================================ */
+const P = (n,name,x,y,cls,dirs,mkt,w,what,ahead,not) =>
+  ({n,name,x,y,cls,dirs,mkt,w,what,ahead,not});
+
+const PLAYERS = [
+  P(1,"Ambience Patient Summary",28,5,"direct",["A"],"INT","vendor",
+    "Pre-visit chart summary from an ambient AI platform. Specialty-specific, pulls from the EHR and Epic Care Everywhere, analyses 18 months of history, links directly to source notes.",
+    "It is Direction A's sentence with two words changed, and it has $243M and 40+ US health systems behind it.",
+    "Still produces a summary. No boundary map. No pediatric or pulmonology specialisation evidenced."),
+  P(2,"Epic · Art and Insights",36,13,"direct",["A"],"INT","vendor",
+    "Native EHR AI: chart summarisation for visit prep with references back to the source notes. Insights used over 16 million times a month as of Feb 2026.",
+    "Zero procurement, owns the underlying data, already at 85% customer adoption of Epic AI.",
+    "Summarises rather than navigates. Not deployed at Schneider, which runs Chameleon."),
+  P(3,"Epic · Chart Review, Search, Lifetime",93,4,"indirect",["A"],"INT","press",
+    "The pre-AI navigation layer: tabbed encounter review, quick filters, chart search, synopsis reports and a Lifetime visual timeline of visits, admissions, problems and medications.",
+    "This is Direction A's navigation thesis, already shipped and in daily use for years.",
+    "Epic-to-Epic centric. Happy Together shows only what connected organisations expose. No statement of what it missed."),
+  P(4,"MEDITECH + Google Health",54,12,"direct",["A"],"INT","vendor",
+    "Expanse Search and Summarization: NLP over structured and unstructured data including scanned documents, faxes and handwritten notes, grounded back to specific note sections.",
+    "The only player addressing faxes, scans and handwriting, which is exactly our 'other physicians' free text' problem.",
+    "Single-site pilot evidence only. Summarise-first. No pediatric focus."),
+  P(5,"Abstractive Health",45,5,"indirect",["A"],"INT","vendor",
+    "Turns a full longitudinal chart into a narrative with sentence-level provenance linking every sentence back to its original note.",
+    "Sentence-level provenance is a stronger traceability claim than ours.",
+    "Still a narrative summary. No customers or pricing disclosed."),
+  P(6,"Navina",18,14,"indirect",["A"],"INT","press",
+    "Assembles a per-patient 'Patient Portrait' across EHR, HIE and claims data, surfacing missed diagnoses and care gaps. $55M Series C in March 2025, ~10,000 clinicians.",
+    "Proves the 'fragmented data into one pre-visit view' thesis has a real market.",
+    "US value-based care and risk adjustment, primary care, not specialist first visits. Cannot fill a gap where data was never captured."),
+  P(7,"Regard",5,5,"substitute",["A"],"INT","vendor",
+    "Reviews the whole chart and recommends diagnoses. Over 12.9 million recommended diagnoses accepted.",
+    "Commercially successful and clinically ambitious.",
+    "It is the conclusion machine our physicians explicitly rejected. No evidence-link or click-to-source claim on its site."),
+  P(8,"Abridge, Nabla, Suki, Dragon Copilot",26,38,"indirect",["A","B"],"INT","press",
+    "Ambient documentation at the point of care. Abridge ships Linked Evidence tying outputs back to source; Nabla's roadmap includes patient summaries and pre-charting.",
+    "Enormous distribution and capital, and drifting toward pre-visit chart prep.",
+    "Documentation-first. They capture the encounter, not the history before it."),
+  P(9,"Zus, Metriport, Health Gorilla, TEFCA QHINs",78,4,"adjacent",["A"],"INT","vendor",
+    "Record aggregation infrastructure. Zus offers detailed provenance per data point; Metriport is open source and delivers raw FHIR, C-CDA and PDF.",
+    "They already solve the fetch layer, with provenance and raw-artefact delivery.",
+    "Suppliers, not competitors. None states what it could not reach."),
+  P(10,"Visage 7 Study Navigator",97,19,"adjacent",["A"],"INT","press",
+    "Chronological visibility of a patient's complete federated imaging history, with Auto-Priors automatically displaying clinically relevant prior studies alongside the current one. Shipped 2015.",
+    "Our X-ray reel has existed in radiology for a decade.",
+    "Lives inside the PACS, where a pulmonologist does not. Imaging only."),
+  P(11,"PicnicHealth",80,24,"substitute",["A","B"],"INT","vendor",
+    "Patient-authorised record collection by fax and CD, manually digitised into a chronological timeline with the original records still accessible.",
+    "The philosophical ancestor of Direction A: one route, raw artefacts preserved.",
+    "Takes from one day to six weeks. Delivers to the patient, not the clinician."),
+  P(12,"Apple Health Records, b.well, Seqster",74,20,"substitute",["A","B"],"INT","gate",
+    "Patient-side aggregation of clinical records onto a phone, with a share-with-provider path.",
+    "Puts the record in the parent's hand, which is where our named ask starts.",
+    "Current institution coverage and whether imaging or notes are included could not be verified. No Israeli coverage found."),
+  P(13,"Ofek and Eitan",86,3,"adjacent",["A","C"],"IL","official",
+    "Israel's national health information exchange. Federated, no central database, eight clinical domains: demography, encounters, diagnoses, medications, allergies, procedures, labs and imaging.",
+    "It is the substrate. It already carries what it can carry, across all four health funds and public hospitals.",
+    "The 2014 Knesset review states the private sector, independent physicians and private hospitals do not participate. Sensitive categories are excluded. Consent is opt-out and all-or-nothing."),
+  P(14,"Chameleon EMR · Elad Health",81,11,"adjacent",["A","C"],"IL","vendor",
+    "The dominant Israeli hospital EMR. Elad's own reference list names Schneider and the Clalit 14-hospital network.",
+    "It is the system in the room. Any Israeli intake product writes into or alongside it.",
+    "Vendor reference list only, not independently confirmed. Integration partner rather than competitor."),
+  P(15,"Clalit, Maccabi, Meuhedet, Leumit apps",70,12,"indirect",["B"],"IL","vendor",
+    "Member apps: medical file, results, prescriptions, referrals, booking, family member switching. Leumit's file includes pediatric growth parameters.",
+    "They already own the parent relationship and the family-member view.",
+    "None offers a general pre-visit clinical history questionnaire. View, book and transact only. This absence is our white space."),
+  P(16,"Clalit Connect · Datos Health",60,62,"adjacent",["B"],"IL","vendor",
+    "Remote monitoring plans with clinician-set observation protocols, reminders, indicator tracking and questionnaires. Built on Datos Health, which also runs across 24 Israeli public hospitals.",
+    "The structured patient-questionnaire rail already exists inside Clalit.",
+    "Post-enrolment monitoring, not pre-visit intake. The rails are pointed elsewhere."),
+  P(17,"Health Note",56,80,"direct",["B"],"INT","vendor",
+    "Conversational text-based pre-visit clinical intake populating history of present illness, chief complaint, family, medical and social history into discrete EHR fields.",
+    "It already does the hard part at scale, with Cedars-Sinai, Northwell and UnityPoint as investors.",
+    "Lists eight specialties and pulmonology is not among them. Long adaptive trees, not a two-question ask. No Hebrew. No recorded 'don't know' evidenced."),
+  P(18,"Phreesia",66,76,"indirect",["B"],"INT","vendor",
+    "Intake and check-in at around 170 million visits a year, roughly one in seven US visits. Pediatrics line ships validated instruments including M-CHAT-R, ASQ-3, PSC-17 and PHQ.",
+    "The strongest pediatric incumbent, and it already delivers validated instruments to families.",
+    "Dominant modality is the in-clinic tablet, not a two-day-prior ask. No respiratory instrument listed. Completion figures are vendor-published."),
+  P(19,"Kahun",26,78,"direct",["B"],"IL","peer",
+    "Israeli evidence-based AI clinical intake. Dynamic questioning over a knowledge graph from 50,000+ publications, producing a tailored assessment. Peer-reviewed in JMIR 2024.",
+    "The closest analogue to Direction B, Israeli, and actually validated: 94% symptom coverage, 72% diagnostic accuracy.",
+    "Its own validation cohort was aged 16 and over, median age 35. Explicitly adult. Produces an assessment, which is a conclusion."),
+  P(20,"c-ACT, TRACK, ACQ",78,86,"substitute",["B"],"INT","peer",
+    "Validated pediatric asthma control instruments. c-ACT splits child-answered and caregiver-answered items; TRACK uses deliberately different recall windows per item; the ACQ uses a one-week symptom window.",
+    "Our two named questions are already validated items inside these instruments, with defined recall windows and cut points.",
+    "Not derived per patient from record gaps. No delivery rail, no 'don't know', no confidence capture."),
+  P(21,"Aluna, Propeller, Hailie",80,94,"substitute",["B"],"INT","peer",
+    "Home spirometry and smart inhaler sensors producing objective, continuous respiratory data.",
+    "Objective data beats recall, and it removes the proxy problem entirely.",
+    "Real-world pediatric adherence collapses: in one study only 3 of 21 children used the spirometer daily as asked, and the physician dashboard was not monitored."),
+  P(22,"AMA pre-visit planning protocol",90,42,"substitute",["C"],"INT","official",
+    "The published best-practice protocol. Ten steps, expected artefacts explicitly enumerated including outside provider notes from interval care, ownership assigned by role.",
+    "It is the status quo, it is taught, and it has real published savings behind it.",
+    "Assigns no owner, no deadline and no tracking mechanism for missing outside records. That hole is Direction C."),
+  P(23,"CMS measure #374 · closing the referral loop",76,30,"adjacent",["C"],"INT","official",
+    "The US regulatory measure for whether a referring clinician receives a report back. Its rationale cites 103,737 referral attempts of which only 34.8% resulted in a documented complete appointment.",
+    "The problem is formally recognised and financially incentivised, which validates Direction C.",
+    "Measures receipt, not attachment to the chart. Everything downstream of receipt is unmeasured."),
+  P(24,"Epic · Reconcile Outside Information",89,12,"direct",["C"],"INT","press",
+    "Clinician reconciliation of data arriving from Care Everywhere and MyChart: allergies, medications, obstetric history and general outside records.",
+    "It handles the reconciliation step properly and it is already in the workflow.",
+    "Nothing about tracking expected-but-missing documents, audit trails, or flags for unreconciled records. It knows what arrived, not what should have."),
+  P(25,"ReferralMD, CarePort, fax and document layer",72,26,"indirect",["C"],"INT","vendor",
+    "Referral workflow and inbound document capture. ReferralMD alerts when referrals do not advance on schedule; Hyland, Consensus and Updox handle capture, indexing and filing.",
+    "ReferralMD's owner-and-deadline alerting is the closest existing mechanic to Direction C.",
+    "Referral-workflow centric or plumbing. Neither tracks chart completeness against an expected-artefacts list."),
+
+  /* --- our three directions --- */
+  P(101,"A · One Route, No Conclusions",97,9,"ours",["A"],"IL","peer",
+    "Pre-fetch every reachable piece of the child's respiratory history overnight into a rubric-organised view, one click from the raw artefact, nothing summarised, plus a named list of what could not be reached.",
+    "Occupies the only unclaimed corner: maximum raw-artefact fidelity, and an explicit statement of its own boundary.",
+    "Nothing is built. Recommendation from this scan: lead on the boundary map and on refusing to summarise, not on speed."),
+  P(102,"B · The Named Ask",90,88,"ours",["B"],"IL","peer",
+    "Two days before the visit, ask the caregiver for a short, specifically-named list derived from what the record could not reach, with 'I don't know' as a safe recorded answer and a confidence dial on each response.",
+    "The recorded 'don't know' maps to HL7 ASKU, which exists as a standard and is used by nobody. The receipt appears to be genuinely novel.",
+    "Everything we hold on families is synthetic. The pre-visit-questionnaire evidence warns of longer visits and low portal completion. This is the direction most in need of a real test."),
+  P(103,"C · Nothing Arrives Without an Owner",85,36,"ours",["C"],"IL","official",
+    "An expected-artefacts checklist against each upcoming chart, with a status, a named owner and a deadline, to catch what arrived at the clinic and never reached the chart.",
+    "Best-evidenced gap in the brief: the regulator stops at receipt, Epic stops at reconciliation, the AMA protocol assigns nobody.",
+    "Ranked third in ideation because it was cheap. On this evidence it should be argued as a co-equal finding.")
+];
+
+const HUE = {peer:"var(--peer)",official:"var(--official)",press:"var(--press)",vendor:"var(--vendor)",gate:"var(--gate)"};
+const WLABEL = {peer:"Peer-reviewed",official:"Official",press:"Press",vendor:"Vendor claim",gate:"Unverified"};
+const CLABEL = {direct:"Direct",indirect:"Indirect",adjacent:"Adjacent",substitute:"Substitute",ours:"Ours"};
+
+/* ---------- sources ---------- */
+const SOURCES = [
+  ["official","Knesset Research and Information Center — review of the Ofek health information network (2014). Documents non-participation of the private medical sector, independent physicians and private hospitals.","https://fs.knesset.gov.il/globaldocs/MMM/eec38d55-f7f7-e411-80c8-00155d010977/2_eec38d55-f7f7-e411-80c8-00155d010977_11_16589.pdf"],
+  ["official","Commonwealth Fund — International Health Care System Profiles: Israel. Supplementary and commercial cover, out-of-pocket share, market structure.","https://www.commonwealthfund.org/international-health-policy-center/countries/israel"],
+  ["vendor","Meuhedet — national medical information sharing explainer (excluded categories, opt-out mechanics); Clalit, Maccabi and Leumit member app listings.","https://www.leumit.co.il/leumit-for-you/my-health-file/"],
+  ["official","Israeli Medical Information Mobility Law 5784-2024 and the FHIR-based data portability certification programme, with Phase 1 due 26 Nov 2026.","https://www.fhir-il-community.org/legislation"],
+  ["official","Israel Innovation Authority and Ministry of Health — Regulatory Sandbox for Breakthrough AI Technologies in Healthcare.","https://innovationisrael.org.il/en/calls_for_proposal/ai-in-health-sandbox/"],
+  ["vendor","Elad Health — Chameleon EMR reference list naming Schneider Children's Medical Center and the Clalit hospital network.","https://elad-health.com/reference/"],
+  ["official","Inter-American Development Bank — The Implementation of a National Health Information Exchange Platform in Israel. Ofek and Eitan history, domains, architecture.","https://publications.iadb.org/publications/english/document/The-Implementation-of-a-National-Health-Information-Exchange-Platform-in-Israel.pdf"],
+  ["peer","Zimmerman et al., Israel Journal of Health Policy Research 2019 — preventive health services for young children; parallel Tipat Halav record systems. And Taub Center, July 2025.","https://ncbi.nlm.nih.gov/pmc/articles/PMC6366089"],
+  ["press","Epic Chart Review, Chart Search, Synopsis and Lifetime timeline — institutional Epic support documentation.","https://epicsupport.sites.uiowa.edu/epic-resources/chart-review"],
+  ["vendor","Epic — AI Charting rollout and expanding built-in AI capabilities; Insights usage figure, February 2026.","https://www.epic.com/epic/post/epic-ai-charting-rolls-out-alongside-an-expanding-set-of-built-in-ai-capabilities/"],
+  ["press","Fierce Healthcare — HIMSS26: Epic expands AI roadmap; 85% of Epic customers using Epic AI. And Healthcare IT Today on the Epic UGM 2025 Art roadmap.","https://www.fiercehealthcare.com/ai-and-machine-learning/himss26-epic-expands-ai-roadmap-previews-factory-build-and-orchestrate-ai"],
+  ["vendor","Ambience Healthcare — Patient Summary announcement, 24 June 2025. Pre-visit chart summarisation with links to source notes.","https://www.ambiencehealthcare.com/blog/ambience-healthcare-s-patient-recap-offers-clinicians-the-first-chart-summarization-technology-from-an-ambient-ai-platform"],
+  ["press","Fierce Healthcare — Ambience banks $243M Series C at a $1.25B valuation, 29 July 2025.","https://www.fiercehealthcare.com/health-tech/ambience-banks-243m-series-c-investors-continue-bet-big-ambient-ai"],
+  ["press","KLAS Arch Collaborative 2026 — AI adoption among clinicians; 51% using AI for patient-history summaries; training gap.","https://hitconsultant.net/2026/07/17/klas-arch-collaborative-2026-healthcare-ai-insights/"],
+  ["vendor","Health Note — clinically intelligent intake product page and specialty list (pulmonology not listed).","https://www.healthnote.com/clinically-intelligent-intake/"],
+  ["press","HIT Consultant — Health Note raises $17M for its pre-visit clinical intake automation platform, July 2022.","https://hitconsultant.net/2022/07/25/health-note-pre-clinical-intake-automation-platform/"],
+  ["vendor","Phreesia — Pediatrics solution page, listing validated instruments (PHQ, ASQ-3, M-CHAT-R, PSC-17) and completion claims.","https://www.phreesia.com/solutions/pediatrics/"],
+  ["peer","JAMIA Open 2025 — six-month pre/post evaluation of an EHR-integrated GPT-4 summarisation tool at NYU Langone. Chart review 3:22 to 3:04; 22.7% skipped full notes.","https://academic.oup.com/jamiaopen/article/8/5/ooaf096/8245794"],
+  ["peer","JAMIA Open 2025 — clinician HIE use across eight Atlanta health systems. 80.4% daily use, 89.2% ordered duplicate tests, top barrier 'information unavailable' 66.4%.","https://academic.oup.com/jamiaopen/article/8/5/ooaf131/8303873"],
+  ["peer","Holmgren, Adler-Milstein, Apathy — Health Affairs, Nov 2024. Documentation burden crowds out HIE use; each extra hour associated with a 7.1% reduction.","https://www.healthaffairs.org/doi/full/10.1377/hlthaff.2024.00398"],
+  ["peer","Journal of General Internal Medicine 1997 — randomised trial of a self-administered pre-visit questionnaire. Visits 6.8 minutes longer; satisfaction tended lower.","https://pubmed.ncbi.nlm.nih.gov/9346455/"],
+  ["peer","Shucard et al. 2022 — electronic pre-visit questionnaire across 35,434 visits. Portal completion 3% safety-net vs 10% non-safety-net; provider response documented in 70% and 62%.","https://journals.sagepub.com/doi/10.1177/23333928221080336"],
+  ["peer","JMIR 2020 — pre-visit asthma electronic questionnaire in Ontario primary care. Uptake 52.0%, overall completion 45.7%, SUS 84.2.","https://www.jmir.org/2020/9/e19358/"],
+  ["press","STAT News — Particle Health v. Epic; SDNY allows Sherman Act monopolisation claims to proceed to discovery, 8 September 2025.","https://www.statnews.com/2025/09/08/epic-particle-health-monopoly-antitrust-discovery-ehr/"],
+  ["official","HL7 Terminology v6.5.0 — v3 NullFlavor code system. ASKU: 'information was sought but not found, e.g. patient was asked but didn't know'. NASK: 'has not been sought'.","https://terminology.hl7.org/6.5.0/CodeSystem-v3-NullFlavor.html"],
+  ["peer","Denman et al., Medical Decision Making 2018 — prompting reduces don't-know responses from 55.7% to 19.6% and strengthens construct correlations.","https://journals.sagepub.com/doi/abs/10.1177/0272989X18785159"],
+  ["peer","Waters et al., Perspectives on Psychological Science 2021 — don't-know responses are systematically more likely among marginalised sociodemographic groups.","https://journals.sagepub.com/doi/10.1177/17456916211017860"],
+  ["peer","Nature Communications 2022 — respondent burden and patient-reported outcome measures; motivation loss when results are not discussed or used.","https://www.nature.com/articles/s41467-022-33826-4"],
+  ["peer","NIHR realist synthesis (NBK409455) — patient-reported outcome feedback; more patients found the measure helpful than felt the doctor used the information.","https://www.ncbi.nlm.nih.gov/books/NBK409455/"],
+  ["peer","Kahl et al., npj Health Systems, January 2026 — UC San Diego Health evaluation of Epic-integrated GPT-4 note summarisation. Omission outweighs hallucination; not a replacement for manual chart review.","https://www.nature.com/articles/s44401-025-00064-x"],
+  ["peer","Pimenta et al., npj Digital Medicine, May 2025 — hallucination rate 1.47% against omission rate 3.45%; hallucinations far more likely to be major errors.","https://www.nature.com/articles/s41746-025-01670-7"],
+  ["peer","Avnat et al., JMIR 2024 — validation of Kahun's AI clinical intake. 2,550 patients aged 16 and over, median age 35; 94% symptom coverage, 72% diagnostic accuracy.","https://www.jmir.org/2024/1/e49570/PDF"],
+  ["press","MedCity News — K Health raises $132M and pushes into pediatrics; co-founder on why pediatric history is harder.","https://medcitynews.com/2021/01/symptom-checker-k-health-raises-132m-for-push-into-pediatrics/"],
+  ["peer","npj Primary Care Respiratory Medicine 2016 — child-only C-ACT variant in 161 children aged 6-11 performed worse than the full instrument on every metric.","https://www.nature.com/articles/npjpcrm201675"],
+  ["official","Childhood Asthma Control Test (c-ACT), ages 4-11. Child-answered items 1-4, caregiver-answered items 5-7 with a four-week recall window; cut point below 19.","https://www.beatasthma.co.uk/wp-content/uploads/2018/08/ACT-4-11-years-amended-0818.pdf"],
+  ["peer","TRACK (Test for Respiratory and Asthma Control in Kids) — caregiver-completed, per-item recall windows, cut point below 80, AUC 0.82.","https://www.lung.org/getmedia/a8a3db5d-36e2-4060-9f26-0577c4653c4c/track-article.pdf"],
+  ["official","Asthma Control Questionnaire (ACQ) — seven items, one-week symptom recall window, scored 0 to 6.","https://www.ipcrg.org/resources/search-resources/acq-patient-questionnaire"],
+  ["official","CMS Quality Payment Program 2026 — Measure #374, Closing the Referral Loop: Receipt of Specialist Report. Cites 103,737 referral attempts, 34.8% documented complete.","https://qpp.cms.gov/docs/QPP_quality_measure_specifications/CQM-Measures/2026_Measure_374_MIPSCQM.pdf"],
+  ["press","Epic — Reconcile Outside Information, institutional support documentation. Covers what arrived; no tracking of expected-but-missing documents.","https://epicsupport.sites.uiowa.edu/epic-resources/reconcile-outside-information"],
+  ["official","AMA STEPS Forward — Pre-Visit Planning module. Enumerates expected artefacts and assigns ownership by role; no owner, deadline or tracking for missing outside records.","https://www.csms-ipa.com/Portals/0/stepsforward_%20previsit%20planning%20chronic%20care%20best%20practices.pdf"],
+  ["peer","Journal of General Internal Medicine — Failure to Follow-Up Test Results for Ambulatory Patients: A Systematic Review of 19 studies.","https://link.springer.com/article/10.1007/s11606-011-1949-5"],
+  ["press","ITN Online — Visage 7 Study Navigator with Auto-Priors: chronological federated imaging history, November 2015.","https://www.itnonline.com/content/visage-7-launches-new-version-viewer-workflow"],
+  ["peer","Rajkomar, Loreaux et al., Nature Communications 2022 — deciphering clinical abbreviations. 95.7% on MIMIC-III, exceeding board-certified physicians; dictionary of 3,758 abbreviations released.","https://www.nature.com/articles/s41467-022-35007-9"],
+  ["peer","UCLA Health — randomised controlled trial protocol for Epic's generative AI chart summariser, medRxiv preprint, February 2026. Results pending.","https://www.medrxiv.org/content/10.64898/2026.02.20.26346503v1"],
+  ["peer","Frontiers in Allergy 2025 — real-world digital rescue inhaler and home spirometry in inner-city children. Only 3 of 21 used the spirometer daily; the physician dashboard was not monitored.","https://www.frontiersin.org/journals/allergy/articles/10.3389/falgy.2025.1641312/full"],
+  ["peer","Frontiers in Public Health 2025 — national Israeli cross-sectional survey, n=2,001, on digital health familiarity, barriers and differences by population group.","https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1735502/full"],
+  ["press","MGMA Stat, March 2026, n=292 — the gap between digital fax receipt and true workflow automation in clinics.","https://www.mgma.com/mgma-stat/fax-isnt-dead-in-healthcare-but-it-can-be-replaced"]
+];
+
+/* ============================================================
+   STATE — held in memory only. Nothing is written to the browser.
+   ============================================================ */
+const state = { dirs:{A:true,B:true,C:true}, mkt:{IL:true,INT:true}, subtract:false, sel:null };
+
+const visible = p =>
+  p.dirs.some(d => state.dirs[d]) &&
+  state.mkt[p.mkt] &&
+  !(state.subtract && p.w === "vendor");
+
+/* ---------- plot geometry ---------- */
+const PAD = {l:52,r:22,t:20,b:44}, W = 560, H = 470;
+const px = x => PAD.l + (x/100) * (W - PAD.l - PAD.r);
+const py = y => (H - PAD.b) - (y/100) * (H - PAD.t - PAD.b);
+const NS = "http://www.w3.org/2000/svg";
+const svgEl = (t,attrs) => {
+  const e = document.createElementNS(NS,t);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+};
+
+function drawAxes(){
+  const g = document.getElementById("plotAxes");
+  g.textContent = "";
+  g.appendChild(svgEl("line",{class:"qline",x1:px(50),y1:py(0),x2:px(50),y2:py(100)}));
+  g.appendChild(svgEl("line",{class:"qline",x1:px(0),y1:py(50),x2:px(100),y2:py(50)}));
+  g.appendChild(svgEl("line",{class:"axline",x1:px(0),y1:py(0),x2:px(100),y2:py(0)}));
+  g.appendChild(svgEl("line",{class:"axline",x1:px(0),y1:py(0),x2:px(0),y2:py(100)}));
+
+  /* Labels are written already-uppercased rather than transformed in CSS,
+     because text-transform on SVG text is not reliable across browsers. */
+  const t1 = svgEl("text",{class:"axlab",x:px(0),y:py(0)+26,"text-anchor":"start"});
+  t1.textContent = "HANDS YOU A CONCLUSION";
+  const t2 = svgEl("text",{class:"axlab",x:px(100),y:py(0)+26,"text-anchor":"end"});
+  t2.textContent = "HANDS YOU THE RAW ARTEFACT";
+  const t3 = svgEl("text",{class:"axlab",x:0,y:0,transform:"translate("+(px(0)-16)+","+py(0)+") rotate(-90)","text-anchor":"start"});
+  t3.textContent = "WORKS THE RECORD";
+  const t4 = svgEl("text",{class:"axlab",x:0,y:0,transform:"translate("+(px(0)-16)+","+py(100)+") rotate(-90)","text-anchor":"end"});
+  t4.textContent = "CAPTURES WHAT IS MISSING";
+  g.append(t1,t2,t3,t4);
+
+  const q = svgEl("text",{class:"quad",x:px(99),y:py(99),"text-anchor":"end"});
+  q.textContent = "OUR UNCLAIMED CORNER";
+  g.appendChild(q);
+  const q2 = svgEl("text",{class:"quad",x:px(1),y:py(24),"text-anchor":"start"});
+  q2.textContent = "WHERE THE FUNDING IS";
+  g.appendChild(q2);
+}
+
+function drawDots(){
+  const g = document.getElementById("plotDots");
+  g.textContent = "";
+  PLAYERS.forEach(p => {
+    const vis = visible(p);
+    const grp = svgEl("g",{
+      class:"dot", role:"button", tabindex:"0",
+      "data-dim": String(!vis),
+      "data-us": String(p.cls === "ours"),
+      "aria-pressed": String(state.sel === p.n),
+      "aria-label": p.name + ", " + CLABEL[p.cls] + ", " + WLABEL[p.w] + (vis ? "" : ", filtered out")
+    });
+    const cx = px(p.x), cy = py(p.y), fill = HUE[p.w];
+    if(p.cls === "ours"){
+      grp.appendChild(svgEl("rect",{class:"mark",x:cx-10,y:cy-10,width:20,height:20,rx:2,fill:"var(--ink-1)"}));
+    } else {
+      grp.appendChild(svgEl("circle",{class:"mark",cx:cx,cy:cy,r:9,fill:fill}));
+    }
+    const t = svgEl("text",{class:"num",x:cx,y:cy});
+    t.textContent = p.cls === "ours" ? String.fromCharCode(64 + (p.n - 100)) : String(p.n);
+    grp.appendChild(t);
+
+    const act = () => select(p.n);
+    grp.addEventListener("click", act);
+    grp.addEventListener("keydown", e => {
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); act(); }
+    });
+    g.appendChild(grp);
+  });
+}
+
+function drawLegend(){
+  const ol = document.getElementById("legend");
+  ol.textContent = "";
+  let shown = 0;
+  PLAYERS.forEach(p => {
+    const vis = visible(p);
+    if(vis) shown++;
+    const li = el("li");
+    li.dataset.dim = String(!vis);
+    const b = el("button");
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(state.sel === p.n));
+    b.id = "leg-" + p.n;
+    const n = el("span","n");
+    n.textContent = p.cls === "ours" ? String.fromCharCode(64 + (p.n - 100)) : String(p.n);
+    const box = el("span");
+    const nm = el("span","nm"); nm.textContent = p.name;
+    const mt = el("span","mt");
+    const tk = el("span","tick"); tk.dataset.w = p.w; tk.textContent = WLABEL[p.w];
+    const cl = el("span","cls"); cl.dataset.c = p.cls; cl.textContent = CLABEL[p.cls];
+    mt.append(tk, cl);
+    if(!vis){ const f = el("span","cls"); f.textContent = "filtered out"; mt.append(f); }
+    box.append(nm, mt);
+    b.append(n, box);
+    b.addEventListener("click", () => select(p.n));
+    li.appendChild(b);
+    ol.appendChild(li);
+  });
+
+  if(shown === 0){
+    const li = el("li");
+    const d = el("div","empty");
+    d.textContent = "No players match the current filters. Turn a direction or market chip back on to see them again.";
+    li.appendChild(d);
+    ol.appendChild(li);
+  }
+}
+
+function select(n){
+  state.sel = (state.sel === n) ? null : n;
+  drawDots(); drawLegend(); drawDetail();
+  if(state.sel !== null){
+    const b = document.getElementById("leg-" + state.sel);
+    if(b) b.scrollIntoView({block:"nearest"});
+  }
+}
+
+function drawDetail(){
+  const d = document.getElementById("detail");
+  d.textContent = "";
+  if(state.sel === null){
+    const h = el("h4"); h.textContent = "Select a player";
+    const p = el("p");
+    p.textContent = "Choose a point on the plot or a row in the list to see what it is, where it is genuinely stronger than us, and what it does not do.";
+    d.append(h,p);
+    return;
+  }
+  const p = PLAYERS.find(x => x.n === state.sel);
+  const h = el("h4"); h.textContent = p.name;
+  const meta = el("div","meta");
+  const tk = el("span","tick"); tk.dataset.w = p.w; tk.textContent = WLABEL[p.w];
+  const cl = el("span","cls"); cl.dataset.c = p.cls; cl.textContent = CLABEL[p.cls];
+  const dr = el("span","cls"); dr.textContent = "Direction " + p.dirs.join(", ");
+  const mk = el("span","cls"); mk.textContent = p.mkt === "IL" ? "Israel" : "International";
+  meta.append(tk, cl, dr, mk);
+
+  const p1 = el("p"); p1.innerHTML = "<b>What it is.</b> " + p.what;
+  const p2 = el("p"); p2.innerHTML = "<b>Where it beats us.</b> " + p.ahead;
+  const p3 = el("p"); p3.innerHTML = "<b>What it does not do.</b> " + p.not;
+  d.append(h, meta, p1, p2, p3);
+}
+
+function drawSources(){
+  const ol = document.getElementById("srcList");
+  ol.textContent = "";
+  let shown = 0;
+  SOURCES.forEach(s => {
+    const [w, title, url] = s;
+    const hide = state.subtract && w === "vendor";
+    if(!hide) shown++;
+    const li = el("li");
+    li.dataset.dim = String(hide);
+    const box = el("div");
+    const t = el("div","t"); t.textContent = title;
+    const tk = el("span","tick"); tk.dataset.w = w; tk.textContent = WLABEL[w];
+    const a = el("a","u"); a.href = url; a.textContent = url; a.rel = "noreferrer";
+    box.append(t, tk, a);
+    li.appendChild(box);
+    ol.appendChild(li);
+  });
+  document.getElementById("srcEmpty").hidden = shown > 0;
+}
+
+function drawReadout(){
+  const vis = PLAYERS.filter(p => visible(p) && p.cls !== "ours");
+  document.getElementById("cPlayers").textContent = vis.length;
+  document.getElementById("cDirect").textContent = vis.filter(p => p.cls === "direct").length;
+  const srcs = SOURCES.filter(s => !(state.subtract && s[0] === "vendor"));
+  document.getElementById("cPeer").textContent = srcs.filter(s => s[0] === "peer").length;
+  document.getElementById("cVendor").textContent = state.subtract ? 0 : SOURCES.filter(s => s[0] === "vendor").length;
+}
+
+function renderAll(){ drawDots(); drawLegend(); drawDetail(); drawSources(); drawReadout(); }
+
+/* ---------- controls ---------- */
+document.querySelectorAll("[data-dir]").forEach(b => {
+  b.addEventListener("click", () => {
+    const k = b.dataset.dir;
+    state.dirs[k] = !state.dirs[k];
+    b.setAttribute("aria-pressed", String(state.dirs[k]));
+    renderAll();
+  });
+});
+document.querySelectorAll("[data-mkt]").forEach(b => {
+  b.addEventListener("click", () => {
+    const k = b.dataset.mkt;
+    state.mkt[k] = !state.mkt[k];
+    b.setAttribute("aria-pressed", String(state.mkt[k]));
+    renderAll();
+  });
+});
+
+const subBtn = document.getElementById("subtract");
+subBtn.addEventListener("click", () => {
+  state.subtract = !state.subtract;
+  subBtn.setAttribute("aria-pressed", String(state.subtract));
+  subBtn.textContent = state.subtract ? "Restore vendor claims" : "Subtract vendor claims";
+  document.getElementById("subnote").textContent = state.subtract
+    ? "Vendor-only claims are removed from the plot, the list and the sources. What remains is what the argument stands on."
+    : "Vendor-only claims are shown. Press subtract to see what survives on independent evidence.";
+  renderAll();
+});
+
+/* ---------- theme ---------- */
+const themeBtn = document.getElementById("theme");
+function setTheme(dark){
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  themeBtn.textContent = dark ? "Light" : "Dark";
+  themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+themeBtn.addEventListener("click", () => setTheme(document.documentElement.dataset.theme !== "dark"));
+
+/* ---------- rail ---------- */
+const links = [...document.querySelectorAll(".rail a")];
+if("IntersectionObserver" in window){
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(a => a.setAttribute("aria-current", String(a.getAttribute("href") === "#" + e.target.id)));
+      }
+    });
+  }, {rootMargin:"-12% 0px -78% 0px"});
+  document.querySelectorAll("main section[id]").forEach(s => obs.observe(s));
+}
+
+drawAxes();
+renderAll();
+</script>
+</body>
+</html>

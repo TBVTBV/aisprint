@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group 7 · Session 2 Synthesis · Pre-Visit Intake</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   TOKENS — pen-plotter instrument trace on graph paper
+   Light source hues are the CVD-validated, text-safe steps.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  color-scheme: light;
+  --paper:#f7f6f1; --surface:#fdfdfa; --sunk:#f1efe7;
+  --grid-fine:#e8e5da; --grid-major:#d8d4c4; --rule:#c9c5b6; --rule-soft:#e0dccf;
+  --ink:#14140f; --ink-2:#45433c; --ink-3:#63605a; --ink-4:#8b887e;
+  --phys:#1d5fae; --nurse:#0d7a52; --synth:#b84714; --desk:#5d5a53;
+  --gate:#b23025;
+  --focus:#14140f;
+  --slip:#fffffc;
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+  --t-xs:.6875rem; --t-sm:.8125rem; --t-base:.875rem; --t-body:1rem; --t-md:1.125rem;
+  --t-lg:1.375rem; --t-xl:1.75rem; --t-2xl:2.375rem;
+  --sans: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+  --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+  --ink:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+  --phys:#3987e5; --nurse:#199e70; --synth:#d95926; --desk:#9d9a90;
+  --gate:#e06a60;
+  --focus:#f4f3ec;
+  --slip:#1c1c18;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+    --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+    --ink:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+    --phys:#3987e5; --nurse:#199e70; --synth:#d95926; --desk:#9d9a90;
+    --gate:#e06a60; --focus:#f4f3ec; --slip:#1c1c18;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; overflow-x:clip}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:var(--t-body); line-height:1.55;
+  font-variant-numeric:tabular-nums;
+  background-image:
+    repeating-linear-gradient(to right, var(--grid-fine) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--grid-fine) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px 200px),
+    repeating-linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px 200px);
+}
+:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-.015em; line-height:1.2}
+p{margin:0 0 var(--s3)}
+button{font:inherit; color:inherit; background:none; border:none; padding:0; cursor:pointer}
+
+/* instrument label — a field label, never an eyebrow above a heading */
+.lab{
+  font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase;
+  font-weight:600; color:var(--ink-3);
+}
+
+.wrap{max-width:1520px; margin:0 auto; padding:0 var(--s5)}
+.prose{max-width:68ch}
+
+.skip{position:absolute; left:var(--s3); top:-48px; z-index:80; background:var(--ink); color:var(--paper);
+  padding:8px 14px; border-radius:2px; font-size:var(--t-sm); font-weight:600; transition:top .15s var(--ease)}
+.skip:focus{top:var(--s3)}
+
+/* channel: the recurring structural device — a lane on a baseline rule */
+.channel{border-top:1px solid var(--rule); padding-top:var(--s4); margin-top:var(--s8)}
+.channel h2{font-size:var(--t-xl); text-wrap:balance; max-width:24ch}
+.channel .intro{color:var(--ink-2); margin-top:var(--s3)}
+main section[id]{scroll-margin-top:58px}
+
+/* MASTHEAD — instrument header, not a hero */
+.mast{border-bottom:1px solid var(--rule); background:var(--surface)}
+.mast-in{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--s6); align-items:end; padding:var(--s6) 0 var(--s4)}
+.mast h1{font-size:var(--t-2xl); letter-spacing:-.03em; max-width:20ch; text-wrap:balance}
+.mast .sub{color:var(--ink-2); margin:var(--s3) 0 0; max-width:64ch}
+.mast .run{display:grid; grid-auto-flow:column; gap:var(--s5); grid-template-rows:repeat(2,auto); align-items:end}
+.readout{display:grid; gap:2px; align-content:start}
+.readout b{font-size:var(--t-md); font-weight:600; line-height:1}
+.readout .u{font-size:var(--t-base); color:var(--ink-2); font-weight:500}
+
+.toolbar{display:flex; gap:var(--s2); align-items:center; padding:0 0 var(--s4); flex-wrap:wrap}
+.byline{margin-left:auto; font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.btn{
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink); border-radius:2px;
+  padding:6px 12px; font-size:var(--t-sm); font-weight:500;
+  transition:background .15s var(--ease), border-color .15s var(--ease);
+}
+.btn:hover{background:var(--sunk); border-color:var(--ink-4)}
+.btn:active{background:var(--sunk)}
+.btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+
+/* section rail — the only place section numbers live */
+.rail{position:sticky; top:0; z-index:40; background:var(--surface); border-bottom:1px solid var(--rule)}
+.rail .wrap{position:relative}
+.rail ol{display:flex; gap:0; margin:0; padding:0; list-style:none; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none}
+.rail ol::-webkit-scrollbar{height:0}
+.rail::after{content:""; position:absolute; top:0; right:0; width:28px; height:100%;
+  background:linear-gradient(to right, transparent, var(--surface)); pointer-events:none}
+.rail a{
+  display:block; padding:10px 14px 9px; text-decoration:none; color:var(--ink-3);
+  font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600;
+  white-space:nowrap; border-bottom:2px solid transparent;
+  transition:color .15s var(--ease), border-color .15s var(--ease);
+}
+.rail a:hover{color:var(--ink)}
+.rail a[aria-current="true"]{color:var(--ink); border-bottom-color:var(--ink)}
+
+/* CALIBRATION — the evidence key */
+.calib{
+  display:flex; flex-wrap:wrap; gap:var(--s2) var(--s5); align-items:center;
+  border:1px solid var(--rule); background:var(--surface);
+  padding:var(--s3) var(--s4); margin:var(--s5) 0 0;
+}
+.key{display:inline-flex; align-items:center; gap:8px; font-size:var(--t-sm); color:var(--ink-2)}
+.tick{display:block; width:18px; height:3px; flex:none}
+.tick[data-src="phys"]{background:var(--phys)}
+.tick[data-src="nurse"]{background:var(--nurse)}
+.tick[data-src="synth"]{background:var(--synth)}
+.tick[data-src="desk"]{
+  background:repeating-linear-gradient(45deg,var(--desk) 0 2px,transparent 2px 4px);
+  border-top:1px solid var(--desk); border-bottom:1px solid var(--desk); height:5px;
+}
+
+/* AFFINITY BOARD */
+.filters{display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; margin:var(--s4) 0}
+.chip{
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink); border-radius:2px;
+  padding:5px 10px 5px 8px; font-size:var(--t-sm); display:inline-flex; align-items:center; gap:7px;
+  transition:border-color .15s var(--ease), background .15s var(--ease);
+}
+.chip:hover{border-color:var(--ink-4)}
+.chip[aria-pressed="true"]{border-color:var(--ink); background:var(--sunk)}
+/* off state carried by surface + a dashed border, never by dimmed text */
+.chip[aria-pressed="false"]{border-style:dashed; border-color:var(--rule); background:var(--paper)}
+.chip[aria-pressed="false"] .ck{visibility:hidden}
+.chip .ck{font-family:var(--mono); color:var(--ink); flex:none}
+.chip .n{font-family:var(--mono); font-size:var(--t-xs); color:var(--ink-3)}
+.search{
+  border:1px solid var(--rule); background:var(--surface); border-radius:2px;
+  padding:6px 10px; font:inherit; font-size:var(--t-sm); min-width:15rem; color:var(--ink);
+}
+.search::placeholder{color:var(--ink-3)}
+
+.board{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:var(--s3); align-items:start}
+@media (max-width:1500px){.board{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:1080px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.board{grid-template-columns:minmax(0,1fr)}}
+.col{
+  background:var(--surface); border:1px solid var(--rule-soft); border-top:2px solid var(--ink);
+  min-height:180px; display:flex; flex-direction:column;
+  transition:background .15s var(--ease), border-color .15s var(--ease);
+}
+.col.drop{background:var(--sunk); border-color:var(--ink)}
+.col-h{padding:var(--s3) var(--s3) var(--s2); border-bottom:1px solid var(--rule-soft)}
+.col-h .row{display:flex; align-items:baseline; justify-content:space-between; gap:var(--s2)}
+.col-name{
+  font-size:var(--t-base); font-weight:600; letter-spacing:-.01em; line-height:1.3;
+  padding:1px 3px; margin:-1px -3px; color:var(--ink); border-radius:2px;
+  white-space:normal; overflow-wrap:anywhere; min-width:0;
+  border-bottom:1px dashed var(--ink-4);
+}
+.col-name:hover{background:var(--sunk)}
+.col-name:focus{outline:2px solid var(--focus); outline-offset:2px; border-bottom-color:transparent}
+.col-i{flex:none; color:var(--ink-4); font-size:var(--t-xs); font-family:var(--mono)}
+.col-h .meaning{font-size:var(--t-sm); color:var(--ink-2); margin:var(--s2) 0 0; line-height:1.45}
+.count{font-family:var(--mono); font-size:var(--t-xs); color:var(--ink-3); flex:none}
+.slips{padding:var(--s2); display:grid; gap:var(--s2); flex:1}
+
+.slip{
+  position:relative; display:block; width:100%; text-align:left;
+  background:var(--slip); border:1px solid var(--rule-soft); border-radius:2px;
+  padding:var(--s2) var(--s3) var(--s3); cursor:grab;
+  font-size:var(--t-base); line-height:1.45; color:var(--ink);
+  transition:border-color .15s var(--ease), transform .15s var(--ease);
+}
+.slip:hover{border-color:var(--ink-4)}
+.slip:active{cursor:grabbing}
+.slip.dragging{border-color:var(--ink); transform:translateY(-1px)}
+.slip .src{display:flex; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap}
+.slip .src .who{font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.slip .tr{font-size:var(--t-xs); letter-spacing:.08em; text-transform:uppercase; font-weight:600; color:var(--ink-4);
+  border:1px solid var(--rule); border-radius:2px; padding:0 4px}
+.slip q{quotes:"“" "”" "‘" "’"; font-style:normal}
+.slip .para{display:block}
+.slip .para::before{content:"— "; color:var(--ink-3)}
+.slip.is-synth{background:repeating-linear-gradient(135deg,transparent 0 9px,var(--sunk) 9px 10px),var(--slip)}
+.empty{padding:var(--s4) var(--s3); font-size:var(--t-sm); color:var(--ink-3)}
+
+/* drawer — a committed modal: scrim, focus trap, aria-modal */
+.drawer{
+  position:fixed; inset:0 0 0 auto; width:min(430px,100%); background:var(--surface);
+  border-left:1px solid var(--rule); z-index:60; padding:var(--s5);
+  overflow-y:auto; transform:translateX(100%); visibility:hidden;
+  transition:transform .3s var(--ease), visibility .3s;
+  box-shadow:-14px 0 34px rgba(20,20,15,.14), -1px 0 2px rgba(20,20,15,.10);
+}
+.drawer[data-open="true"]{transform:translateX(0); visibility:visible}
+.drawer .close{position:absolute; top:var(--s4); right:var(--s4); font-size:var(--t-sm); color:var(--ink-3)}
+.drawer .close:hover{color:var(--ink)}
+.drawer .dhead{font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.drawer blockquote{
+  margin:var(--s4) 0; padding-left:var(--s3); border-left:1px solid var(--rule);
+  font-size:var(--t-md); line-height:1.5;
+}
+.drawer dl{display:grid; grid-template-columns:auto 1fr; gap:var(--s2) var(--s4); margin:var(--s4) 0; font-size:var(--t-sm)}
+.drawer dt{color:var(--ink-3)}
+.drawer dd{margin:0}
+select{
+  border:1px solid var(--rule); background:var(--surface); color:var(--ink);
+  border-radius:2px; padding:6px 8px; font:inherit; font-size:var(--t-sm); width:100%;
+}
+.scrim{position:fixed; inset:0; background:rgba(20,20,15,.32); z-index:55; opacity:0; pointer-events:none; transition:opacity .3s var(--ease)}
+.scrim[data-open="true"]{opacity:1; pointer-events:auto}
+
+/* PERSONA */
+.personas{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(430px,100%),1fr)); gap:var(--s5); margin-top:var(--s5)}
+.persona,.persona-body>*,.jscroll,.col,.ins,.hmw>*{min-width:0}
+.persona{background:var(--surface); border:1px solid var(--rule); border-top:2px solid var(--ink)}
+.persona.is-synth{border-top-color:var(--synth)}
+.persona-h{padding:var(--s4); border-bottom:1px solid var(--rule-soft)}
+.persona-h h3{font-size:var(--t-lg)}
+.persona-h .role{color:var(--ink-2); font-size:var(--t-base); margin-top:2px}
+.persona-h .note{font-size:var(--t-sm); color:var(--ink-3); margin-top:6px}
+.warnband{
+  display:flex; gap:var(--s3); align-items:flex-start;
+  background:repeating-linear-gradient(135deg,transparent 0 9px,var(--sunk) 9px 10px);
+  border-top:1px solid var(--synth); border-bottom:1px solid var(--synth);
+  padding:var(--s3) var(--s4); font-size:var(--t-sm); color:var(--ink-2);
+}
+.warnband strong{color:var(--synth); letter-spacing:.1em; text-transform:uppercase; font-size:var(--t-xs); white-space:nowrap; padding-top:2px}
+.persona-body{display:grid; grid-template-columns:200px minmax(0,1fr)}
+@media (max-width:760px){.persona-body{grid-template-columns:minmax(0,1fr)}}
+.glance{border-right:1px solid var(--rule-soft); padding:var(--s4); display:grid; gap:var(--s3); align-content:start}
+@media (max-width:760px){.glance{border-right:none; border-bottom:1px solid var(--rule-soft)}}
+.glance div span{display:block; font-size:var(--t-base); color:var(--ink); margin-top:2px}
+.glance .quote{font-size:var(--t-base); line-height:1.45; color:var(--ink); border-top:1px solid var(--rule-soft); padding-top:var(--s3)}
+.facets{display:grid; grid-template-columns:minmax(0,1fr)}
+@media (min-width:1180px){
+  .facets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .facets .facet:nth-child(odd){border-right:1px solid var(--rule-soft)}
+}
+.facet{padding:var(--s4); border-bottom:1px solid var(--rule-soft)}
+.facet > .lab{display:block; margin-bottom:var(--s2)}
+.facet p{margin:0; font-size:var(--t-base); line-height:1.6; color:var(--ink-2); max-width:64ch}
+.corrob{border-top:1px solid var(--rule-soft); padding:var(--s4)}
+.corrob > .lab{display:block; margin-bottom:var(--s2)}
+.corrob details{border-bottom:1px solid var(--rule-soft); padding:var(--s2) 0}
+.corrob details:last-child{border-bottom:none}
+.corrob summary{cursor:pointer; font-size:var(--t-base); font-weight:500; list-style:none; display:flex; gap:var(--s2); align-items:baseline}
+.corrob summary::-webkit-details-marker{display:none}
+.corrob summary::before{content:"+"; font-family:var(--mono); color:var(--ink-3); flex:none}
+.corrob details[open] summary::before{content:"–"}
+.corrob details p{margin:var(--s2) 0 var(--s2) 18px; font-size:var(--t-sm); color:var(--ink-2)}
+
+/* JOURNEY — the trace */
+.jmeta{display:flex; flex-wrap:wrap; gap:var(--s3) var(--s5); align-items:center; margin:var(--s4) 0}
+.legend{display:flex; gap:var(--s4); flex-wrap:wrap}
+.legend .key .tick{height:2px; width:22px}
+.legend .key[data-lane="phys"] .tick{background:var(--phys)}
+.legend .key[data-lane="fam"] .tick{background:repeating-linear-gradient(to right,var(--synth) 0 5px,transparent 5px 9px)}
+
+.jscroll{overflow-x:auto; border:1px solid var(--rule); background:var(--surface)}
+.jgrid{min-width:1080px}
+.jhead{display:grid; border-bottom:1px solid var(--rule)}
+.jhead .cell{padding:var(--s3); border-left:1px solid var(--rule-soft)}
+.jhead .cell:first-child{border-left:none}
+.jhead .cell b{display:block; font-size:var(--t-base); font-weight:600}
+.jhead .cell .feel{display:inline-block; margin-top:4px; font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase;
+  font-weight:600; color:var(--ink-3); border:1px solid var(--rule); border-radius:2px; padding:0 5px}
+.jhead .cell .lab{display:block; margin-bottom:3px}
+
+.plot{position:relative; height:150px; border-bottom:1px solid var(--rule); background:var(--sunk)}
+.plot .trace{position:absolute; inset:0 0 0 54px; clip-path:inset(0 100% 0 0)}
+.plot .trace.on{clip-path:inset(0 0 0 0); transition:clip-path 800ms var(--ease)}
+.plot svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+.plot .yaxis{position:absolute; left:0; top:0; bottom:0; width:54px; border-right:1px solid var(--rule-soft)}
+.plot .yl{position:absolute; left:var(--s2); transform:translateY(-50%); font-size:var(--t-xs);
+  color:var(--ink-3); letter-spacing:.08em; text-transform:uppercase}
+
+.jrow{display:grid; border-bottom:1px solid var(--rule-soft)}
+.jrow:last-child{border-bottom:none}
+.jrow .cell{padding:var(--s3); border-left:1px solid var(--rule-soft); font-size:var(--t-base); line-height:1.5}
+.jrow .cell:first-child{border-left:none}
+.jrow .rowlab{background:var(--sunk); position:sticky; left:0; z-index:2}
+.jcol-hot{background:var(--sunk)}
+.jrow .cell.opp{color:var(--ink-2)}
+.think{font-style:normal}
+.think::before{content:"“"} .think::after{content:"”"}
+
+/* INSIGHTS · POV · HMW · GUARDRAILS */
+.insights{display:grid; gap:var(--s3); margin-top:var(--s5)}
+.ins{background:var(--surface); border:1px solid var(--rule-soft); border-top:2px solid var(--ink)}
+.ins > summary{
+  cursor:pointer; list-style:none; padding:var(--s4); display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto; gap:var(--s3) var(--s4); align-items:baseline;
+}
+.ins > summary::-webkit-details-marker{display:none}
+.ins > summary h3{font-size:var(--t-md); font-weight:600; letter-spacing:-.015em}
+.ins .id{font-family:var(--mono); font-size:var(--t-sm); color:var(--ink-3)}
+.ins .smeta{display:flex; align-items:center; gap:var(--s3); white-space:nowrap}
+.ins .scount{font-size:var(--t-sm); color:var(--ink-2)}
+.ins .more{font-size:var(--t-xs); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);
+  border:1px solid var(--rule); border-radius:2px; padding:2px 7px}
+.ins[open] .more{color:var(--ink); border-color:var(--ink-4)}
+.ins .inner{padding:0 var(--s4) var(--s4); display:grid; gap:var(--s4); grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:860px){.ins .inner{grid-template-columns:minmax(0,1fr)}}
+.ins .block > .lab{display:block; margin-bottom:var(--s2)}
+.ins .block p{font-size:var(--t-body); line-height:1.6; margin:0}
+.ins .srcline{grid-column:1/-1; border-top:1px solid var(--rule-soft); padding-top:var(--s3); font-size:var(--t-sm); color:var(--ink-3)}
+.ins .synthline{grid-column:1/-1; font-size:var(--t-sm); color:var(--ink-2); padding-left:var(--s3); border-left:1px solid var(--synth)}
+.strength{display:inline-flex; gap:3px; align-items:center}
+.strength i{display:block; width:9px; height:9px; border:1px solid var(--ink-3); border-radius:50%}
+.strength i.on{background:var(--ink); border-color:var(--ink)}
+
+.pov{background:var(--surface); border:1px solid var(--rule); border-top:2px solid var(--ink); padding:var(--s6); margin-top:var(--s5)}
+.pov > .lab{display:block; margin-bottom:var(--s2)}
+@media (min-width:1000px){
+  .pov{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); gap:var(--s7); align-items:start}
+  .pov > .lab{grid-column:1/-1; margin-bottom:0}
+  .pov .statement{max-width:none}
+  .pov .quotes{display:grid; gap:var(--s4); align-content:start}
+  .pov blockquote{margin:0}
+  .pov .held{grid-column:2}
+}
+.pov.alt{border-top-color:var(--synth); margin-top:var(--s4)}
+.pov p.statement{font-size:var(--t-lg); line-height:1.4; letter-spacing:-.015em; max-width:44ch; margin:var(--s3) 0 0}
+.pov blockquote{margin:var(--s5) 0 0; padding-left:var(--s4); border-left:1px solid var(--rule); font-size:var(--t-body); color:var(--ink-2); max-width:60ch}
+.pov blockquote cite{display:block; font-style:normal; font-size:var(--t-sm); color:var(--ink-3); margin-top:6px}
+.pov .held{font-size:var(--t-sm); color:var(--ink-2); margin-top:var(--s3); max-width:62ch}
+
+.hmws{display:grid; gap:var(--s3); margin-top:var(--s5)}
+.hmw{background:var(--surface); border:1px solid var(--rule-soft); padding:var(--s5); display:grid; grid-template-columns:auto minmax(0,1fr); gap:var(--s5)}
+@media (max-width:760px){.hmw{grid-template-columns:minmax(0,1fr); gap:var(--s3)}}
+.hmw .tag{font-family:var(--mono); font-size:var(--t-sm); color:var(--ink-3); white-space:nowrap}
+.hmw q{font-size:var(--t-md); line-height:1.4; letter-spacing:-.01em; display:block; max-width:58ch; quotes:none}
+.hmw .why{font-size:var(--t-sm); color:var(--ink-2); margin:var(--s3) 0 0; max-width:66ch}
+.hmw .from{font-size:var(--t-sm); color:var(--ink-3); margin-top:var(--s2)}
+
+.gtable{width:100%; border-collapse:collapse; margin-top:var(--s5); background:var(--surface); border:1px solid var(--rule)}
+.gtable th,.gtable td{text-align:left; vertical-align:top; padding:var(--s3) var(--s4); border-bottom:1px solid var(--rule-soft); font-size:var(--t-base); line-height:1.5}
+.gtable tr:last-child td{border-bottom:none}
+.gtable th{width:210px; font-weight:600; color:var(--ink)}
+.gtable td{color:var(--ink-2)}
+.gtable tr.gate th{color:var(--gate)}
+
+footer{border-top:1px solid var(--rule); margin-top:var(--s9); padding:var(--s5) 0 var(--s8); font-size:var(--t-sm); color:var(--ink-3)}
+footer b{color:var(--ink-2)}
+
+@media (max-width:960px){
+  .mast-in{grid-template-columns:minmax(0,1fr); gap:var(--s4); align-items:start}
+  .mast h1{font-size:var(--t-xl); max-width:none}
+  .mast .run{grid-auto-flow:row dense; grid-template-columns:repeat(2,auto); grid-template-rows:none; gap:var(--s4) var(--s5)}
+  .byline{margin-left:0; flex-basis:100%; order:3}
+  .col{min-height:0}
+  .personas{grid-template-columns:minmax(0,1fr)}
+  .gtable th{width:auto}
+  .gtable, .gtable tbody, .gtable tr, .gtable th, .gtable td{display:block}
+  .gtable th{padding-bottom:0; border-bottom:none}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+}
+@media print{
+  .rail,.toolbar,.filters,.drawer,.scrim,.jmeta .btn,.skip{display:none !important}
+  body{background:#fff}
+  .board{grid-template-columns:repeat(2,1fr)}
+  .ins .inner{display:grid !important}
+  .ins .more{display:none}
+}
+</style>
+</head>
+<body>
+<!--
+  DIRECTION CONTRACT · seed key db4ae67f · mode operate
+
+  THESIS: A research board where provenance is the visual system — every
+  observation shows its source and weight where it sits, and the synthetic
+  half can be subtracted to see what survives. Refuses the design-research
+  default: yellow stickies on a whiteboard, and its opposite, the clinical
+  white-and-soft-blue dashboard.
+
+  OWN-WORLD: A pen-plotter instrument trace on graph paper. Continuous fine
+  grid at 40px with major rules at 200px; regions bounded by hairline rules
+  and channel baselines, never by shadowed cards. Warm paper #f7f6f1 / trace
+  field #fdfdfa, graphite ink #14140f; identity carried only by data marks in
+  a CVD- and text-safe set — physician blue #1d5fae, nurse green #0d7a52,
+  synthetic rust #b84714, desk research a hatched neutral. Wide-tracked
+  uppercase instrument labels, tabular figures, 2px radius, one ink weight.
+
+  STORY: A teammate opens the board, filters to real evidence only, watches
+  which clusters hold, and moves a note that landed wrong. A mentor opens the
+  same file unaccompanied and can trace any line to the interview it came
+  from without asking anyone.
+
+  FIRST VIEWPORT: Instrument header — title left, calibration readout right
+  (6 real interviews · 41 real + 4 synthetic observations · 6 clusters) as a
+  tabular block, never a hero metric. Section rail beneath. The affinity board
+  begins within one scroll.
+
+  FORM: Instrument trace on plotter paper — candidate 5 of 7 on the grounded
+  list ordered by resonance, assigned by seed db4ae67f.
+
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the
+  finish review, the verdict, and DESIGN.md
+-->
+
+<a class="skip" href="#main">Skip to the board</a>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-in">
+      <div>
+        <h1>Synthesis: from findings to a point of view</h1>
+        <p class="sub">Group 7 · Pediatric pulmonology, pre-visit intake (Challenge #6). Session 2 of the AI Product Sprint 2026. Every observation on this board carries the interview it came from and whether it counts as evidence; ideation is in the companion file.</p>
+      </div>
+      <div class="run">
+        <div class="readout"><span class="lab">Real interviews</span><b>6</b></div>
+        <div class="readout"><span class="lab">Synthetic interviews</span><b>3</b></div>
+        <div class="readout"><span class="lab">Observations, real</span><b>41</b></div>
+        <div class="readout"><span class="lab">Observations, synthetic</span><b>4</b></div>
+        <div class="readout"><span class="lab">Clusters</span><b>6</b></div>
+        <div class="readout"><span class="lab">Compiled</span><b>31 Jul 2026</b></div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="theme">Dark</button>
+      <button class="btn" onclick="window.print()">Print</button>
+      <span class="byline">Matan Rosen · Anat Katzir · Gal Yeshayahu · Mikhail Yagudaev</span>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap">
+    <ol>
+      <li><a href="#affinity">1 · Affinity</a></li>
+      <li><a href="#personas">2 · Personas</a></li>
+      <li><a href="#journeys">3 · Journeys</a></li>
+      <li><a href="#insights">4 · Insights</a></li>
+      <li><a href="#pov">5 · Point of view</a></li>
+      <li><a href="#hmw">6 · How might we</a></li>
+      <li><a href="#guardrails">7 · Guardrails</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <!-- ══════════════ 1 · AFFINITY ══════════════ -->
+  <section id="affinity" class="channel" style="margin-top:var(--s6)">
+    <h2>The affinity map: six clusters, built bottom-up</h2>
+    <p class="prose intro">One observation per note, clustered from the bottom up across all six real interviews and the desk research. Cluster names are candidate insights, not the insights themselves. The four synthetic notes are present and on by default, each hatched and labelled synthetic; turn them off with the filter to see which clusters still stand. Drag a note to move it, or open one to trace its source.</p>
+
+    <div class="calib" role="group" aria-label="Evidence key">
+      <span class="lab">Key</span>
+      <span class="key"><i class="tick" data-src="phys"></i>Physician · evidence</span>
+      <span class="key"><i class="tick" data-src="nurse"></i>Nurse · evidence</span>
+      <span class="key"><i class="tick" data-src="desk"></i>Desk research · evidence</span>
+      <span class="key"><i class="tick" data-src="synth"></i>Synthetic · directional only, never evidence</span>
+    </div>
+
+    <div class="filters">
+      <button class="chip" data-filter="phys" aria-pressed="true"><span class="ck">✓</span><i class="tick" data-src="phys"></i>Physician <span class="n" data-n="phys"></span></button>
+      <button class="chip" data-filter="nurse" aria-pressed="true"><span class="ck">✓</span><i class="tick" data-src="nurse"></i>Nurse <span class="n" data-n="nurse"></span></button>
+      <button class="chip" data-filter="desk" aria-pressed="true"><span class="ck">✓</span><i class="tick" data-src="desk"></i>Desk research <span class="n" data-n="desk"></span></button>
+      <button class="chip" data-filter="synth" aria-pressed="true"><span class="ck">✓</span><i class="tick" data-src="synth"></i>Synthetic <span class="n" data-n="synth"></span></button>
+      <input class="search" id="q" type="search" placeholder="Search notes and sources" aria-label="Search notes and sources">
+      <button class="btn" id="realonly">Real evidence only</button>
+      <button class="btn" id="export">Download board (JSON)</button>
+      <button class="btn" id="reset">Reset</button>
+    </div>
+
+    <div class="board" id="board"></div>
+  </section>
+
+  <!-- ══════════════ 2 · PERSONAS ══════════════ -->
+  <section id="personas" class="channel">
+    <h2>Two personas, physician primary</h2>
+    <p class="prose intro">Course template (AI Product Sprint 2026 — Persona Template), filled only from what participants actually said.</p>
+    <div class="personas" id="persona-list"></div>
+  </section>
+
+  <!-- ══════════════ 3 · JOURNEYS ══════════════ -->
+  <section id="journeys" class="channel">
+    <h2>Two journey maps, running in parallel</h2>
+    <p class="prose intro">Course template (AI Product Sprint 2026 — Journey Map Template): stages across, the five fields down. The feeling row is drawn as a trace and named in words. Overlay both lanes to see where the journeys collide.</p>
+
+    <div class="jmeta">
+      <div class="btns" role="group" aria-label="Lane">
+        <button class="btn" data-lane="phys" aria-pressed="true">Physician</button>
+        <button class="btn" data-lane="fam" aria-pressed="false">Caregiver</button>
+        <button class="btn" data-lane="both" aria-pressed="false">Overlay both</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <p style="margin:0; font-size:var(--t-sm); color:var(--ink-3)" id="jscenario"></p>
+    </div>
+
+    <div class="jscroll"><div class="jgrid" id="jgrid"></div></div>
+
+    <div class="warnband" style="margin-top:var(--s4)" id="jwarn" hidden>
+      <strong>Synthetic</strong>
+      <span>The caregiver lane is built from three LLM-generated interviews. No real family or caregiver was interviewed. Treat every cell as a hypothesis to confirm, not a finding. It is included because designing the family side blind to the family is worse than designing it from a labelled hypothesis.</span>
+    </div>
+  </section>
+
+  <!-- ══════════════ 4 · INSIGHTS ══════════════ -->
+  <section id="insights" class="channel">
+    <h2>Five insights, written finding to meaning</h2>
+    <p class="prose intro">A finding states a fact. An insight names the tension you can design around. Each carries the count of independent real sources behind it; two is the team's threshold for calling something a finding. Open one to read the finding, the meaning, and the sources.</p>
+    <div class="insights" id="insights-list"></div>
+  </section>
+
+  <!-- ══════════════ 5 · POV ══════════════ -->
+  <section id="pov" class="channel">
+    <h2>Point of view</h2>
+    <p class="prose intro">The template pattern: <em>[user] needs [need] because [insight]</em>. Primary is the physician, on evidence; the caregiver POV is held as a labelled hypothesis.</p>
+
+    <div class="pov">
+      <span class="lab">Primary · the physician</span>
+      <p class="statement">A pediatric pulmonologist facing a new patient needs to reach and verify the raw pieces of that child's history faster, not to be handed a summary, because the visit is consumed by re-assembling a record that is fragmented exactly where one organisation ends and the next begins, and that, in their own words, is never complete.</p>
+      <div class="quotes">
+        <blockquote>Never. Never ever. I always need several sources, to check.<cite>Pediatric pulmonologist, Schneider, 30 Jul · asked whether a complete record ever exists</cite></blockquote>
+        <blockquote>Anything that surfaces the information through a menu adapted to the physician, rather than the physician's chase after that menu, can help.<cite>Pediatric pulmonologist, Clalit, 30 Jul · translated from Hebrew</cite></blockquote>
+      </div>
+    </div>
+
+    <div class="pov alt">
+      <span class="lab" style="color:var(--synth)">Secondary · the caregiver · synthetic, hypothesis</span>
+      <p class="statement">A caregiver bringing a child to a first pulmonology visit needs to be told specifically what counts and to see that it was used, because she is not short of information or willingness, she is short of instruction, of a channel for the evidence she already holds, and of any reason to believe preparing changes anything.</p>
+      <p class="held">Held as a hypothesis until we interview real families. The clinician-reported half of it, that families do not know what counts and that nobody tells them, is evidence.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════ 6 · HMW ══════════════ -->
+  <section id="hmw" class="channel">
+    <h2>How might we: three questions, each opening one insight</h2>
+    <div class="hmws" id="hmws"></div>
+  </section>
+
+  <!-- ══════════════ 7 · GUARDRAILS ══════════════ -->
+  <section id="guardrails" class="channel">
+    <h2>Guardrails: gates on the concepts, not aspirations</h2>
+    <p class="prose intro">Responsible by design, from the Session 2 deck and from what our own participants told us.</p>
+    <table class="gtable">
+      <tbody>
+        <tr class="gate"><th scope="row">No patient PII · pass/fail</th><td>Identifiable patient data must never enter an AI model. A physician told us they do it anyway "in a pirate way" and named that as a problem, so any concept that requires it is disqualified, not merely risky. De-identified or permission-safe, or it does not ship.</td></tr>
+        <tr><th scope="row">Human in the loop</th><td>From I2: the physician stays accountable for every clinical call. The system may route, fetch, order and flag. It may not conclude. The one accepted exception, flagging a lab as within reference range, is exactly the case where there is no judgement to exercise.</td></tr>
+        <tr><th scope="row">Transparent</th><td>Families and clinicians know when something was machine-produced, what source it came from, and where it is uncertain. Provenance travels with every item, including the family's own certainty on their own answers (I5).</td></tr>
+        <tr><th scope="row">Verify</th><td>Never let a fluent answer reach a patient unchecked. Our design principle states it positively: speed the route to the raw data, never ask anyone to skip the check.</td></tr>
+        <tr><th scope="row">Consent &amp; sensitivity</th><td>Pediatric hospital context. Recording only with permission, no identifiable patient data stored anywhere, and no synthetic material ever presented as real. Every synthetic artefact in this project carries a permanent label.</td></tr>
+        <tr><th scope="row">Ownership &amp; measurement</th><td>From I4, and specific to this clinic: anything we propose must name who owns it and what number tells us it is working. The last pre-visit checklist here died for want of both.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>Every claim on this page traces to the team Drive, Interviews and Synthesis folders. Synthetic material is labelled at every point of use and never counted as evidence. No identifiable patient data appears anywhere. Identical content to <b>Group7_S2_Synthesis.docx</b>. Continues in <b>Group7_S2_Ideation.html</b>.</p>
+  </footer>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle" data-open="false" tabindex="-1">
+  <button class="close" id="dclose">Close ✕</button>
+  <span class="dhead" id="dtitle">Observation</span>
+  <blockquote id="dtext"></blockquote>
+  <dl>
+    <dt>Source</dt><dd id="dsrc"></dd>
+    <dt>Interview</dt><dd id="dwho"></dd>
+    <dt>Date</dt><dd id="ddate"></dd>
+    <dt>Language</dt><dd id="dlang"></dd>
+    <dt>Weight</dt><dd id="dweight"></dd>
+  </dl>
+  <label class="lab" for="dmove" style="display:block; margin-bottom:var(--s2)">Move to cluster</label>
+  <select id="dmove"></select>
+</aside>
+
+<script>
+"use strict";
+
+/* ── DATA ─────────────────────────────────────────────────── */
+const SRC = {
+  phys:  {label:"Physician",     weight:"Evidence"},
+  nurse: {label:"Nurse",         weight:"Evidence"},
+  desk:  {label:"Desk research", weight:"Evidence · published study, paraphrased"},
+  synth: {label:"Synthetic",     weight:"Directional only · never evidence"}
+};
+
+const CLUSTERS = [
+  {id:"A", name:"The navigation tax", meaning:"The physician always knows what they are looking for. The whole cost sits in getting there. This is a retrieval-latency problem wearing the costume of an information problem."},
+  {id:"B", name:"Verification is the job", meaning:"Physicians will not delegate clinical judgement, and they say so unprompted. The exception is precise and instructive: they accept automation exactly where there is no judgement to exercise."},
+  {id:"C", name:"The holes sit on organisational boundaries", meaning:"The gaps are not random. They fall precisely where one organisation ends and another begins, which makes them predictable before the visit, and askable for by name."},
+  {id:"D", name:"“Received” is not “in the chart”", meaning:"A whole class of loss happens after the information has already arrived at the clinic. The cheapest failure in the set to fix, and no one currently owns it."},
+  {id:"E", name:"Nobody ever told the family what counts", meaning:"The family failure is instructional, not motivational. And the one time the clinic did issue a list, it decayed for want of an owner and a measurement."},
+  {id:"F", name:"Confidence without accuracy", meaning:"Asking families for more does not by itself produce truer answers, it can produce more confident wrong ones, which are worse in a chart than an admitted gap."}
+];
+
+/* kind:"quote" is wrapped in <q>; kind:"para" is a paraphrase of a published
+   study and never wrapped as though it were said verbatim. lang:"he" marks a
+   quote translated from a Hebrew interview. */
+const q = (t,src,who,date,c,opt) => ({t,src,who,date,c,
+  kind: src==="desk" ? "para" : "quote", lang:"en", ...(opt||{})});
+const HE = {lang:"he"};
+const NOTES = [
+  q("Four or five legacy systems to collect the information, to assemble the puzzle that finally tells us what the child actually has.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","A"),
+  q("I have to do copy-paste, copy-paste, copy-paste of sentences. It's Sisyphean work, maddening and not intuitive at all.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","A"),
+  q("Each record takes another 10 seconds and another 10 seconds and 10 seconds, it accumulates and accumulates, and then a great deal of time goes here.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","A",HE),
+  q("Ofek, then chest X-ray, then radiology, then the image itself. Four levels down to see one X-ray.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","A",HE),
+  q("I have to enter the external institute's website, type an ID number, type the visit, and only then can I see the chest X-ray.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","A",HE),
+  q("If someone had six chest X-rays, you can't copy-paste all the readings. You have to go one by one by one. It takes ages.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","A"),
+  q("Treatments are sometimes written in acronyms and I have to go and look up what they stand for. That is what wastes the most of my time.","phys","Pulmonologist, hemato-oncology focus, Schneider","30 Jul 2026","A"),
+  q("Preparation runs ten minutes to half an hour per patient, and a very large part of that time is pure waste, waiting until the record opens.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","A",HE),
+  q("Physicians averaged 16 min 14 s per encounter inside the EHR; chart review was roughly a third of it.","desk","Overhage & McCallie, Annals of Internal Medicine, 2020","Desk research §2.1","A"),
+
+  q("Never. Never ever. I always need several sources, to check.","phys","Pulmonologist, hemato-oncology focus, Schneider","30 Jul 2026","B"),
+  q("I don't rely on community chest X-ray readings. I open it and go over it with my own eyes. Many times the readings are not accurate.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","B",HE),
+  q("Nothing from another doctor's summary is auto-populated into my own summary. Really not.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","B",HE),
+  q("There is a point to doing these things in parallel, in order to verify it, in effect.","phys","Pulmonologist, hemato-oncology focus, Schneider","30 Jul 2026","B"),
+  q("It's not that you trust some external source at the start. If there is a diagnosis, you still have to see it and confirm it really is the diagnosis.","nurse","Pulmonology nurse 1","29 Jul 2026","B"),
+  q("If the system marked a blood count as within reference range, I wouldn't need to open it at all.","phys","Pulmonologist, Clalit hospital clinic","30 Jul 2026","B",HE),
+  q("It's part of the art of medicine, to pick out the true kernel from each piece of information and build a picture.","phys","Dr. Patrick Stafler, Schneider","26 Jul 2026","B"),
+
+  q("X-rays done at private institutes are almost inaccessible. You know it was taken, and you still can't see the image.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","C"),
+  q("I'd guess about seventy to eighty percent of the information is accessible. Through crooked paths, but accessible.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","C"),
+  q("Genetic tests and sleep lab results still require combing through the record, and patients sometimes have to bring them themselves.","phys","Pulmonologist, hemato-oncology focus, Schneider","30 Jul 2026","C"),
+  q("Once it's private and not on the same software, we have no way of knowing what they did before. We don't have the history, unless the parents bring it.","nurse","Pulmonology nurse 1","29 Jul 2026","C"),
+  q("Anything that happened outside our hospital, I'd need either the family to bring it, or a formal records request, which takes time.","nurse","Pulmonology nurse 2","29 Jul 2026","C"),
+  q("‘This patient isn't yours, you can't access.’ It happens even when the patient is sitting right in front of me.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","C"),
+  q("Ofek and Eitan connect the four health funds and roughly 50 hospitals. The parallel private sector is not on the network, and about 80% of Israelis hold supplemental cover.","desk","National HIE literature; Commonwealth Fund country profile","Desk research §5.1","C"),
+
+  q("Between “the clinic received it” and “it's actually in the chart where the doctor can see it”, there's a gap there. It's not automatic.","nurse","Pulmonology nurse 2","29 Jul 2026","D"),
+  q("I chase the secretary for referral letters, and for discharge summaries if the kid was in the ER or hospitalised somewhere else.","nurse","Pulmonology nurse 2","29 Jul 2026","D"),
+  q("A parent calls in with “he had a bad night, used the inhaler four times.” It goes on a sticky note or a call log, and that doesn't always make it into the chart before the visit.","nurse","Pulmonology nurse 2","29 Jul 2026","D"),
+  q("If it's a new patient, not existing in our system yet, that's where it can sit for a bit. Someone has to create the file first.","nurse","Pulmonology nurse 2","29 Jul 2026","D"),
+  q("The same information typed by two different people, and if either of us doesn't do it, it's just gone.","nurse","Pulmonology nurse 2","29 Jul 2026","D"),
+
+  q("The prepared mom wasn't smarter, she'd just been through this before. Nobody hands you that list up front.","nurse","Pulmonology nurse 2","29 Jul 2026","E"),
+  q("Nobody owned it. There was no system flag or checkbox forcing it. And nobody measured whether it actually helped. It just quietly disappeared.","nurse","Pulmonology nurse 2 · on the clinic's own “before your visit” checklist","29 Jul 2026","E"),
+  q("We don't really call ahead to prep families. Once the appointment's booked, the family's kind of on their own until they walk in the door.","nurse","Pulmonology nurse 2","29 Jul 2026","E"),
+  q("The invitation letter asks families to bring documents and imaging discs. Generic instructions that many don't read, don't find, or don't follow.","phys","Dr. Stafler & Dr. Bar-On, Schneider","26 Jul 2026","E"),
+  q("But we thought you see everything on the computer.","phys","The recurring family line, as reported by both mentors","26 Jul 2026","E"),
+  q("Triggers. Dust, pets, weather, exercise, stress, smoke exposure. Nobody writes that down systematically anywhere.","nurse","Pulmonology nurse 2","29 Jul 2026","E"),
+  q("She did the referral on the computer, and she said, I remember this, she said ‘everything will be there, they'll see it.’","synth","Synthetic caregiver A · first-visit family","29 Jul 2026","E"),
+  q("And that's basically my whole system. From a woman in a corridor. I don't know her name.","synth","Synthetic caregiver B · experienced follow-up family","29 Jul 2026","E"),
+
+  q("Parents can say “we were hospitalised two weeks in the NICU,” and in the end it was four days. So I tend to believe the documents more.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","F"),
+  q("“Are you giving the daily controller medication every day?” Everyone says yes. I don't think parents are lying. I think they round up without meaning to.","nurse","Pulmonology nurse 2","29 Jul 2026","F"),
+  q("Parents will say yes he uses it correctly, but half the time when you actually watch the kid use it, they're doing it wrong.","nurse","Pulmonology nurse 2","29 Jul 2026","F"),
+  q("In the CAMP cohort (n=1,041), only 39% of those reporting that animals frequently trigger symptoms actually lived with a furry pet.","desk","Weiss et al., JACI, 2001","Desk research §2.4","F"),
+  q("Agreement between child self-report and parent proxy-report runs only 35–56% depending on domain, and rises with the child's age.","desk","PedsQL proxy-agreement studies","Desk research §2.3","F"),
+  q("Parents don't usually think in timelines, they think in incidents. You're basically reconstructing a timeline they never kept themselves.","nurse","Pulmonology nurse 2","29 Jul 2026","F"),
+  q("We meet people from the whole spectrum, without the knowledge or even the language to express what happened. Sometimes even the parent who came doesn't know the details.","phys","Dr. Ophir Bar-On, Schneider","26 Jul 2026","F"),
+  q("I said three because I had to say something.","synth","Synthetic caregiver A · first-visit family","29 Jul 2026","F"),
+  q("When I've got it on the paper I just say it. I say it like it's a fact because it's written.","synth","Synthetic caregiver B · experienced follow-up family","29 Jul 2026","F")
+].map((n,i)=>({...n, id:"n"+i}));
+
+const PERSONAS = [
+  {
+    id:"phys", synth:false,
+    name:"Dr. Oren S., 44", role:"Pediatric pulmonologist · primary persona",
+    note:"Composite of the four real pulmonologists we interviewed. Not an individual.",
+    glance:[
+      ["Role / situation","Attending in a hospital clinic. 8–12 patients a day, roughly one new among them; about once a week, five new in a day."],
+      ["Experience","Fifteen years in. He has built private workarounds for all of it and no longer notices most of them."]
+    ],
+    quote:"Anything that surfaces the information through a menu adapted to the physician, rather than the physician's chase after that menu, can help.",
+    tabs:[
+      ["Context","He prepares charts the evening before, on his own time, and knows this is unusual among his colleagues. He opens the file, reads background conditions, hunts prior imaging and blood tests. The next morning he finishes whatever he could not reach, inside the room, while the family sits across from him. A first visit costs him anywhere from fifteen minutes to an hour of reconstruction; his mentor colleagues put it at 60–70% of the appointment."],
+      ["Goals","To walk into the room already holding the child's respiratory story. To reach the raw image, the raw lab, the actual protocol, not somebody's reading of it. To cross-check what the parent says against the record, in parallel, without losing the room. To spend what is left of the visit explaining, deciding, and confirming the family understood."],
+      ["Frustrations","Four or five systems, each with its own login, ID field and drill-down. Ten seconds of loading per record, compounding all morning. Six chest X-rays read one at a time. Private-institute imaging he knows exists and cannot open. Treatment protocols buried in other physicians' free text, in acronyms he has to stop and decode. Documentation that spills past the end of the clinic into his own evening. Face in the screen instead of facing the family."],
+      ["Needs","To get to the raw material faster, never to be relieved of looking at it. To see what the system could not reach, named, before the visit rather than discovered in the room. To keep the ability to delete from and add to anything a machine produces. To know which of the parent's answers are firm and which are guesses, so he knows where to spend his check."],
+      ["Behaviours","Prepares the night before. Pre-orders chest X-ray, lung-function tests and bloods so they are done while the family waits. Locates one representative summary from the past year or two rather than reconstructing everything. Sends parents home with homework to bring documents next time. Re-reads every image himself. Would accept a green tick on a normal blood count and nothing more."]
+    ],
+    corrob:[]
+  },
+  {
+    id:"fam", synth:true,
+    name:"“Dana”, 34", role:"Caregiver at a first pulmonology visit · secondary persona",
+    note:"A synthetic composite drawn from three LLM-generated caregiver interviews.",
+    glance:[
+      ["Role / situation","Mother of a five-year-old with a persistent night cough. Primary-school teacher. Also has an infant. First pulmonology appointment, referred by the family doctor after months of waiting."],
+      ["Experience","First time. She does not yet know the unwritten rules, and per the nurse that is the single strongest predictor of how prepared she will be."]
+    ],
+    quote:"I came with nothing because I was told I didn't need anything.",
+    tabs:[
+      ["Context","The referral was made on a computer in front of her and the GP said “everything will be there, they'll see it.” Months later an SMS arrived with a date, a floor, and an instruction to bring ID and a health-fund card. She arrived empty-handed, not passively, but in compliance with what a clinician told her. She was handed a clipboard at the check-in window and asked to fill it in while holding the baby, with nobody to ask what the questions meant."],
+      ["Goals","To be useful in the room rather than say “I don't know” eleven times. To get the day she spent on this to have been worth it. To do whatever is asked of her, if somebody would ask."],
+      ["Frustrations","No one told her there was anything to prepare. The only clinical instruction she got, “bring whatever you have,” was uninterpretable. The one structured form she met was handed to her in a waiting room, at the moment she was least able to answer it. Questions she cannot answer because she was not present, a grandmother took the child to the emergency room. A photo of the discharge paper buried in four thousand camera-roll images."],
+      ["Needs","To be told specifically what counts, in advance, in words that name a document or a number. To be allowed to say “I don't know” without a wrong figure entering the chart. To hand over the evidence she already has, night-cough videos on her phone, through a channel that exists and an invitation that makes it admissible. To see that what she prepared was actually used."],
+      ["Behaviours","Films the coughing at 2am because describing it “sounds like nothing.” Photographs papers, then cannot find them. Started a symptom note on her phone and abandoned it in a week, not from laziness but because nobody defined what counted as an episode. Reaches for WhatsApp and the phone camera before any app or folder."]
+    ],
+    corrob:[
+      ["The expectation gap","“But we thought you see everything on the computer” is a line the mentors report families saying, unprompted, in the room."],
+      ["Not knowing what counts","The nurse, on the unprepared mother: she “just didn't know what counted as relevant… Nobody hands you that list up front.”"],
+      ["Triggers exist only in her head","The nurse, independently. And CAMP (n=1,041) found only 39% of families reporting animal triggers lived with a furry pet."],
+      ["The waiting-room form","The nurse describes exactly this artefact: a handwritten intake sheet the mother filled in while waiting, which the nurse then re-typed into the chart."]
+    ]
+  }
+];
+
+const FEEL = {high:3, ok:2, low:1, lowest:0};
+const FEEL_WORD = {3:"High", 2:"OK", 1:"Low", 0:"Lowest"};
+const JOURNEYS = {
+  phys:{
+    label:"Dr. Oren",
+    scenario:"Scenario: a new patient he has never seen, referred from the community, arriving tomorrow morning.",
+    stages:[
+      {n:"1", t:"Referral lands", f:"ok",
+       doing:"Referral letter arrives; appointment booked; generic invitation letter goes out asking for documents and imaging discs.",
+       think:"One new patient tomorrow. Let's see who this is.",
+       pain:"The letter is generic and largely unread. External referrals arrive as a scanned image. For a patient with no file yet, the letter can sit unattached.",
+       opp:"Generate the pre-visit ask from this referral, naming what is actually missing."},
+      {n:"2", t:"The night before", f:"low",
+       doing:"Opens the file on his own time. Reads background conditions, hunts prior imaging, bloods, admissions. Pre-orders chest X-ray, lung-function tests, sometimes bloods for the morning.",
+       think:"I want to know everything before I speak to the parents.",
+       pain:"4–5 systems, ten seconds of loading each. ID typed into each external institute. Four levels down to one X-ray. Private-institute imaging visible but unopenable. Access can be blocked until the patient checks in. All of it on unpaid time.",
+       opp:"One route: rubrics on click, pre-fetched overnight, every item one click from the raw artefact."},
+      {n:"3", t:"Arrival &amp; workups", f:"ok",
+       doing:"Family checks in; record access unlocks; pre-ordered tests run while they wait.",
+       think:"At least the lung function will be there when they come in.",
+       pain:"Depends on the family arriving early enough. Results land back in the same fragmented systems. Anything from outside is still absent.",
+       opp:"Surface the pre-ordered results in the same single view; show what is still missing, by name."},
+      {n:"4", t:"First minutes in the room", f:"lowest",
+       doing:"Assembles the picture from what he found plus what the family brought. Questions the parents while reading, cross-checking in parallel.",
+       think:"Does what she's telling me match what I'm looking at? Where is she guessing?",
+       pain:"60–70% of the visit, or 15 min to an hour for a heavy history. Reading while questioning creates the face-in-screen distance. Parent recall diverges from the record. Nothing another doctor wrote enters his own letter automatically.",
+       opp:"The parent's account arrives structured, next to the record, with its uncertainty marked, so cross-checking gets cheaper instead of being abolished."},
+      {n:"5", t:"Decide &amp; document", f:"low",
+       doing:"Explains the diagnosis, guides treatment, confirms the family understood. Writes the summary afterwards.",
+       think:"All the things I am actually supposed to do get pushed to the end.",
+       pain:"Copy-paste of sentences across systems. Documentation has no allotted slot and spills into his own evening.",
+       opp:"Pre-structured, editable draft he can delete from and add to, never a conclusion he did not reach himself."}
+    ]
+  },
+  fam:{
+    label:"“Dana”",
+    scenario:"Scenario: her child's first pulmonology appointment, from the GP's referral to the car park afterwards.",
+    stages:[
+      {n:"1", t:"Referral", f:"high",
+       doing:"GP makes the referral on the computer in front of her and says “everything will be there, they'll see it.”",
+       think:"Good. It's handled. They'll have it all.",
+       pain:"The expectation gap is created here, by a clinician, in one sentence. Corroborated: mentors report families saying exactly this in the room.",
+       opp:"Intervene upstream. Give the referring clinician a two-line handover for the family, not just for the system."},
+      {n:"2", t:"The wait", f:"ok",
+       doing:"Months pass. Nothing arrives. Symptoms come and go; a grandmother takes the child to an emergency room at a different hospital one night.",
+       think:"Nothing to do until the date.",
+       pain:"The care episode most relevant to the visit happens while nobody is recording anything, attended by an adult who will not be in the room. Videos of the night cough pile up on her phone.",
+       opp:"A dormant channel that can receive an ER paper, a photo or a 20-second video the moment it exists."},
+      {n:"3", t:"The SMS", f:"ok",
+       doing:"An appointment SMS arrives: date, floor, bring ID and health-fund card.",
+       think:"That's the whole thing? Fine.",
+       pain:"The only pre-visit communication carries no clinical ask at all. A verbal “bring whatever you have” from a secretary is uninterpretable.",
+       opp:"Replace with a short, specific, named ask, timed close to the visit, and say why each item matters."},
+      {n:"4", t:"Preparing (or not)", f:"ok",
+       doing:"Prepares nothing, because she was told she did not need to. Brings the vaccination booklet, “that's what you bring.”",
+       think:"I'd have done it if someone had said.",
+       pain:"Willingness is not the constraint. Instruction is. Corroborated: “Nobody hands you that list up front.”",
+       opp:"A named list, plus the veteran-parent knowledge that currently only travels between families in corridors."},
+      {n:"5", t:"Check-in &amp; waiting", f:"lowest",
+       doing:"Handed a clipboard at the window; fills it in holding the baby, no one to ask. Unexpected X-ray; a breathing test the five-year-old cannot complete.",
+       think:"I don't know what I put. I wasn't lying, I just didn't know.",
+       pain:"The one structured instrument exists, administered at the worst possible moment, with no route to clarification. Guesses enter the record as facts.",
+       opp:"Move the instrument before the visit, add a real “I don't know”, and let a person answer questions about the questions."},
+      {n:"6", t:"In the room &amp; after", f:"low",
+       doing:"Answers eleven questions with “I think” and “maybe”. Does not offer the videos. Leaves with a printed summary and a date in November.",
+       think:"You don't take out your phone and say “do you want to watch a video.”",
+       pain:"She holds richer longitudinal evidence than any form would have collected, and there is no invitation that makes offering it admissible. Errors that entered the chart have no correction path.",
+       opp:"An explicit invitation for family-held evidence, and a visible receipt afterwards showing what was used, so it is worth doing next time."}
+    ]
+  }
+};
+
+const INSIGHTS = [
+  {id:"I1", n:3, title:"Physicians are not short of information. They are short of a route to it.",
+   finding:"Every physician described knowing exactly what they were looking for, and the entire cost sitting in getting there: four or five systems, ten seconds of loading each, an ID number per institute, four drill-downs to a single chest X-ray, six X-rays read one at a time, acronyms that must be looked up mid-read.",
+   insight:"The design target is retrieval latency and click-depth, not comprehension. A tool that understands the record better than the physician solves a problem nobody has; a tool that shortens the route solves the one they all described. Say it as a rule: speed the route to the raw material, never replace the destination.",
+   sources:"Physicians 1–4 (all four, independently); nurse 2 on chasing sources; desk research §2.1 (Overhage &amp; McCallie 2020, ~16 min/encounter in the EHR, ~33% chart review)."},
+  {id:"I2", n:3, title:"Verification is not overhead on the visit. It is the visit.",
+   finding:"Two physicians said, unprompted and in different interviews, that they will not accept another clinician's interpretation: community X-ray readings are re-read personally, nothing from another doctor's summary enters their own letter automatically, and one deliberately reads the record while questioning the parent “to verify it, in effect.” The single automation both accepted was flagging a blood count as within reference range.",
+   insight:"Any system that hands a physician a conclusion will be rejected even when the conclusion is correct, because the responsibility for the decision is theirs and they know it. The exception draws the line for us precisely: automate where there is no judgement to exercise, accelerate everywhere else. This is the constraint that kills “AI summarises the chart” as a concept, and it came from the users, not from us.",
+   sources:"Physician 3 (Clalit) and Physician 4 (Schneider), independently; nurse 1 on confirming an incoming diagnosis rather than accepting it; mentors on picking out the true kernel from each piece of information."},
+  {id:"I3", n:4, title:"The holes in the record are not random. They sit on organisational boundaries, which makes them predictable.",
+   finding:"Private-institute imaging is “almost inaccessible.” Community workups require a second system. Genetic and sleep-lab results are absent and patients are asked to bring them. Outside the shared software, the nurse has “no way of knowing what they did before.” Physicians put the family-dependent share at 20–30%. Desk research explains why: Ofek and Eitan connect the four funds and ~50 hospitals; the parallel private sector, used by a population with ~80% supplemental cover, is not on the network.",
+   insight:"What the record cannot reach is knowable in advance, per patient, from the referral alone. That converts today's vague generic ask, “bring documents and imaging discs”, into a specific named list, and converts a surprise discovered in the room into a request made two days earlier. The family is not being asked to supply everything; they are being asked to carry exactly the pieces that structurally cannot travel any other way.",
+   sources:"Physicians 1–2 (mentors), 3 and 4; nurse 1 on private providers; desk research §5.1 (Ofek/Eitan; Commonwealth Fund country profile)."},
+  {id:"I4", n:3, title:"The family failure is instructional and reciprocal, not motivational.",
+   finding:"The nurse: preparedness tracks first-visit status and prior instruction, not education. “The prepared mom wasn't smarter, she'd just been through this before. Nobody hands you that list up front.” The clinic's own “before your visit” checklist did not fail, it lapsed: “nobody owned it… there was no system flag forcing it… nobody measured whether it actually helped.”",
+   insight:"Two things follow, and the second is the one teams forget. First, families comply when told specifically what to bring, so the ask has to name items, not categories. Second, an ask that is not visibly used decays, and an ask that nobody owns disappears. Whatever we design has to ship with a named owner, a system-enforced trigger and a visible use, or we will have rebuilt the checklist that already died here two years ago.",
+   sources:"Nurse 2 (both the “nobody hands you that list” observation and the checklist post-mortem); nurse 1 on walking unprepared families through what exists; mentors on the generic invitation letter going unread; desk research §3.1 (electronic pre-visit questionnaires: only about half of patients submitted any historical element).",
+   synth:"Both synthetic caregivers independently produce the same shape: “I would absolutely have done it, I just didn't know there was a thing to do,” and “don't ask me for it if you're not going to open it.”"},
+  {id:"I5", n:4, title:"Asking families for more does not produce truer answers. It can produce more confident wrong ones.",
+   finding:"Parents reported “two weeks in the NICU” where the record said four days, which is why physicians trust documents over words. On adherence the nurse said everyone says yes, “I think they round up without meaning to.” On inhaler technique, parents say it is correct and “half the time when you actually watch the kid, they're doing it wrong.” In the CAMP cohort (n=1,041), only 39% of families reporting that animals frequently trigger symptoms actually lived with a furry pet.",
+   insight:"A wrong number stated confidently is worse in a chart than an admitted gap, because the physician has no signal to spend their check on it. So the intake cannot only collect answers, it has to collect the family's certainty alongside them, make “I don't know” a first-class recorded value rather than a blank, and route the shaky items to the one thing that does work: a person asking a follow-up question in the room.",
+   sources:"Mentors (recall divergence); nurse 2 (adherence rounding, technique); desk research §2.3 (proxy-report agreement 35–56%) and §2.4 (Weiss et al., CAMP, JACI 2001).",
+   synth:"The synthetic caregivers sharpen the mechanism: one manufactures a frequency “because I had to say something”, another states a two-month-old figure as current “because it's written”, and a third would rather leave a field blank than risk putting something false into the file."}
+];
+
+const HMWS = [
+  {n:"HMW 1", q:"How might we get a physician to every reachable piece of a child's respiratory history in one route, without ever asking them to skip their own check?",
+   from:"Insights I1 and I2.",
+   why:"It rules out the two obvious wrong answers at once. “How might we summarise the chart with AI” is pre-decided and violates I2; “how might we fix health-record interoperability” is unstartable. This one is about the route, and it carries the non-negotiable clause the physicians drew for us."},
+  {n:"HMW 2", q:"How might we ask a family, before the visit, for only the things the record structurally cannot hold, in a way that lets them say “I don't know” safely?",
+   from:"Insights I3, I4 and I5.",
+   why:"Three constraints in one question: the ask is derived from the boundary, not from a generic form; it is short; and it treats uncertainty as data rather than as failure. It leaves wide open how the asking happens, whether SMS, call, voice, or a person."},
+  {n:"HMW 3", q:"How might we make a family's contribution visibly change what happens in the room, so that preparing is worth doing a second time?",
+   from:"Insight I4, and the failure post-mortem of the clinic's own checklist.",
+   why:"This is the question that would have saved the last attempt. It targets the decay mechanism rather than the artefact, and it applies equally to the family and to whoever inside the clinic has to keep the thing alive."}
+];
+
+/* ── HELPERS ──────────────────────────────────────────────── */
+const $ = s => document.querySelector(s);
+const el = (tag,cls) => {const e=document.createElement(tag); if(cls) e.className=cls; return e;};
+
+const state = {
+  notes: NOTES.map(n=>({...n})),
+  clusters: CLUSTERS.map(c=>({...c})),
+  on: {phys:true,nurse:true,desk:true,synth:true},
+  qtext:"",
+  lane:"phys"
+};
+
+/* ── AFFINITY BOARD ───────────────────────────────────────── */
+const board = $("#board");
+
+function visible(n){
+  if(!state.on[n.src]) return false;
+  if(!state.qtext) return true;
+  const hay = (n.t+" "+n.who+" "+SRC[n.src].label).toLowerCase();
+  return hay.includes(state.qtext);
+}
+
+function renderBoard(){
+  board.innerHTML = "";
+  state.clusters.forEach(c=>{
+    const col = el("section","col");
+    col.dataset.cluster = c.id;
+
+    const h = el("div","col-h");
+    const row = el("div","row");
+    const name = el("div","col-name");
+    name.contentEditable = "true"; name.spellcheck = false;
+    name.setAttribute("role","textbox");
+    name.setAttribute("aria-label","Cluster "+c.id+" name, editable");
+    name.title = "Click to rename this cluster";
+    name.textContent = c.name;
+    name.addEventListener("input", () => { c.name = name.textContent.trim(); syncMoveOptions(); });
+    name.addEventListener("keydown", e => { if(e.key==="Enter"){ e.preventDefault(); name.blur(); } });
+    const idtag = el("span","col-i"); idtag.textContent = c.id;
+    const count = el("span","count");
+    const shown = state.notes.filter(n=>n.c===c.id && visible(n)).length;
+    const total = state.notes.filter(n=>n.c===c.id).length;
+    count.textContent = shown===total ? total : shown+"/"+total;
+    const nameWrap = el("div"); nameWrap.style.cssText="display:flex; gap:6px; align-items:baseline; min-width:0";
+    nameWrap.append(idtag,name);
+    row.append(nameWrap,count);
+    const meaning = el("p","meaning"); meaning.textContent = c.meaning;
+    h.append(row,meaning);
+
+    const slips = el("div","slips");
+    const mine = state.notes.filter(n=>n.c===c.id && visible(n));
+    if(!mine.length){
+      const e = el("p","empty");
+      e.textContent = total ? "All "+total+" notes hidden by the current filter." : "No notes.";
+      slips.append(e);
+    }
+    mine.forEach(n=>slips.append(slipEl(n)));
+
+    col.append(h,slips);
+    col.addEventListener("dragover", ev => { ev.preventDefault(); col.classList.add("drop"); });
+    col.addEventListener("dragleave", () => col.classList.remove("drop"));
+    col.addEventListener("drop", ev => {
+      ev.preventDefault(); col.classList.remove("drop");
+      const id = ev.dataTransfer.getData("text/plain");
+      const note = state.notes.find(x=>x.id===id);
+      if(note){ note.c = c.id; renderBoard(); }
+    });
+    board.append(col);
+  });
+  document.querySelectorAll("[data-n]").forEach(s=>{
+    s.textContent = state.notes.filter(n=>n.src===s.dataset.n).length;
+  });
+}
+
+function slipEl(n){
+  const b = el("button","slip"+(n.src==="synth"?" is-synth":""));
+  b.type="button"; b.draggable=true; b.dataset.id=n.id;
+  const src = el("div","src");
+  const tick = el("i","tick"); tick.dataset.src = n.src;
+  const lbl = el("span","who"); lbl.textContent = SRC[n.src].label;
+  src.append(tick,lbl);
+  if(n.lang==="he"){ const t=el("span","tr"); t.textContent="translated · HE"; t.title="Translated from the Hebrew interview"; src.append(t); }
+  if(n.kind==="para"){
+    const para=el("span","para"); para.textContent=n.t; b.append(src,para);
+  } else {
+    const qq=el("q"); qq.textContent=n.t; b.append(src,qq);
+  }
+  b.addEventListener("dragstart", ev => {
+    ev.dataTransfer.setData("text/plain", n.id);
+    ev.dataTransfer.effectAllowed="move";
+    b.classList.add("dragging");
+  });
+  b.addEventListener("dragend", ()=>b.classList.remove("dragging"));
+  b.addEventListener("click", ()=>openDrawer(n));
+  return b;
+}
+
+/* drawer — modal with a focus trap */
+const drawer=$("#drawer"), scrim=$("#scrim"), move=$("#dmove");
+let current=null, lastFocus=null;
+function syncMoveOptions(){
+  move.innerHTML="";
+  state.clusters.forEach(c=>{
+    const o=el("option"); o.value=c.id; o.textContent=c.id+" · "+c.name; move.append(o);
+  });
+  if(current) move.value = current.c;
+}
+function openDrawer(n){
+  current=n; lastFocus=document.activeElement;
+  $("#dtext").textContent = n.t;
+  $("#dsrc").textContent = SRC[n.src].label + (n.kind==="para" ? " · paraphrase, not a verbatim quote" : "");
+  $("#dwho").textContent = n.who;
+  $("#ddate").textContent = n.date;
+  $("#dlang").textContent = n.lang==="he" ? "Translated from Hebrew" : "English (as spoken)";
+  $("#dweight").textContent = SRC[n.src].weight;
+  syncMoveOptions();
+  drawer.dataset.open="true"; scrim.dataset.open="true";
+  $("#dclose").focus();
+}
+function closeDrawer(){
+  drawer.dataset.open="false"; scrim.dataset.open="false";
+  const movedId = current ? current.id : null;
+  current=null;
+  const target = movedId && document.querySelector('.slip[data-id="'+movedId+'"]');
+  (target || lastFocus || document.body).focus();
+}
+drawer.addEventListener("keydown", e=>{
+  if(e.key!=="Tab") return;
+  const f = [...drawer.querySelectorAll('button, [href], select, input, [tabindex]:not([tabindex="-1"])')]
+    .filter(x=>!x.disabled && x.offsetParent!==null);
+  if(!f.length) return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+});
+$("#dclose").addEventListener("click",closeDrawer);
+scrim.addEventListener("click",closeDrawer);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && drawer.dataset.open==="true") closeDrawer(); });
+move.addEventListener("change",()=>{ if(current){ current.c = move.value; renderBoard(); }});
+
+/* filters */
+document.querySelectorAll("[data-filter]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const k=btn.dataset.filter;
+    state.on[k]=!state.on[k];
+    btn.setAttribute("aria-pressed", String(state.on[k]));
+    renderBoard();
+  });
+});
+$("#q").addEventListener("input",e=>{ state.qtext=e.target.value.trim().toLowerCase(); renderBoard(); });
+$("#realonly").addEventListener("click",()=>{
+  const goingReal = state.on.synth;
+  state.on = {phys:true,nurse:true,desk:true,synth:!goingReal};
+  document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed",String(state.on[b.dataset.filter])));
+  $("#realonly").textContent = goingReal ? "Show synthetic again" : "Real evidence only";
+  renderBoard();
+});
+$("#reset").addEventListener("click",()=>{
+  state.notes = NOTES.map(n=>({...n}));
+  state.clusters = CLUSTERS.map(c=>({...c}));
+  state.on={phys:true,nurse:true,desk:true,synth:true};
+  state.qtext=""; $("#q").value="";
+  document.querySelectorAll("[data-filter]").forEach(b=>b.setAttribute("aria-pressed","true"));
+  $("#realonly").textContent="Real evidence only";
+  renderBoard();
+});
+$("#export").addEventListener("click",()=>{
+  const payload = {
+    artifact:"Group 7 · Session 2 affinity board",
+    exported:new Date().toISOString(),
+    clusters: state.clusters.map(c=>({
+      id:c.id, name:c.name, meaning:c.meaning,
+      notes: state.notes.filter(n=>n.c===c.id).map(n=>({
+        text:n.t, source:SRC[n.src].label, who:n.who, date:n.date,
+        language:n.lang==="he"?"translated from Hebrew":"English",
+        kind:n.kind==="para"?"paraphrase of a published study":"quote",
+        weight:SRC[n.src].weight
+      }))
+    }))
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const a=el("a"); a.href=URL.createObjectURL(blob); a.download="group7-affinity-board.json";
+  document.body.append(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+});
+
+/* ── PERSONAS ─────────────────────────────────────────────── */
+function esc(s){ return String(s).replace(/&(?!(amp|lt|gt|quot|#\d+);)/g,"&amp;").replace(/</g,"&lt;"); }
+function renderPersonas(){
+  const host=$("#persona-list");
+  PERSONAS.forEach(p=>{
+    const art=el("article","persona"+(p.synth?" is-synth":""));
+    const h=el("div","persona-h");
+    h.innerHTML =
+      '<h3>'+esc(p.name)+'</h3>'+
+      '<p class="role">'+esc(p.role)+'</p>'+
+      '<p class="note">'+esc(p.note)+'</p>';
+    art.append(h);
+
+    if(p.synth){
+      const w=el("div","warnband");
+      w.innerHTML='<strong>Synthetic</strong><span>We could not recruit real families inside the sprint window. Everything here is a hypothesis to confirm with real families. It must not be quoted or presented as a finding.</span>';
+      art.append(w);
+    }
+
+    const body=el("div","persona-body");
+    const g=el("div","glance");
+    p.glance.forEach(([k,v])=>{
+      const d=el("div"); d.innerHTML='<span class="lab">'+esc(k)+'</span><span>'+esc(v)+'</span>'; g.append(d);
+    });
+    const qd=el("div","quote");
+    qd.innerHTML='<span class="lab" style="display:block;margin-bottom:6px">In their words</span>“'+esc(p.quote)+'”'+
+      (p.synth?' <span style="color:var(--synth); font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase">[synthetic]</span>':'');
+    g.append(qd);
+
+    const right=el("div");
+    const facets=el("div","facets");
+    p.tabs.forEach(([name,text])=>{
+      const f=el("section","facet");
+      const l=el("span","lab"); l.textContent=name;
+      const t=el("p"); t.textContent=text;
+      f.append(l,t); facets.append(f);
+    });
+    right.append(facets);
+
+    if(p.corrob.length){
+      const c=el("div","corrob");
+      c.innerHTML='<span class="lab">Corroborated from real sources</span>';
+      p.corrob.forEach(([k,v])=>{
+        const d=el("details");
+        d.innerHTML='<summary>'+esc(k)+'</summary><p>'+esc(v)+'</p>';
+        c.append(d);
+      });
+      right.append(c);
+    }
+
+    body.append(g,right); art.append(body); host.append(art);
+  });
+}
+
+/* ── JOURNEY — the trace ──────────────────────────────────── */
+const JROWS=[["Doing","doing"],["Thinking","think"],["Pain points","pain"],["Opportunities","opp"]];
+const yFor = v => (1 - v/3)*74 + 13;   /* % of plot height for feeling level v (0..3) */
+
+function renderJourney(){
+  const grid=$("#jgrid");
+  const lanes = state.lane==="both" ? ["phys","fam"] : [state.lane];
+  const base = JOURNEYS[lanes[0]];
+  grid.innerHTML="";
+
+  $("#jscenario").textContent = lanes.map(l=>JOURNEYS[l].label+" — "+JOURNEYS[l].scenario).join("   ");
+  $("#jwarn").hidden = !lanes.includes("fam");
+
+  const legend=$("#legend"); legend.innerHTML="";
+  if(lanes.length>1){
+    lanes.forEach(l=>{
+      const k=el("span","key"); k.dataset.lane=l==="phys"?"phys":"fam";
+      k.innerHTML='<i class="tick"></i>'+JOURNEYS[l].label+(l==="fam"?" · synthetic":"");
+      legend.append(k);
+    });
+  }
+
+  /* Each lane keeps its own stage count — physician has 5, caregiver 6 —
+     so a shared column template would overflow the longer lane. */
+  const tplFor = st => "150px repeat("+st.length+",minmax(170px,1fr))";
+  function headRow(stages){
+    const head=el("div","jhead"); head.style.gridTemplateColumns=tplFor(stages);
+    const hc=el("div","cell"); hc.innerHTML='<span class="lab">Stage / feeling</span>'; head.append(hc);
+    stages.forEach(s=>{
+      const c=el("div","cell"); c.dataset.i=s.n;
+      c.innerHTML='<span class="lab">Stage '+s.n+'</span><b>'+s.t+'</b>'+
+        '<span class="feel">Feeling: '+FEEL_WORD[FEEL[s.f]]+'</span>';
+      head.append(c);
+    });
+    return head;
+  }
+  if(lanes.length===1){ grid.append(headRow(base.stages)); }
+
+  /* the trace */
+  const plot=el("div","plot");
+  const yaxis=el("div","yaxis");
+  [3,2,1,0].forEach(v=>{
+    const yl=el("span","yl"); yl.style.top=yFor(v)+"%"; yl.textContent=FEEL_WORD[v];
+    yaxis.append(yl);
+  });
+  plot.append(yaxis);
+
+  const trace=el("div","trace");
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 100 100"); svg.setAttribute("preserveAspectRatio","none");
+  svg.setAttribute("role","img");
+  svg.setAttribute("aria-label",
+    lanes.map(l=>JOURNEYS[l].label+" feeling by stage: "+
+      JOURNEYS[l].stages.map(s=>s.t.replace(/&amp;/g,"and")+", "+FEEL_WORD[FEEL[s.f]]).join("; ")).join(". "));
+  /* four reference lines, one per feeling level */
+  [3,2,1,0].forEach(v=>{
+    const g=document.createElementNS("http://www.w3.org/2000/svg","line");
+    const y=yFor(v);
+    g.setAttribute("x1",0); g.setAttribute("x2",100); g.setAttribute("y1",y); g.setAttribute("y2",y);
+    g.setAttribute("stroke","var(--rule-soft)"); g.setAttribute("stroke-width","1");
+    g.setAttribute("vector-effect","non-scaling-stroke");
+    svg.append(g);
+  });
+  lanes.forEach(l=>{
+    const st=JOURNEYS[l].stages;
+    const pts=st.map((s,i)=>[(i+.5)/st.length*100, yFor(FEEL[s.f])]);
+    const path=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+    path.setAttribute("points",pts.map(p=>p.join(",")).join(" "));
+    path.setAttribute("fill","none");
+    path.setAttribute("stroke", l==="phys"?"var(--phys)":"var(--synth)");
+    path.setAttribute("stroke-width","2");
+    path.setAttribute("stroke-linejoin","round"); path.setAttribute("stroke-linecap","round");
+    if(l==="fam"){ path.setAttribute("stroke-dasharray","5 4"); }
+    path.setAttribute("vector-effect","non-scaling-stroke");
+    svg.append(path);
+  });
+  trace.append(svg);
+  /* markers: physician = disc, caregiver = square */
+  lanes.forEach(l=>{
+    const st=JOURNEYS[l].stages;
+    st.forEach((s,i)=>{
+      const x=(i+.5)/st.length*100, y=yFor(FEEL[s.f]);
+      const d=el("div");
+      const square = l==="fam";
+      d.style.cssText="position:absolute; width:10px; height:10px; transform:translate(-50%,-50%);"+
+        "left:"+x+"%; top:"+y+"%;"+
+        "background:"+(l==="phys"?"var(--phys)":"var(--synth)")+"; border:2px solid var(--sunk);"+
+        (square?"":"border-radius:50%;");
+      trace.append(d);
+      if(s.f==="lowest" && lanes.length===1){
+        const t=el("div"); t.textContent="lowest point";
+        t.style.cssText="position:absolute; transform:translate(-50%,-100%); white-space:nowrap;"+
+          "left:"+x+"%; top:calc("+y+"% - 12px);"+
+          "font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)";
+        trace.append(t);
+      }
+    });
+  });
+  plot.append(trace);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){ trace.style.clipPath="inset(0 0 0 0)"; }
+  else { requestAnimationFrame(()=>requestAnimationFrame(()=>trace.classList.add("on"))); }
+  grid.append(plot);
+
+  lanes.forEach((l)=>{
+    const J=JOURNEYS[l];
+    if(lanes.length>1){
+      const band=el("div","jrow"); band.style.gridTemplateColumns="1fr";
+      const c=el("div","cell rowlab");
+      c.innerHTML='<span class="lab">'+(l==="phys"?"Physician lane":"Caregiver lane · synthetic")+' — '+esc(J.label)+'</span>';
+      c.style.position="static";
+      band.append(c); grid.append(band);
+      grid.append(headRow(J.stages));
+    }
+    JROWS.forEach(([label,key])=>{
+      const r=el("div","jrow"); r.style.gridTemplateColumns=tplFor(J.stages);
+      const rl=el("div","cell rowlab"); rl.innerHTML='<span class="lab">'+label+'</span>';
+      r.append(rl);
+      J.stages.forEach(s=>{
+        const c=el("div","cell"+(key==="opp"?" opp":"")); c.dataset.i=s.n;
+        c.innerHTML = key==="think" ? '<span class="think">'+s[key]+'</span>' : s[key];
+        r.append(c);
+      });
+      grid.append(r);
+    });
+  });
+
+  grid.querySelectorAll("[data-i]").forEach(c=>{
+    c.addEventListener("mouseenter",()=>{
+      grid.querySelectorAll('[data-i="'+c.dataset.i+'"]').forEach(x=>x.classList.add("jcol-hot"));
+    });
+    c.addEventListener("mouseleave",()=>{
+      grid.querySelectorAll(".jcol-hot").forEach(x=>x.classList.remove("jcol-hot"));
+    });
+  });
+}
+document.querySelectorAll("[data-lane]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    state.lane=b.dataset.lane;
+    document.querySelectorAll("[data-lane]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    renderJourney();
+  });
+});
+
+/* ── INSIGHTS / HMW ───────────────────────────────────────── */
+function renderInsights(){
+  const host=$("#insights-list");
+  INSIGHTS.forEach((i,idx)=>{
+    const d=el("details","ins");
+    if(idx===0) d.open=true;
+    const dots = [0,1,2,3].map(k=>'<i class="'+(k<i.n?"on":"")+'"></i>').join("");
+    d.innerHTML =
+      '<summary>'+
+        '<span class="id">'+i.id+'</span>'+
+        '<h3>'+i.title+'</h3>'+
+        '<span class="smeta">'+
+          '<span class="strength" aria-hidden="true">'+dots+'</span>'+
+          '<span class="scount">'+i.n+' real sources</span>'+
+          '<span class="more">'+(idx===0?"Close":"Open")+'</span>'+
+        '</span>'+
+      '</summary>'+
+      '<div class="inner">'+
+        '<div class="block"><span class="lab">Finding — what we saw</span><p>'+i.finding+'</p></div>'+
+        '<div class="block"><span class="lab">Insight — what it means</span><p>'+i.insight+'</p></div>'+
+        '<p class="srcline"><b>Sources ('+i.n+' independent real):</b> '+i.sources+'</p>'+
+        (i.synth?'<p class="synthline"><b style="color:var(--synth)">Synthetic, hypothesis:</b> '+i.synth+'</p>':'')+
+      '</div>';
+    d.addEventListener("toggle",()=>{ d.querySelector(".more").textContent = d.open?"Close":"Open"; });
+    host.append(d);
+  });
+}
+function renderHmw(){
+  const host=$("#hmws");
+  HMWS.forEach(h=>{
+    const d=el("article","hmw");
+    d.innerHTML='<span class="tag">'+h.n+'</span><div><q>'+h.q+'</q>'+
+      '<p class="from"><b>From:</b> '+h.from+'</p>'+
+      '<p class="why"><b>Why this framing:</b> '+h.why+'</p></div>';
+    host.append(d);
+  });
+}
+
+/* ── CHROME ───────────────────────────────────────────────── */
+const themeBtn=$("#theme");
+function setTheme(dark){
+  document.documentElement.dataset.theme = dark ? "dark":"light";
+  themeBtn.textContent = dark ? "Light":"Dark";
+  themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+themeBtn.addEventListener("click",()=>setTheme(document.documentElement.dataset.theme!=="dark"));
+
+const links=[...document.querySelectorAll(".rail a")];
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(a=>a.setAttribute("aria-current",String(a.getAttribute("href")==="#"+e.target.id)));
+    }
+  });
+},{rootMargin:"-15% 0px -75% 0px"});
+document.querySelectorAll("main section[id]").forEach(s=>obs.observe(s));
+
+renderBoard(); renderPersonas(); renderJourney(); renderInsights(); renderHmw();
+</script>
+</body>
+</html>

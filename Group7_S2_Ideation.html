@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group 7 · Session 2 Ideation · Pre-Visit Intake</title>
+<style>
+/* ─────────────────────────────────────────────────────────────
+   TOKENS — shares the companion synthesis world.
+   Light source hues are the CVD- and text-safe steps.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  color-scheme: light;
+  --paper:#f7f6f1; --surface:#fdfdfa; --sunk:#f1efe7;
+  --grid-fine:#e8e5da; --grid-major:#d8d4c4; --rule:#c9c5b6; --rule-soft:#e0dccf;
+  --ink:#14140f; --ink-2:#45433c; --ink-3:#63605a; --ink-4:#8b887e;
+  --phys:#1d5fae; --nurse:#0d7a52; --synth:#b84714; --desk:#5d5a53;
+  --gate:#b23025; --focus:#14140f; --slip:#fffffc;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+  --t-xs:.6875rem; --t-sm:.8125rem; --t-base:.875rem; --t-body:1rem; --t-md:1.125rem;
+  --t-lg:1.375rem; --t-xl:1.75rem; --t-2xl:2.375rem;
+  --sans: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono: ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+  --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+  --ink:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+  --phys:#3987e5; --nurse:#199e70; --synth:#d95926; --desk:#9d9a90;
+  --gate:#e06a60; --focus:#f4f3ec; --slip:#1c1c18;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0e0e0c; --surface:#171714; --sunk:#121210;
+    --grid-fine:#24231e; --grid-major:#33322a; --rule:#3a3931; --rule-soft:#2a2924;
+    --ink:#f4f3ec; --ink-2:#c4c1b6; --ink-3:#9d9a90; --ink-4:#7e7b72;
+    --phys:#3987e5; --nurse:#199e70; --synth:#d95926; --desk:#9d9a90;
+    --gate:#e06a60; --focus:#f4f3ec; --slip:#1c1c18;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; overflow-x:clip}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:var(--t-body); line-height:1.55;
+  font-variant-numeric:tabular-nums;
+  background-image:
+    repeating-linear-gradient(to right, var(--grid-fine) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--grid-fine) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to right, var(--grid-major) 0 1px, transparent 1px 200px),
+    repeating-linear-gradient(to bottom, var(--grid-major) 0 1px, transparent 1px 200px);
+}
+:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+h1,h2,h3,h4{margin:0; font-weight:600; letter-spacing:-.015em; line-height:1.2}
+p{margin:0 0 var(--s3)}
+button{font:inherit; color:inherit; background:none; border:none; padding:0; cursor:pointer}
+em{font-style:italic}
+.lab{font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.wrap{max-width:1520px; margin:0 auto; padding:0 var(--s5)}
+.prose{max-width:68ch}
+
+.skip{position:absolute; left:var(--s3); top:-48px; z-index:80; background:var(--ink); color:var(--paper);
+  padding:8px 14px; border-radius:2px; font-size:var(--t-sm); font-weight:600; transition:top .15s var(--ease)}
+.skip:focus{top:var(--s3)}
+
+.channel{border-top:1px solid var(--rule); padding-top:var(--s4); margin-top:var(--s8)}
+.channel h2{font-size:var(--t-xl); text-wrap:balance; max-width:26ch}
+.channel .intro{color:var(--ink-2); margin-top:var(--s3)}
+main section[id]{scroll-margin-top:58px}
+
+.mast{border-bottom:1px solid var(--rule); background:var(--surface)}
+.mast-in{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:var(--s6); align-items:end; padding:var(--s6) 0 var(--s4)}
+.mast h1{font-size:var(--t-2xl); letter-spacing:-.03em; max-width:20ch; text-wrap:balance}
+.mast .sub{color:var(--ink-2); margin:var(--s3) 0 0; max-width:64ch}
+.mast .run{display:grid; grid-auto-flow:column; gap:var(--s5); grid-template-rows:repeat(2,auto); align-items:end}
+.readout{display:grid; gap:2px; align-content:start}
+.readout b{font-size:var(--t-md); font-weight:600; line-height:1}
+.toolbar{display:flex; gap:var(--s2); align-items:center; padding:0 0 var(--s4); flex-wrap:wrap}
+.byline{margin-left:auto; font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--ink-3)}
+.btn{border:1px solid var(--rule); background:var(--surface); color:var(--ink); border-radius:2px; padding:6px 12px;
+  font-size:var(--t-sm); font-weight:500; transition:background .15s var(--ease), border-color .15s var(--ease)}
+.btn:hover{background:var(--sunk); border-color:var(--ink-4)}
+.btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+
+.rail{position:sticky; top:0; z-index:40; background:var(--surface); border-bottom:1px solid var(--rule)}
+.rail .wrap{position:relative}
+.rail ol{display:flex; margin:0; padding:0; list-style:none; overflow-x:auto; scrollbar-width:none}
+.rail ol::-webkit-scrollbar{height:0}
+.rail::after{content:""; position:absolute; top:0; right:0; width:28px; height:100%;
+  background:linear-gradient(to right, transparent, var(--surface)); pointer-events:none}
+.rail a{display:block; padding:10px 14px 9px; text-decoration:none; color:var(--ink-3);
+  font-size:var(--t-xs); letter-spacing:.14em; text-transform:uppercase; font-weight:600;
+  white-space:nowrap; border-bottom:2px solid transparent; transition:color .15s var(--ease), border-color .15s var(--ease)}
+.rail a:hover{color:var(--ink)}
+.rail a[aria-current="true"]{color:var(--ink); border-bottom-color:var(--ink)}
+
+/* bundle */
+.bundle{width:100%; border-collapse:collapse; margin-top:var(--s5); background:var(--surface); border:1px solid var(--rule)}
+.bundle th,.bundle td{text-align:left; vertical-align:top; padding:var(--s3) var(--s4);
+  border-bottom:1px solid var(--rule-soft); font-size:var(--t-base); line-height:1.55}
+.bundle tr:last-child td{border-bottom:none}
+.bundle th{width:230px; font-weight:600}
+.bundle td{color:var(--ink-2)}
+
+/* diverge */
+.filters{display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; margin:var(--s4) 0 var(--s2)}
+.chip{border:1px solid var(--rule); background:var(--surface); color:var(--ink); border-radius:2px; padding:5px 10px;
+  font-size:var(--t-sm); display:inline-flex; align-items:center; gap:7px; transition:border-color .15s var(--ease), background .15s var(--ease)}
+.chip:hover{border-color:var(--ink-4)}
+.chip[aria-pressed="true"]{border-color:var(--ink); background:var(--sunk)}
+/* off state carried by a dashed border + paper ground; text stays full contrast */
+.chip[aria-pressed="false"]{border-style:dashed; border-color:var(--rule); background:var(--paper)}
+.chip .n{font-family:var(--mono); font-size:var(--t-xs); color:var(--ink-3)}
+.search{border:1px solid var(--rule); background:var(--surface); border-radius:2px; padding:6px 10px;
+  font:inherit; font-size:var(--t-sm); min-width:15rem; color:var(--ink)}
+.search::placeholder{color:var(--ink-3)}
+.dirline{display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; margin-bottom:var(--s4)}
+.keynote{font-size:var(--t-sm); color:var(--ink-3); margin-left:var(--s2)}
+
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr)); gap:var(--s3); margin-top:var(--s2)}
+.card{background:var(--surface); border:1px solid var(--rule-soft); border-top:2px solid var(--ink);
+  padding:var(--s4); display:flex; flex-direction:column; gap:var(--s2); min-width:0;
+  transition:border-color .15s var(--ease), background .2s var(--ease)}
+.card[hidden]{display:none}
+.card.weird{border-top-style:dashed}
+/* de-selected concepts recede on the surface — sunk ground + a softened top
+   rule — while the concept name and text stay at full ink, so "what was left
+   behind" stays equally legible. State is never carried by dimming the ink. */
+.card[data-dim="true"]{background:var(--sunk); border-top-color:var(--rule-soft)}
+.card[data-dim="true"] .no{color:var(--ink-4)}
+.card:hover{border-color:var(--ink-4)}
+.card .top{display:flex; align-items:baseline; justify-content:space-between; gap:var(--s3)}
+.card .no{font-family:var(--mono); font-size:var(--t-sm); color:var(--ink-3)}
+.card h3{font-size:var(--t-md); letter-spacing:-.015em}
+.card p{margin:0; font-size:var(--t-base); line-height:1.55; color:var(--ink-2)}
+.card .foot{display:flex; flex-wrap:wrap; gap:var(--s2); align-items:center; margin-top:auto; padding-top:var(--s2)}
+.tag{font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  padding:2px 6px; border:1px solid var(--rule); border-radius:2px; color:var(--ink-3)}
+.tag[data-t="PHY"]{color:var(--phys); border-color:var(--phys)}
+.tag[data-t="FAM"]{color:var(--synth); border-color:var(--synth)}
+.tag[data-t="BRIDGE"]{color:var(--nurse); border-color:var(--nurse)}
+.tag[data-t="OPS"]{color:var(--ink-2); border-color:var(--ink-3)}
+.dirs{display:flex; gap:4px; align-items:center}
+.dirs b{font-family:var(--mono); font-size:var(--t-xs); font-weight:600; width:18px; height:18px;
+  display:grid; place-items:center; border:1px solid var(--ink); color:var(--ink)}
+.held-badge{font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  color:var(--ink-3); border:1px dashed var(--ink-4); border-radius:2px; padding:1px 6px}
+.weirdmark{font-size:var(--t-xs); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.grid-empty{grid-column:1/-1; border:1px dashed var(--rule); background:var(--surface);
+  padding:var(--s5); text-align:center; color:var(--ink-3); font-size:var(--t-sm)}
+
+.killed{margin-top:var(--s6); border-top:1px solid var(--rule); padding-top:var(--s4)}
+.killed > .lab{display:block}
+.killed ul{margin:var(--s3) 0 0; padding-left:0; list-style:none; display:grid; gap:var(--s3); max-width:88ch}
+.killed li{font-size:var(--t-base); line-height:1.55; color:var(--ink-2); padding-left:var(--s4); position:relative}
+.killed li::before{content:"×"; position:absolute; left:0; color:var(--gate); font-family:var(--mono)}
+
+/* converge */
+.dir{background:var(--surface); border:1px solid var(--rule); border-top:2px solid var(--ink); margin-top:var(--s5)}
+.dir-h{padding:var(--s5); border-bottom:1px solid var(--rule-soft)}
+.dir-h h3{font-size:var(--t-lg)}
+.dir-h .sentence{font-size:var(--t-md); line-height:1.45; letter-spacing:-.01em; margin:var(--s3) 0 0; max-width:70ch}
+.dir-h .made{margin:var(--s4) 0 0; display:flex; flex-wrap:wrap; gap:8px; align-items:baseline}
+.dir-h .made .madeof{font-size:var(--t-sm); color:var(--ink-3); max-width:74ch}
+.lens{display:grid; grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:960px){.lens{grid-template-columns:minmax(0,1fr)}}
+.lens > div{padding:var(--s5); border-left:1px solid var(--rule-soft)}
+.lens > div:first-child{border-left:none}
+@media (max-width:960px){.lens > div{border-left:none; border-top:1px solid var(--rule-soft)}}
+.lens .lab{display:block; margin-bottom:var(--s2)}
+.lens p{font-size:var(--t-base); line-height:1.6; margin:0 0 var(--s3)}
+.lens p:last-child{margin-bottom:0}
+.lens .note{color:var(--ink-3); font-size:var(--t-sm)}
+.gatebar{border-top:1px solid var(--gate); background:repeating-linear-gradient(135deg,transparent 0 9px,var(--sunk) 9px 10px);
+  padding:var(--s4) var(--s5); display:flex; gap:var(--s4); align-items:flex-start}
+.gatebar strong{color:var(--gate); font-size:var(--t-xs); letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; padding-top:2px}
+.gatebar span{font-size:var(--t-base); line-height:1.55}
+.owner{padding:var(--s3) var(--s5); border-top:1px solid var(--rule-soft); font-size:var(--t-sm); color:var(--ink-3)}
+
+/* land — a recommendation, not a card triptych */
+.stances{margin-top:var(--s5); border:1px solid var(--rule); background:var(--surface)}
+.stance{padding:var(--s5); border-top:1px solid var(--rule-soft); display:grid; grid-template-columns:170px minmax(0,1fr); gap:var(--s5)}
+.stance:first-child{border-top:none}
+@media (max-width:760px){.stance{grid-template-columns:minmax(0,1fr); gap:var(--s2)}}
+.stance .verdict{font-size:var(--t-md); font-weight:600; letter-spacing:-.01em}
+.stance .verdict .d{font-family:var(--mono); color:var(--ink-3); margin-right:6px}
+.stance p{font-size:var(--t-base); line-height:1.6; color:var(--ink-2); margin:0; max-width:80ch}
+.callout{border:1px solid var(--ink); background:var(--surface); padding:var(--s5); margin-top:var(--s5)}
+.callout .lab{display:block; margin-bottom:var(--s3)}
+.callout p{font-size:var(--t-md); line-height:1.5; max-width:78ch; margin:0 0 var(--s3)}
+.callout p:last-child{margin:0}
+.next{margin-top:var(--s6); counter-reset:n; display:grid; gap:var(--s3); max-width:88ch}
+.next > .lab{display:block; margin-bottom:var(--s3)}
+.next li{list-style:none; counter-increment:n; position:relative; padding-left:var(--s6);
+  font-size:var(--t-base); line-height:1.6; color:var(--ink-2)}
+.next li::before{content:counter(n); position:absolute; left:0; top:1px; font-family:var(--mono);
+  font-size:var(--t-sm); color:var(--ink); border:1px solid var(--rule); width:22px; height:22px; display:grid; place-items:center}
+.next ol{margin:0; padding:0; display:grid; gap:var(--s3)}
+
+footer{border-top:1px solid var(--rule); margin-top:var(--s9); padding:var(--s5) 0 var(--s8); font-size:var(--t-sm); color:var(--ink-3)}
+footer b{color:var(--ink-2)}
+
+@media (max-width:960px){
+  .mast-in{grid-template-columns:minmax(0,1fr); gap:var(--s4); align-items:start}
+  .mast h1{font-size:var(--t-xl); max-width:none}
+  .mast .run{grid-auto-flow:row dense; grid-template-columns:repeat(2,auto); grid-template-rows:none; gap:var(--s4) var(--s5)}
+  .byline{margin-left:0; flex-basis:100%; order:3}
+  .bundle, .bundle tbody, .bundle tr, .bundle th, .bundle td{display:block}
+  .bundle th{width:auto; padding-bottom:0; border-bottom:none}
+}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important; transition-duration:.001ms !important}}
+@media print{.rail,.toolbar,.filters,.dirline,.dir-h .made .btn,.skip{display:none !important} body{background:#fff}}
+</style>
+</head>
+<body>
+<!--
+  DIRECTION CONTRACT · seed key db4ae67f · mode operate
+
+  THESIS: An ideation board that shows the convergence instead of asserting it —
+  select a direction and the 22 concepts recede to the ones inside it on the
+  surface, not in the ink, so what was carried and what was left behind stay
+  equally legible. Refuses the default ideation deck: a tidy list of three
+  winners with the losers deleted.
+
+  OWN-WORLD: Same instrument world as the companion synthesis file. Pen-plotter
+  graph paper, continuous 40px grid with 200px majors, hairline rules instead of
+  shadowed cards, graphite ink #14140f on warm paper #f7f6f1, identity carried
+  only by the CVD- and text-safe tag hues #1d5fae / #0d7a52 / #b84714. 2px
+  radius, wide-tracked uppercase instrument labels, tabular figures.
+
+  STORY: A teammate filters to the family-side concepts and sees which ones
+  Direction B actually absorbed. A mentor reads three directions and finds, on
+  each, the assumption that kills it and the test that would run this week.
+
+  FIRST VIEWPORT: Instrument header with a calibration readout (22 concepts ·
+  3 directions · 7 held back · 3 killed), the rail, then the bundle that was fed
+  in. No hero, no pitch.
+
+  FORM: Instrument trace on plotter paper — candidate 5 of 7 on the grounded
+  list ordered by resonance, assigned by seed db4ae67f.
+
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the
+  finish review, the verdict, and DESIGN.md
+-->
+
+<a class="skip" href="#main">Skip to the concepts</a>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-in">
+      <div>
+        <h1>Ideation: diverge, then converge</h1>
+        <p class="sub">Group 7 · Pediatric pulmonology, pre-visit intake (Challenge #6). Session 2 of the AI Product Sprint 2026, Define → Develop. Inputs are the five insights, the POV and the three How Might We questions from the companion synthesis file. Select a direction to see which concepts it absorbed and which were left behind.</p>
+      </div>
+      <div class="run">
+        <div class="readout"><span class="lab">Concepts</span><b>22</b></div>
+        <div class="readout"><span class="lab">Directions</span><b>3</b></div>
+        <div class="readout"><span class="lab">Held back</span><b>7</b></div>
+        <div class="readout"><span class="lab">Killed on the way</span><b>3</b></div>
+        <div class="readout"><span class="lab">Compiled</span><b>31 Jul 2026</b></div>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="theme">Dark</button>
+      <button class="btn" onclick="window.print()">Print</button>
+      <span class="byline">Matan Rosen · Anat Katzir · Gal Yeshayahu · Mikhail Yagudaev</span>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Sections">
+  <div class="wrap">
+    <ol>
+      <li><a href="#bundle">1 · The bundle</a></li>
+      <li><a href="#diverge">2 · Diverge · 22 concepts</a></li>
+      <li><a href="#converge">3 · Converge · 3 directions</a></li>
+      <li><a href="#land">4 · Where we land</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <section id="bundle" class="channel" style="margin-top:var(--s6)">
+    <h2>The bundle we worked from: fed whole, not from a blank prompt</h2>
+    <p class="prose intro">Per the Session 2 run sheet, ideation was given insights, HMW, the lean lens, our own ideas already on the table, and the ethics guardrails together.</p>
+    <table class="bundle">
+      <tbody>
+        <tr><th scope="row">Insights</th><td>I1 route not knowledge · I2 verification is the visit · I3 holes sit on organisational boundaries · I4 instructional and reciprocal, not motivational · I5 confidence without accuracy</td></tr>
+        <tr><th scope="row">POV</th><td>A pediatric pulmonologist facing a new patient needs to reach and verify the raw pieces of that child's history faster, not to be handed a summary, because the visit is consumed by re-assembling a record fragmented at organisational boundaries that is never complete.</td></tr>
+        <tr><th scope="row">How Might We</th><td>HMW1 one route, never skip the check · HMW2 ask only for what the record cannot hold, with a safe “I don't know” · HMW3 make the contribution visibly change the room</td></tr>
+        <tr><th scope="row">Lean lens · Ido Cohen</th><td>Riskiest assumption · smallest test runnable this week with a real user · one sentence, “For [user] we help them [do X] by [approach].” Ask AI for assumptions and risks, not features. Force a budget: one week, no code, one user.</td></tr>
+        <tr><th scope="row">Our own ideas already on the table</th><td>The at-home adaptive intake proposed unprompted by Dr. Bar-On; the pre-visit virtual form proposed unprompted by the Clalit physician; the consolidated pre-visit view and de-identified AI assist from journey map v1; the nurse's two-question minimum form.</td></tr>
+        <tr><th scope="row">Guardrails</th><td>No patient PII into a model (pass/fail) · human in the loop, no clinical conclusions · transparent provenance · verify, never replace the check · a named owner and a measurement, or it decays</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="diverge" class="channel">
+    <h2>Diverge: twenty-two concepts, un-edited</h2>
+    <p class="prose intro">Generated wide, including the ones that will not survive. Three were kept deliberately weird because they move the thinking. Selecting a direction below recedes everything it did not absorb, without hiding it.</p>
+
+    <div class="filters">
+      <button class="chip" data-tag="PHY" aria-pressed="true"><span class="tag" data-t="PHY">PHY</span>Physician-side <span class="n" data-n="PHY"></span></button>
+      <button class="chip" data-tag="FAM" aria-pressed="true"><span class="tag" data-t="FAM">FAM</span>Family-side <span class="n" data-n="FAM"></span></button>
+      <button class="chip" data-tag="BRIDGE" aria-pressed="true"><span class="tag" data-t="BRIDGE">BRIDGE</span>Between <span class="n" data-n="BRIDGE"></span></button>
+      <button class="chip" data-tag="OPS" aria-pressed="true"><span class="tag" data-t="OPS">OPS</span>Clinic ops <span class="n" data-n="OPS"></span></button>
+      <input class="search" id="q" type="search" placeholder="Search concepts" aria-label="Search concepts">
+    </div>
+    <div class="dirline">
+      <span class="lab">Show a direction</span>
+      <button class="btn" data-dir="A" aria-pressed="false">A</button>
+      <button class="btn" data-dir="B" aria-pressed="false">B</button>
+      <button class="btn" data-dir="C" aria-pressed="false">C</button>
+      <button class="btn" data-dir="held" aria-pressed="false">Held back</button>
+      <button class="btn" data-dir="" aria-pressed="true">All</button>
+      <span class="keynote">Held back = generated but not carried into A, B or C.</span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="killed">
+      <span class="lab">Killed on the way, and why · kept visible so we do not regenerate them</span>
+      <ul>
+        <li><b>“AI writes the visit summary from the chart.”</b> Violates I2 outright. Both physicians said they will not accept another reader's conclusion; one said even his own automation fantasy must remain deletable and editable.</li>
+        <li><b>“A comprehensive family questionnaire covering the full history.”</b> The clinic already ran a generic version and it lapsed; published completion for electronic pre-visit questionnaires is around half, and some intervention visits ran 6.8 minutes longer.</li>
+        <li><b>“Integrate with the national exchange to solve fragmentation.”</b> The exchange already carries what it can; the gap is by definition what sits outside it, and this is not buildable inside a three-week sprint.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="converge" class="channel">
+    <h2>Converge: three directions, each through the lean lens</h2>
+    <p class="prose intro">One sentence, riskiest assumption, smallest test, and the failure condition decided before the test is run. Every test is runnable this week with no code.</p>
+    <div id="dirs"></div>
+  </section>
+
+  <section id="land" class="channel">
+    <h2>Where we land: the recommendation, and the one thing to run first</h2>
+
+    <div class="stances">
+      <div class="stance">
+        <div class="verdict"><span class="d">A</span>Take as the strongest</div>
+        <p>A carries the most real evidence, was described unprompted by a participant, sits inside the physician constraint rather than fighting it, and is testable with a paper mock this week. It is also the direction a low-fidelity prototype can genuinely represent: a clickable rubric view is exactly the kind of thing that stands up in a demo without any real system access, which is the scope guidance both mentors gave us.</p>
+      </div>
+      <div class="stance">
+        <div class="verdict"><span class="d">B</span>Carry alongside, not instead</div>
+        <p>A alone leaves the second axis untouched: the parent's account, which the physicians said complements and sometimes contradicts the record, and which is the one thing they cannot retrieve from any system. B is where the family half lives, and B's test is a phone call, so it costs five conversations rather than a build. It is also, bluntly, the direction with the weakest evidence underneath it, because everything we hold on families is synthetic, which makes running its test the highest-value thing we can do this week.</p>
+      </div>
+      <div class="stance">
+        <div class="verdict"><span class="d">C</span>Run in parallel, nearly free</div>
+        <p>C is one afternoon with the nurse and no build at all. If it works it is a real, shippable improvement; if it fails we learn that the clinic is capacity-bound, which reshapes A and B too.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="lab">The one assumption and the one test, for the share-out</span>
+      <p><b>Assumption.</b> Physicians will use a consolidated one-route view instead of falling back to the source systems they already trust.</p>
+      <p><b>Test.</b> A paper mock of one de-identified case, three physicians, each preparing that patient as they normally would, and we count every time they reach past the mock. If two of three do, we were wrong.</p>
+    </div>
+
+    <div class="next">
+      <span class="lab">Before Session 3 · Thu 6 Aug</span>
+      <ol>
+        <li>Book the three physician mock sessions and the five family calls through the mentors. They offered introductions explicitly, and access was the bottleneck all last week.</li>
+        <li>Interview real families. Every family-side claim in both documents is currently synthetic. Direction B cannot be defended at a mentor review until at least two real caregivers have been spoken to.</li>
+        <li>Verify the fifteen-minute-to-one-hour in-room figure against the recording, so the north-star KPI has a real baseline rather than a recalled one.</li>
+        <li>Write the Initial Solution Concept off Direction A: one-sentence concept, the riskiest assumption, the smallest test, and how the guardrails are honoured.</li>
+        <li>Log the skill. The interview-synth skill built this morning is our Shared Skill candidate, so capture the process write-up while it is fresh.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <p>Every claim on this page traces to the team Drive, Interviews and Synthesis folders. Synthetic material is labelled at every point of use and never counted as evidence. No identifiable patient data appears anywhere. Identical content to <b>Group7_S2_Ideation.docx</b>. Companion file: <b>Group7_S2_Synthesis.html</b>.</p>
+  </footer>
+</main>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const el = (t,c) => {const e=document.createElement(t); if(c) e.className=c; return e;};
+
+const C = (n,name,tag,desc,dirs,weird) => ({n,name,tag,desc,dirs:dirs||[],weird:!!weird});
+const CONCEPTS = [
+  C(1,"One-Route Chart","PHY","A single pre-visit view that pulls every reachable source into one screen organised by pulmonology rubrics: growth curves, all imaging, all respiratory prescriptions, all admissions since birth. Every item is one click from the raw artefact. Nothing is summarised, nothing is concluded.",["A"]),
+  C(2,"Rubric Remote","PHY","The physician ticks the rubrics they want the night before; the system fetches them overnight and has them open the moment the patient checks in. Turns the chase into a request.",["A"]),
+  C(3,"X-Ray Reel","PHY","Every chest X-ray the child has ever had, in date order, as a scrollable strip with each reading pinned beneath it. Directly answers “six X-rays means going one by one by one.”",["A"]),
+  C(4,"Green-Tick Labs","PHY","Any lab entirely within reference range gets a green tick and never needs opening; anything out of range opens raw. The single automation both physicians volunteered as acceptable, and the only one.",["A"]),
+  C(5,"Acronym Decoder","PHY","Inline expansion of treatment-protocol acronyms in other physicians' free text, with the source sentence quoted alongside. Named by one sub-specialist as what wastes the most of her time.",["A"]),
+  C(6,"Boundary Map","PHY","Before the visit, the system states what it could not reach: “three records exist outside this network, Terem 14 Mar, private pulmonologist ×2, sleep lab.” Converts an unknown hole into a named list.",["A","B"]),
+  C(7,"The Named Ask","BRIDGE","The family's pre-visit request is generated from the Boundary Map. Not “bring documents and discs” but “bring the discharge paper from 14 March and the sleep-study result.” Three items, each named.",["B"]),
+  C(8,"Two Questions","FAM","A pre-visit SMS carrying exactly the nurse's two questions and nothing else: nights woken in the last month, reliever uses in the last week. Countable, recent, resistant to rounding.",["B"]),
+  C(9,"Don't-Know Button","FAM","Every intake field has an explicit “I don't know”, recorded as a value rather than left blank, and surfaced to the physician as a flagged gap instead of a silent zero.",["B"]),
+  C(10,"Confidence Dial","BRIDGE","Each family answer carries the family's own certainty, sure / roughly / guessing, so the physician knows exactly where to spend the check they are going to do anyway.",[]),
+  C(11,"Two-Stage Nudge","FAM","A week out: “we'll ask you three things on Tuesday, start noticing the nights.” Two days out: the actual ask. Priming plus collection, because the week you ask about is the week they were not watching.",["B"]),
+  C(12,"Voice Intake","FAM","The family answers by voice note or a five-minute call, auto-transcribed and structured. Removes the literacy barrier, the language barrier and the form-abandonment problem in one move.",["B"]),
+  C(13,"Cough Album","FAM","A place to send the 2am phone videos parents already record, date-stamped and playable in the room. The evidence exists; there is no channel and no invitation.",[]),
+  C(14,"The Receipt","BRIDGE","After the visit the family sees which of their answers the physician actually opened, and what it changed. The reciprocity condition, made visible, the antidote to “he looked at it, he didn't read it.”",["B","C"]),
+  C(15,"Handoff Watchdog","OPS","A system flag when a referral or outside summary has arrived at the clinic but is not yet attached to the chart, with a named owner and a deadline. Closes the “received is not in the chart” gap.",["C"]),
+  C(16,"Corridor Card","FAM","The veteran-parent knowledge, printed and issued by the clinic: write down the dates of anything at a hospital; photograph every paper before you hand it in. It already circulates between families in waiting rooms, just never from us.",["C"]),
+  C(17,"Technique Check-in","FAM","A 20-second video of the child using the inhaler, uploaded before the visit and reviewed in the first minute. Aims at the error that silently confounds every report of whether treatment is working.",[]),
+  C(18,"Ask the Child","FAM","A short, age-appropriate intake for children 8+, taken separately from the parent's. Published proxy-agreement is 35–56%; the divergence between the two accounts is itself clinical information.",[]),
+  C(19,"Stand-in Page","FAM","When a grandparent or another adult brings the child, an auto-generated one-page brief goes with them, and a structured “what changed today” capture goes home, so the message back is not garbled.",[]),
+  C(20,"The Devil's Advocate","PHY","A de-identified assistant whose only permitted output is doubt: what is missing, what contradicts what, what does not add up. It is forbidden from producing a conclusion. Sits exactly inside the I2 constraint instead of fighting it.",[],true),
+  C(21,"Waiting-Room Game","FAM","The child plays a three-minute game on a tablet while waiting that measures exercise tolerance and asks them, not the parent, how the last month felt. Turns dead waiting-room time into the one data source nobody currently collects.",[],true),
+  C(22,"Pre-Visit Concierge","FAM","No product at all: a person phones every first-visit family five days out and does the intake by conversation. Both synthetic caregivers said a call would work where a form would not. It is also, not coincidentally, the cheapest possible test of the entire family-side hypothesis.",["B"],true)
+];
+
+/* The "Made of" list is generated from CONCEPTS so it can never drift from what
+   the interaction actually lights — including concept 22 for Direction B. */
+function conceptsIn(id){
+  return CONCEPTS.filter(c=>c.dirs.includes(id)).slice().sort((a,b)=>a.n-b.n);
+}
+function madeOfLabel(id){
+  const list=conceptsIn(id);
+  return "Concepts "+list.map(c=>c.n).join(", ")+" — "+list.map(c=>c.name).join(" · ")+".";
+}
+
+const DIRECTIONS = [
+  {
+    id:"A", name:"One Route, No Conclusions",
+    sentence:"For a pediatric pulmonologist preparing a first visit, we help them reach every accessible piece of the child's respiratory history in one route, by pre-fetching it overnight into a rubric-organised view where every item is one click from the raw artefact and nothing is summarised.",
+    why:"It is the direction with the most real evidence behind it: four physicians, independently, described the same navigation tax, and one of them described this exact solution unprompted — rubrics on click, converging into an ordered summary he can delete from and add to. It respects I2 by construction, because it moves nobody's judgement, it only shortens the route.",
+    assumption:"That a consolidated view actually replaces the source systems, rather than becoming a sixth system they check first and then leave anyway.",
+    assumptionWhy:"This is a behaviour risk, not a technical one. These physicians have fifteen years of trust invested in specific screens; “we can pull the data” is not the question.",
+    test:"Build a paper or Figma mock of the rubric view for one real, de-identified case. Sit with three physicians and ask each to prepare that patient exactly as they normally would, using only the mock. Time it against their own estimate for that patient, and count every moment they say “I'd still open X.”",
+    fail:"If two of the three leave the mock to open a source system for something the mock already showed them, the assumption is wrong and the direction needs rethinking, not polishing.",
+    owner:"Gal leads the mock, Matan runs the sessions. Mentors already offered introductions, so book for early next week."
+  },
+  {
+    id:"B", name:"The Named Ask",
+    sentence:"For a caregiver bringing a child to a pulmonology visit, we help them arrive with the few things that actually matter, by asking them two days beforehand for a short, specifically-named list derived from what the record itself could not reach, with “I don't know” as a safe, recorded answer.",
+    why:"It is the other half of the two-sided concept the Research Report converged on, and it is the axis clinicians cannot get any other way. Two physicians proposed a pre-visit family form unprompted. Critically, it is not a generic form: I3 says the ask can be derived per patient, and I4 says the specific ask is the one people complete.",
+    assumption:"That a short, specifically-named ask gets completed where a generic one did not, and that what comes back is accurate enough to change what the physician does.",
+    assumptionWhy:"The clinic already ran a generic checklist and it lapsed. And I5 warns that better preparation can produce confident error rather than accuracy, so “they completed it” is not the same as “it helped.”",
+    test:"Concierge, no product. Take five upcoming first-visit patients. For each, a team member builds the named ask by hand from the referral and phones the family two days out. On the day, record how many of the named items actually arrive, and afterwards ask the physician the single question: did it change anything you did?",
+    fail:"If fewer than three of five families bring the named items, the ask is not the constraint. If they do bring them and the physician says it changed nothing, we have solved a problem nobody had.",
+    owner:"Anat leads, since she holds the hospital relationship; Mikhail builds the per-patient asks. Needs a mentor introduction to the clinic secretary first."
+  },
+  {
+    id:"C", name:"Nothing Arrives Without an Owner",
+    sentence:"For the clinic team, we help make sure that what already arrived actually reaches the physician, by showing an expected-artefacts checklist against each upcoming chart, with a status, a named owner and a deadline.",
+    why:"It is the cheapest finding in the whole study and the only one that is pure loss: the information exists, arrived, and still does not reach the chart. Our nurse located it precisely. It also directly attacks the decay mechanism from I4, because the last checklist here died for want of an owner and a measurement.",
+    assumption:"That the loss is a visibility problem rather than a capacity problem, that if the nurse or secretary can see what is missing, they will close it.",
+    assumptionWhy:"If the gaps are visible already and simply nobody has the minutes, then a dashboard adds work rather than removing it, and this direction is dead.",
+    test:"For one clinic day, do it by hand: the afternoon before, run the expected-artefacts checklist across all ten patients. Record how many gaps exist, how many close in under ten minutes each, and how long the whole exercise takes.",
+    fail:"If total closing time exceeds roughly thirty minutes, or fewer than half the gaps close, it is capacity and not visibility, and we should drop it rather than automate a queue nobody can serve.",
+    owner:"Mikhail runs it with the nurse; one afternoon, no build. Can run in parallel with A and B without competing for the same people."
+  }
+];
+
+const state = {tags:{PHY:true,FAM:true,BRIDGE:true,OPS:true}, q:"", dir:""};
+
+function renderGrid(){
+  const g=$("#grid"); g.innerHTML="";
+  let shown=0;
+  CONCEPTS.forEach(c=>{
+    const card=el("article","card"+(c.weird?" weird":""));
+    const hidden = !state.tags[c.tag] ||
+      (state.q && !(c.name+" "+c.desc).toLowerCase().includes(state.q));
+    if(hidden){ card.hidden=true; } else { shown++; }
+    const dim = state.dir && (state.dir==="held" ? c.dirs.length>0 : !c.dirs.includes(state.dir));
+    card.dataset.dim = String(!!dim);
+
+    const top=el("div","top");
+    const h=el("h3"); h.textContent=c.name;
+    const no=el("span","no"); no.textContent=String(c.n).padStart(2,"0");
+    top.append(h,no);
+
+    const p=el("p"); p.textContent=c.desc;
+
+    const foot=el("div","foot");
+    const tag=el("span","tag"); tag.dataset.t=c.tag; tag.textContent=c.tag;
+    foot.append(tag);
+    const dirs=el("div","dirs");
+    if(c.dirs.length){
+      c.dirs.forEach(d=>{ const b=el("b"); b.textContent=d; b.title="Carried into Direction "+d; dirs.append(b); });
+    } else {
+      const b=el("span","held-badge"); b.textContent="Held back"; b.title="Held back, not carried into a direction"; dirs.append(b);
+    }
+    foot.append(dirs);
+    if(c.weird){ const w=el("span","weirdmark"); w.textContent="deliberately weird"; foot.append(w); }
+
+    card.append(top,p,foot); g.append(card);
+  });
+
+  if(shown===0){
+    const e=el("p","grid-empty");
+    e.textContent="No concepts match the current tags and search. Turn a tag chip back on, or clear the search, to see the concepts again.";
+    g.append(e);
+  }
+
+  document.querySelectorAll("[data-n]").forEach(s=>{
+    s.textContent = CONCEPTS.filter(c=>c.tag===s.dataset.n).length;
+  });
+}
+
+function renderDirs(){
+  const host=$("#dirs");
+  DIRECTIONS.forEach(d=>{
+    const s=el("section","dir"); s.id="dir-"+d.id;
+    const h=el("div","dir-h");
+    h.innerHTML='<h3>'+d.id+' · '+d.name+'</h3>'+
+      '<p class="sentence">'+d.sentence+'</p>';
+    const made=el("p","made");
+    const btn=el("button","btn"); btn.type="button"; btn.textContent="Show its concepts";
+    btn.addEventListener("click",()=>{
+      setDir(state.dir===d.id ? "" : d.id);
+      document.getElementById("diverge").scrollIntoView({behavior:"smooth",block:"start"});
+    });
+    made.append(btn);
+    const cn=el("span","madeof"); cn.textContent=madeOfLabel(d.id);
+    made.append(cn);
+    h.append(made); s.append(h);
+
+    const lens=el("div","lens");
+    lens.innerHTML =
+      '<div><span class="lab">Riskiest assumption</span><p><b>'+d.assumption+'</b></p><p class="note">'+d.assumptionWhy+'</p></div>'+
+      '<div><span class="lab">Smallest test · this week, no code</span><p>'+d.test+'</p></div>'+
+      '<div><span class="lab">Why this one, on the evidence</span><p>'+d.why+'</p></div>';
+    s.append(lens);
+
+    const gate=el("div","gatebar");
+    gate.innerHTML='<strong>Fails if</strong><span>'+d.fail+'</span>';
+    s.append(gate);
+
+    const o=el("p","owner"); o.innerHTML='<b>Owner &amp; when.</b> '+d.owner;
+    s.append(o);
+    host.append(s);
+  });
+}
+
+function setDir(v){
+  state.dir=v;
+  document.querySelectorAll("[data-dir]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.dir===v)));
+  renderGrid();
+}
+
+document.querySelectorAll("[data-tag]").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const k=b.dataset.tag; state.tags[k]=!state.tags[k];
+    b.setAttribute("aria-pressed",String(state.tags[k])); renderGrid();
+  });
+});
+document.querySelectorAll("[data-dir]").forEach(b=>{
+  b.addEventListener("click",()=>setDir(b.dataset.dir));
+});
+$("#q").addEventListener("input",e=>{ state.q=e.target.value.trim().toLowerCase(); renderGrid(); });
+
+const themeBtn=$("#theme");
+function setTheme(dark){
+  document.documentElement.dataset.theme = dark ? "dark":"light";
+  themeBtn.textContent = dark ? "Light":"Dark";
+  themeBtn.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+}
+setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+themeBtn.addEventListener("click",()=>setTheme(document.documentElement.dataset.theme!=="dark"));
+
+const links=[...document.querySelectorAll(".rail a")];
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){
+    links.forEach(a=>a.setAttribute("aria-current",String(a.getAttribute("href")==="#"+e.target.id)));
+  }});
+},{rootMargin:"-15% 0px -75% 0px"});
+document.querySelectorAll("main section[id]").forEach(s=>obs.observe(s));
+
+renderGrid(); renderDirs();
+</script>
+</body>
+</html>
