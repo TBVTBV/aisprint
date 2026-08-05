@@ -215,11 +215,13 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 
 Shown only **after** the log-in gate. The appointment details — child's name, pulmonology clinic, physician — are themselves clinical information, so nothing on this screen renders to whoever merely holds the link.
 
+The copy on this screen is written in full sentences addressed to the caregiver, as a person at the clinic would say it. Telegraphic interface fragments read as robotic here, and this is the one screen whose only job is to make a tired parent willing to start.
+
 - "Yotam's appointment", Thursday 6 August, 09:20, Pulmonary Institute, Dr. Oren S.
-- One line placing the entry: "You got here from the text message about Yotam's appointment."
-- The promise, prominent: **"Dr. Oren reads this before you walk in."** This is the reciprocity condition and the reason anyone finishes the form.
-- "About 4 minutes. You can stop and come back."
-- What makes it different: "We are only asking for what your file could not tell us."
+- One line placing the entry: "You're here from the clinic's text message about Yotam's visit — this is the short form it mentioned."
+- The promise, prominent: **"Dr. Oren will read every word of this before you walk into his room."** This is the reciprocity condition and the reason anyone finishes the form.
+- "It takes about four minutes, and you can stop in the middle — everything waits exactly where you left it."
+- What makes it different: "We won't ask about anything the clinic already has. Only the few things Yotam's file can't tell us — the ones only you know."
 - Primary: **Start**. Secondary: **What is this?** opens the privacy sheet (7.11).
 - Fictional-data notice in the footer.
 
