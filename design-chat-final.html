@@ -6,24 +6,25 @@
 <meta name="robots" content="noindex">
 <title>הצ׳אט הסופי · מוכר בכחול</title>
 <!--
-  The merged chat direction, per the team's decision: variant 1's messenger anatomy
-  in variant 2's blue. Refinements applied: full-width stepper at the bottom, bubble
-  sharp corner toward the avatar (logical property, holds in RTL and LTR), variant 3's
-  emphasized appointment card, no in-screen disclaimer, kebab menu icon in the header,
-  paper-plane send glyph. Static mockups, real copy, fictional data.
+  The merged chat direction: variant 1's messenger anatomy in variant 2's blue.
+  Round 3 refinements: clinic renamed Gordon; the forward control is a pill
+  labeled "הבא" with an arrow; the solid paper-plane "שלח" appears only on the
+  last screen, facing the sending direction (left in RTL, right in LTR); the
+  stepper sits below the action row; unselected pills wear a thin light border;
+  the landing tertiary "מה זה?" is borderless. Static mockups, fictional data.
 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#FAFAF7;color:#1B1D22;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
-.bh{max-width:1100px;margin:0 auto;padding:40px 28px 8px}
+.bh{max-width:1200px;margin:0 auto;padding:40px 28px 8px}
 .bh h1{font-size:27px;font-weight:700;letter-spacing:-.01em}
 .bh p{color:#5B6067;font-size:14.5px;max-width:66ch;margin-top:6px}
-.wrap{max-width:1100px;margin:0 auto;padding:20px 28px 24px;display:flex;flex-wrap:wrap;gap:34px;justify-content:center}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 28px 24px;display:flex;flex-wrap:wrap;gap:34px;justify-content:center}
 .unit{display:flex;flex-direction:column;gap:8px}
 .phone{width:320px;border-radius:30px;border:1px solid #E2E1DC;overflow:hidden;box-shadow:0 10px 34px rgba(27,29,34,.12)}
 .pcap{font-size:12px;color:#8A9098;text-align:center}
 .scr{height:640px;display:flex;flex-direction:column;overflow:hidden;font-size:13.5px;background:#E9EEF5;background-image:radial-gradient(rgba(45,95,168,.055) 1px,transparent 1px);background-size:14px 14px;color:#20242A}
-.notes{max-width:1100px;margin:0 auto;padding:0 28px 56px;font-size:13px;color:#5B6067}
+.notes{max-width:1200px;margin:0 auto;padding:0 28px 56px;font-size:13px;color:#5B6067}
 .notes li{margin-block-end:3px;margin-inline-start:18px}
 svg{display:block;flex:none}
 
@@ -49,29 +50,31 @@ svg{display:block;flex:none}
 .apc{background:#E7EEFB;border-radius:10px;padding:8px 10px;margin-top:6px}
 .apc .bt{color:#24457C}
 
-/* pills */
+/* pills: unselected wear a thin light border; selected fill blue */
 .pillrow{display:flex;flex-wrap:wrap;gap:7px;padding:12px}
-.pill{display:flex;align-items:center;gap:6px;border:1.5px solid #2D5FA8;color:#24457C;background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}
+.pill{display:flex;align-items:center;gap:6px;border:1px solid #D6DBE6;color:#1B1E24;background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}
 .pill.on{background:#2D5FA8;color:#fff;border-color:#2D5FA8}
-.pill.mut{border-color:#C3CBD9;color:#6A7385}
+.pill.mut{border-color:#E0E4EC;color:#6A7385}
+.pill.ghost{border:none;background:transparent;color:#24457C}
 
-/* composer with full-width stepper */
+/* composer: action row first, stepper below it */
 .cwrap{margin-top:auto;background:#F4F7FB;border-top:1px solid #DCE3EE}
-.pbar{display:flex;gap:3px;padding:10px 12px 0}
-.pseg{height:4px;flex:1;border-radius:99px;background:#D9E1EE}
-.pseg.f{background:#2D5FA8}
-.cbar{display:flex;align-items:center;gap:10px;padding:8px 12px 12px}
+.cbar{display:flex;align-items:center;gap:10px;padding:10px 12px 4px}
 .skipmini{font-size:11.5px;color:#24457C;text-decoration:underline;text-underline-offset:3px}
 .cnt{flex:1;font-size:10.5px;color:#6A7385}
-.send{width:44px;height:44px;border-radius:50%;background:#2D5FA8;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(32,36,42,.22)}
-.send svg{transform:scaleX(-1)}  /* plane points in the sending direction in RTL; drop for LTR */
+.nextbtn{display:flex;align-items:center;gap:7px;background:#2D5FA8;color:#fff;border-radius:999px;height:40px;padding:0 16px;font-weight:700;font-size:13.5px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
+.sendbtn{display:flex;align-items:center;gap:8px;background:#2D5FA8;color:#fff;border-radius:999px;height:44px;padding:0 18px;font-weight:700;font-size:14px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
+.sendbtn svg,.plane{transform:scaleX(-1)}  /* the plane faces the sending direction: left in RTL, right in LTR */
+.pbar{display:flex;gap:3px;padding:6px 12px 12px}
+.pseg{height:4px;flex:1;border-radius:99px;background:#D9E1EE}
+.pseg.f{background:#2D5FA8}
 </style>
 </head>
 <body>
 
 <header class="bh">
   <h1>הצ׳אט הסופי · מוכר, בכחול</h1>
-  <p>גרסה 1 (מסנג׳ר מוכר) בצבעי גרסה 2: וואטסאפ, אבל כחול. עם כל ששת התיקונים שביקשתם.</p>
+  <p>וואטסאפ, אבל כחול — סבב שלישי. "הבא" עם חץ בכל המסכים, "שלח" עם מטוס מלא רק במסך האחרון, והסטפר מתחת לשורת הפעולות.</p>
 </header>
 
 <div class="wrap">
@@ -81,7 +84,7 @@ svg{display:block;flex:none}
       <div class="scr">
         <div class="chead">
           <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
-          <div class="cid"><p class="cname">מרפאת ריאות ילדים</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
           <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
         </div>
         <div class="stream">
@@ -95,13 +98,13 @@ svg{display:block;flex:none}
             </div>
           </div>
         </div>
-        <div class="pillrow"><span class="pill on">מתחילים</span><span class="pill">מה זה?</span></div>
+        <div class="pillrow"><span class="pill on">בואו נתחיל</span><span class="pill ghost">מה זה?</span></div>
         <div class="cwrap">
-          <div class="pbar"><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
           <div class="cbar">
             <span class="cnt"></span>
-            <span class="send"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 1.5L7.2 8.8M14.5 1.5L10 14.5 7.2 8.8 1.5 6z"/></svg></span>
+            <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
           </div>
+          <div class="pbar"><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
         </div>
       </div>
     </div>
@@ -113,7 +116,7 @@ svg{display:block;flex:none}
       <div class="scr">
         <div class="chead">
           <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
-          <div class="cid"><p class="cname">מרפאת ריאות ילדים</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
           <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
         </div>
         <div class="stream">
@@ -132,29 +135,59 @@ svg{display:block;flex:none}
           <span class="pill mut">לא ידוע לי</span>
         </div>
         <div class="cwrap">
-          <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
           <div class="cbar">
             <span class="skipmini">דילוג</span>
             <span class="cnt">שאלה 4 מתוך 10</span>
-            <span class="send"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 1.5L7.2 8.8M14.5 1.5L10 14.5 7.2 8.8 1.5 6z"/></svg></span>
+            <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
           </div>
+          <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
         </div>
       </div>
     </div>
     <p class="pcap">שאלה מרובת בחירה</p>
   </div>
 
+  <div class="unit">
+    <div class="phone">
+      <div class="scr">
+        <div class="chead">
+          <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
+        </div>
+        <div class="stream">
+          <div class="grp">
+            <span class="av mini"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+            <div class="col">
+              <div class="bub">סיימנו! עברנו על הכול.<time>09:52</time></div>
+              <div class="bub"><span class="bt">מה נשלח לד״ר אורן</span><div class="apc"><span class="bm">התשובות שלך · 2 מסמכים · סרטון אחד · 2 ״לא ידוע לי״</span></div><time>09:52</time></div>
+              <div class="bub promise">ד״ר אורן יקרא את הכול לפני יום חמישי בבוקר.<time>09:52</time></div>
+            </div>
+          </div>
+        </div>
+        <div class="cwrap">
+          <div class="cbar">
+            <span class="cnt"></span>
+            <span class="sendbtn">שלח<svg width="17" height="17" viewBox="0 0 16 16" fill="#fff"><path d="M15 1L1 6.2l4.6 2.1L7.8 15 15 1z"/></svg></span>
+          </div>
+          <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span></div>
+        </div>
+      </div>
+    </div>
+    <p class="pcap">המסך האחרון · שליחה</p>
+  </div>
+
 </div>
 
 <div class="notes">
-  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">מה השתנה לעומת הגרסאות בלוח:</p>
+  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב שלישי — מה השתנה:</p>
   <ul>
-    <li>בסיס גרסה 1 (טפט, בועות, שליחה עגולה) בכחול של גרסה 2 — וואטסאפ, אבל כחול.</li>
-    <li>הסטפר נפרס לכל הרוחב בתחתית, מעל שורת הפעולות.</li>
-    <li>הפינה החדה של הבועה פונה אל האווטאר, עם מאפיין לוגי שמתהפך נכון בין עברית לאנגלית.</li>
-    <li>בועת התור מאמצת את ההדגשה מגרסה 3: כרטיס תכלת מובלט בתוך הבועה.</li>
-    <li>הדיסקליימר הוסר מהמסכים.</li>
-    <li>תפריט כאייקון שלוש נקודות בכותרת, וכפתור השליחה נושא אייקון שליחה במקום חץ.</li>
+    <li>שם המרפאה: מרפאת ריאות ילדים גורדון.</li>
+    <li>כפתור ההמשך חזר לחץ, עם הטקסט "הבא", בכל מסכי הביניים.</li>
+    <li>אייקון השליחה — מטוס מלא הפונה לכיוון השליחה (שמאלה בעברית, ימינה באנגלית) עם הטקסט "שלח" — מופיע רק במסך האחרון.</li>
+    <li>פס ההתקדמות עבר אל מתחת לשורת הכפתורים.</li>
+    <li>בבחירה מרובה, אפשרויות לא מסומנות עם מסגרת דקה ובהירה.</li>
+    <li>בפתיחה: "בואו נתחיל" ראשי, ולידו "מה זה?" שלישוני בלי מסגרת.</li>
   </ul>
 </div>
 
