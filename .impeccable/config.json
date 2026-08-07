@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "design-chat-final.html"
+        ],
+        "createdAt": "2026-08-07T08:42:59.854Z",
+        "reason": "Messenger wallpaper texture is the user-briefed world: 'needs to look like WhatsApp but blue'"
+      }
+    ]
+  }
+}
