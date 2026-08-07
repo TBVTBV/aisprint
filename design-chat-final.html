@@ -38,7 +38,7 @@ svg{display:block;flex:none}
 .kebab{width:28px;height:28px;display:flex;align-items:center;justify-content:center}
 
 /* stream */
-.stream{padding:14px 12px 0;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.stream{padding:14px 12px 4px;display:flex;flex-direction:column;gap:10px}  /* no overflow:hidden — it clipped the mini avatar's ring */
 .grp{display:flex;gap:6px;align-items:flex-end;max-width:94%}
 .grp .col{display:flex;flex-direction:column;gap:4px}
 .bub{background:#fff;border-radius:13px;border-end-start-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:9px 12px;font-size:13px;line-height:1.45}
@@ -64,7 +64,8 @@ svg{display:block;flex:none}
 .pbar{display:flex;gap:3px}
 .pseg{height:4px;flex:1;border-radius:99px;background:#D9E1EE}
 .pseg.f{background:#2D5FA8}
-.cnt{font-size:10px;color:#6A7385;margin-top:3px}
+.cntrow{display:flex;align-items:center;gap:10px;margin-top:3px}
+.cnt{font-size:10px;color:#6A7385}
 .nextbtn{display:flex;align-items:center;gap:7px;background:#2D5FA8;color:#fff;border-radius:999px;height:40px;padding:0 16px;font-weight:700;font-size:13.5px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
 .sendbtn{display:flex;align-items:center;gap:8px;background:#2D5FA8;color:#fff;border-radius:999px;height:44px;padding:0 18px;font-weight:700;font-size:14px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
 .sendbtn svg{transform:scaleX(-1)}  /* the plane faces the sending direction: left in RTL, right in LTR */
@@ -98,13 +99,7 @@ svg{display:block;flex:none}
             </div>
           </div>
         </div>
-        <div class="pillrow"><span class="pill on">בואו נתחיל</span><span class="pill ghost">מה זה?</span></div>
-        <div class="cwrap">
-          <div class="cbar">
-            <div class="cprog"><div class="pbar"><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div></div>
-            <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
-          </div>
-        </div>
+        <div class="pillrow" style="margin-top:auto"><span class="pill on">בואו נתחיל</span><span class="pill ghost">מה זה?</span></div>
       </div>
     </div>
     <p class="pcap">מסך פתיחה</p>
@@ -135,10 +130,9 @@ svg{display:block;flex:none}
         </div>
         <div class="cwrap">
           <div class="cbar">
-            <span class="skipmini">דילוג</span>
             <div class="cprog">
               <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
-              <p class="cnt">שאלה 4 מתוך 10</p>
+              <div class="cntrow"><p class="cnt">שאלה 4 מתוך 10</p><span class="skipmini">דילוג</span></div>
             </div>
             <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
           </div>
@@ -169,7 +163,7 @@ svg{display:block;flex:none}
         <div class="cwrap">
           <div class="cbar">
             <div class="cprog"><div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span></div></div>
-            <span class="sendbtn">שלח<svg width="17" height="17" viewBox="0 0 16 16" fill="#fff"><path d="M15 1L1 6.2l4.6 2.1L7.8 15 15 1z"/></svg></span>
+            <span class="sendbtn">שלח<svg width="17" height="17" viewBox="0 0 16 16" fill="#fff"><path d="M1.5 14.5V9.4L9.5 8 1.5 6.6V1.5L15 8z"/></svg></span>
           </div>
         </div>
       </div>
@@ -180,11 +174,13 @@ svg{display:block;flex:none}
 </div>
 
 <div class="notes">
-  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב רביעי — מה השתנה:</p>
+  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב חמישי — מה השתנה:</p>
   <ul>
-    <li>הלוגו של המרפאה (סהר כחול, צלב, דמות ירוקה) משורטט כ־SVG ומשמש כאווטאר בכותרת וליד הבועות.</li>
-    <li>לרופא שם מלא: ד״ר אורן שגב (בדוי, תואם ל״אורן ס.״).</li>
-    <li>פס ההתקדמות עבר לאותה שורה עם כפתור ההמשך/השליחה, לחיסכון במקום.</li>
+    <li>"דילוג" עבר להיות צמוד ל"שאלה 4 מתוך 10", מתחת לפס ההתקדמות.</li>
+    <li>האווטאר שליד הבועה לא נחתך יותר בתחתית.</li>
+    <li>אייקון שליחה חדש במסך האחרון (חץ־שליחה מלא, פונה לכיוון השליחה).</li>
+    <li>במסך הפתיחה אין כפתור "הבא" ואין פס התקדמות. הפס מופיע רק כשהשאלות מתחילות, וכבר עם צעד אחד מלא — מוטיבציה מהרגע הראשון.</li>
+    <li>מהסבב הקודם: אווטארים מהלוגו, ד״ר אורן שגב, סטפר בשורה אחת עם הכפתור.</li>
   </ul>
 </div>
 
