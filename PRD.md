@@ -1,11 +1,13 @@
-# PRD: Pre-Visit Intake, low-fidelity clickable web app
+# PRD: Beforehand, low-fidelity clickable web app
 
 **Group 7 · AI Product Sprint 2026 · Challenge #6, pediatric pulmonology**
-Direction B, "The Named Ask", from `Group7_S2_Ideation.html`.
+Pre-visit intake, caregiver side. Direction B from `Group7_S2_Ideation.html`.
+
+**Product name: Beforehand.** It appears on the landing screen and in the top bar. "The named ask" remains the name of the mechanism, the short list of specifically named documents, not of the app.
 
 **Audience:** Claude Code. **Deliverable:** one self-contained `.html` file.
 
-> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated on the landing screen and in the menu.
+> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated on the landing screen and in the app footer.
 
 ## How to use this document
 
@@ -162,7 +164,7 @@ const STATE = {
 
 // CardState
 {
-  status: "untouched" | "attached" | "will_bring" | "will_get" | "add_later" | "cannot_get",
+  status: "untouched" | "attached" | "will_bring" | "will_get" | "cannot_get",
   files: [],               // { name, kind, objectUrl }
   extracted: null,         // shape mirrors CARD.read. See 7.8
   opened: false            // unused in P0. Reserved so the receipt can be added later. See 17.
@@ -188,9 +190,9 @@ const STATE = {
 Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins first**. Questions come before documents because tapping answers builds momentum, and hunting for a March discharge letter does not.
 
 ```
+[0] Landing
+     ↓
 [L] Log in            phone number, then one-time code        faked, see 7.2
-     ↓                the gate comes first, see 7.2
-[0] Landing           appointment details render only after the gate
      ↓
 [1] Who is answering                                          one question, ~20 seconds
      ↓
@@ -207,21 +209,18 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 
 **Top bar** with back, screen title and menu button on every screen except `[0]`, `[L.1]` and `[L.2]`, which have no menu and no back. `[R]` has a back that returns to whichever screen opened it.
 
-**Menu** is reachable from `[0]` (as "What is this?" plus a language control) and from every screen that has a top bar, so language can be changed from anywhere. `[L.1]` also carries the small language control, since it is now the first thing the caregiver sees.
+**Menu** is reachable from `[0]` (as "What is this?" plus a language control) and from every screen that has a top bar, so language can be changed from anywhere.
 
-**Sticky bottom bar** with the progress bar on `[1]` through `[V]`. On question screens it also holds the screen's actions — **Continue** and **"Skip this"** — so they stay reachable without scrolling past a long option list. On `[V]` it carries the primary **Send to Dr. Oren** action. There is no "Send what I have" shortcut: the flow is short enough that review is always reached by walking it, and Skip on every question keeps that walk unblocked.
+**Sticky bottom bar** with the progress bar and **"Send what I have"** on `[1]` through `[V]`. Enabled from `[1]` onward, never disabled.
 
 ### 7.1 `[0]` Landing
 
-Shown only **after** the log-in gate. The appointment details — child's name, pulmonology clinic, physician — are themselves clinical information, so nothing on this screen renders to whoever merely holds the link.
-
-The copy on this screen is written in full sentences addressed to the caregiver, as a person at the clinic would say it. Telegraphic interface fragments read as robotic here, and this is the one screen whose only job is to make a tired parent willing to start.
-
+- **Beforehand**, small, at the top. The product name appears here and in the top bar, nowhere else.
 - "Yotam's appointment", Thursday 6 August, 09:20, Pulmonary Institute, Dr. Oren S.
-- One line placing the entry: "You're here from the clinic's text message about Yotam's visit — this is the short form it mentioned."
-- The promise, prominent: **"Dr. Oren will read every word of this before you walk into his room."** This is the reciprocity condition and the reason anyone finishes the form.
-- "It takes about four minutes, and you can stop in the middle — everything waits exactly where you left it."
-- What makes it different: "We won't ask about anything the clinic already has. Only the few things Yotam's file can't tell us — the ones only you know."
+- One line placing the entry: "You got here from the text message about Yotam's appointment."
+- The promise, prominent: **"Dr. Oren reads this before you walk in."** This is the reciprocity condition and the reason anyone finishes the form.
+- "About 4 minutes. You can stop and come back."
+- What makes it different: "We are only asking for what your file could not tell us."
 - Primary: **Start**. Secondary: **What is this?** opens the privacy sheet (7.11).
 - Fictional-data notice in the footer.
 
@@ -229,13 +228,11 @@ The copy on this screen is written in full sentences addressed to the caregiver,
 
 The only gate in the product, and it must not feel like one. No password, no account, no email. The caregiver already receives clinic messages on that number.
 
-**The gate comes first.** `[L]` renders before `[0]`, because the landing screen already exposes clinical information (the child's name and a pulmonology appointment). The login screens themselves name nothing medical. A small language control sits on `[L.1]`.
-
 **`[L.1]` Phone number.** One numeric field formatted for an Israeli mobile. Line under it: "The same number the clinic texts you on." Continue enabled once the field is plausibly complete. That is the only validation in P0.
 
 **`[L.2]` One-time code.** Four boxes, auto-advancing, auto-focus on the first. Above: "We sent a code to 05X-XXXXXXX". Below: "Didn't get it? Send again", which starts a 30 second countdown and does nothing else.
 
-Faked: **any four digits are accepted** after a 1 s "Checking..." state. A small demo note on the screen says so. An accepted code lands on `[0]`. Once `STATE.loggedIn` is true a resumed session skips this screen.
+Faked: **any four digits are accepted** after a 1 s "Checking..." state. A small demo note on the screen says so. Once `STATE.loggedIn` is true a resumed session skips this screen.
 
 ### 7.3 `[1]` Who is answering
 
@@ -251,9 +248,9 @@ The tree itself is section 9. This is how a question screen behaves.
 
 - **One `screen: true` question per screen.** Inline reveals appear underneath their parent on the same screen, animated in, and disappear when the parent answer changes.
 - **"I don't know"** renders as a full-width option in the same visual weight as the others, at the bottom of the option list. It sets `status: "unknown"`.
-- **"Skip this"** is a text button on every question screen, pinned in the sticky bottom bar directly under Continue. It sets `status: "skipped"` and advances. This is the only input for the "passed on" counter.
+- **"Skip this"** is a text button under the options on every question screen. It sets `status: "skipped"` and advances. This is the only input for the "passed on" counter.
 - **Confidence** renders under the answer when `confidence: true`, as three chips: Sure / Roughly / Guessing. Optional, default unset, does not block Continue.
-- Continue sits pinned in the sticky bottom bar and is enabled once the question has any status, including `unknown` and `skipped`.
+- Continue is enabled once the question has any status, including `unknown` and `skipped`.
 - Back returns to the previous screen on the current path and leaves answers intact, except when `q1` changes (see 6.3).
 
 ### 7.5 The `q8a` copy variant
@@ -278,19 +275,16 @@ One card per derived document, in id order, each showing its title, its date and
 - `video`: Find it on my phone · I don't have it any more · What is this?
   A video is already in her camera roll, so there is no capture step and no scan.
 
-Each action carries a small monochrome line icon, drawn inline and stroked in `currentColor` (the one exception to "no icon set", see 13).
-
 **Find it on my phone** opens the real system file picker, renders a real local thumbnail, and sets `attached`. Nothing is uploaded.
 
 **Take a photo** goes to `[D.1]`.
 
-**I don't have it** never scolds. While its follow-ups are open the button shows a pressed state (`aria-expanded`, heavier border, sunken surface). It opens four follow-ups:
+**I don't have it** never scolds. It opens three follow-ups:
 
 | Choice | Sets |
 |---|---|
 | "I have it, I'll bring it on the day" | `will_bring` |
 | "I can get it before Thursday" | `will_get` |
-| "I'll add it here later" | `add_later` |
 | "I can't get it" | `cannot_get`, and offers **"Would it help to move the appointment?"** inline, with two buttons: **"Move my appointment"** goes to `[R]`, **"No, I'll come anyway"** dismisses the offer and leaves the card at `cannot_get` |
 
 **What is this?** opens the card's `explain` sheet.
@@ -329,12 +323,11 @@ Every field is editable and written back to `CardState.extracted`. The flagged f
 
 ### 7.9 `[C]` Note
 
-One free-text box: "Is there anything you want Dr. Oren to know before you come in?" Optional, and the copy makes leaving it empty obviously fine.
+One free-text box: "Is there anything you want Dr. Oren to know before you come in?" Optional, and the bottom bar makes leaving it empty obviously fine.
 
 ### 7.10 `[V]` Review
 
 - Six sections, each holding fixed questions. Anything never reached is omitted, and an empty section is not rendered.
-- **Each section is a collapsible disclosure, starting collapsed**, with a clearly visible open/closed chevron on the header. Opening is per-section and survives an edit-and-return; the gaps panel and the summary line are never collapsed, so what needs attention is readable without opening anything.
 
 | Section | Holds |
 |---|---|
@@ -353,8 +346,9 @@ One free-text box: "Is there anything you want Dr. Oren to know before you come 
   - Never-reached questions appear in neither and are not shown.
   - **A counter at zero is not rendered at all**, neither its sentence nor its list. If both are zero the whole gaps panel is absent.
 - **Summary line, computed at runtime, never hard-coded.** Counting rules, so two builds agree:
+  - *Answers* = questions with `status: "answered"`. Inline reveals count individually. `unknown` is not an answer.
   - *Documents* = cards with `status: "attached"`, split by `kind`, including `DX`.
-  - Rendered "P documents · V videos · K don't knows · M passed on". There is no answer count: it read as a score and invited completionism. **Any zero term is dropped from the line rather than printed as "0".**
+  - Rendered "N answers · P documents · V videos · K don't knows · M passed on". **Any zero term is dropped from the line rather than printed as "0".**
 - Primary: **Send to Dr. Oren**.
 
 ### 7.11 The privacy sheet
@@ -370,9 +364,8 @@ Reachable from `[0]` and the menu. Plain language, one short sheet:
 ### 7.12 `[S]` Sent
 
 - "Sent. Dr. Oren will read this before Thursday morning."
-- **What you still need to bring:** every card in `will_bring`, `will_get` or `add_later`, by name. If there are none, say so plainly rather than showing an empty heading.
+- **What you still need to bring:** every card in `will_bring` or `will_get`, by name. If there are none, say so plainly rather than showing an empty heading.
 - Appointment details again. "Add to calendar" shows a confirmation toast and does nothing else.
-- Secondary: **Go back and send again** returns to `[V]` with everything intact, so a forgotten detail can be fixed and re-sent. Sending again simply lands back here.
 - Secondary: **Change my appointment** goes to `[R]`.
 
 ### 7.13 `[R]` Reschedule
@@ -391,7 +384,7 @@ Slide-over sheet from the top bar:
 - **Save and continue later**
 - **Change my appointment**
 - **How we handle this information** (7.11)
-- **Restart demo**, labelled as a demo affordance. Clears `STATE` and returns to `[L.1]`. This is the only reset control; the sticky bottom bar carries no demo chrome.
+- **Restart demo**, labelled as a demo affordance. Clears `STATE` and returns to `[0]`.
 
 ### 7.15 The progress bar
 
@@ -411,7 +404,7 @@ Segments, not a percentage. The denominator is:
 
 ## 8. Screens to build, checklist
 
-`[L.1]` · `[L.2]` · `[0]` · `[1]` · `[Q]` (the question screen, rendered 6 to 9 times) · `[D]` · `[D.1]` · `[D.2]` · `[C]` · `[V]` · `[S]` · `[R]`, plus `[Menu]` and the privacy sheet.
+`[0]` · `[L.1]` · `[L.2]` · `[1]` · `[Q]` (the question screen, rendered 6 to 9 times) · `[D]` · `[D.1]` · `[D.2]` · `[C]` · `[V]` · `[S]` · `[R]`, plus `[Menu]` and the privacy sheet.
 
 `[L]` is the pair `[L.1]` and `[L.2]`, and is referred to as `[L]` where the distinction does not matter.
 
@@ -562,6 +555,7 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 | Confidence | Stored per answer, rendered in words on review |
 | Skip | A real control on every question screen, feeding the passed-on counter |
 | Progress | Segments per 7.15. Never claims completion when things were skipped |
+| Send what I have | Enabled from `[1]`, always reaches `[V]`, never blocked |
 | File picker | Real, with a real local thumbnail. No upload |
 | Camera | Real `getUserMedia` where available, silent fallback to the picker |
 | Review edit | Real jump-back-and-return with state preserved |
@@ -574,7 +568,7 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 
 A build that violates one of these is wrong, not merely unpolished.
 
-1. **No real patient data anywhere.** Everything fictional, and labelled fictional on `[0]` and in the menu.
+1. **No real patient data anywhere.** Everything fictional, and labelled fictional on `[0]` and in the footer.
 2. **The app never concludes.** No screen tells the caregiver what Yotam has, what is wrong, or what to do. It collects and routes. Nothing more.
 3. **Machine output is labelled and correctable.** The document read, every time.
 4. **Uncertainty is surfaced, never smoothed.** "I don't know" is a value, confidence is captured, and the read admits where it is unsure.
@@ -582,17 +576,18 @@ A build that violates one of these is wrong, not merely unpolished.
 
 ## 13. Visual direction
 
-Deliberately low fidelity, so that mentors comment on the flow rather than the styling.
+**The intake is a conversation with the clinic, rendered as a messenger chat — "WhatsApp, but blue."** Chosen by the team over seven design rounds; the committed spec is `design-chat-final.html` (exploration history in `design-explorations.html` and `design-chat-explorations.html`), recorded durably in `previsit-design.md`. This supersedes the earlier low-fi wireframe direction.
 
-- Greyscale plus exactly one accent colour, used only for the primary action and the progress fill.
-- 1 px borders, 4 px radius, generous whitespace, system font stack.
-- No photography, no illustration. A placeholder box with a diagonal line where an image would go. No icon set, with one exception: the document actions on `[D]` carry small monochrome line icons, inline SVG stroked in `currentColor`, so the named ask scans at a glance.
-- Controls read as wireframe elements, but text is real and legible at real contrast. Low fidelity is not low quality.
+- **The chat frame.** A deep-blue header (`#24518F`) carries the clinic's identity: the Gordon logo in a white circle avatar, "מרפאת ריאות ילדים גורדון", "ד״ר אורן שגב · לפני הביקור", and a kebab menu icon. The conversation sits on a blue-tinted dotted wallpaper.
+- **Two voices.** Clinic messages are white bubbles with the sharp corner turned toward the clinic's mini logo avatar; the caregiver's answers are light-blue bubbles with a generic person mark. Corner direction uses logical properties so it flips correctly between RTL and LTR. Emphasis inside a bubble (the appointment, the send summary) is a raised light-blue card, never a bare field.
+- **The conversation accumulates.** Every answered question stays in the stream as a sent message; a one-time pencil hint says answers are tappable. Tapping one enters a focused edit mode — the rest of the conversation hides until "הבא" confirms or "ביטול" escapes without changes. This is the back navigation; there is no back button on chat screens.
+- **Controls are quick replies.** Options render as pill buttons, selected = solid blue with a check; unselected wear a thin light border. "I don't know" is a pill of the same size and weight as any answer.
+- **The composer.** A continuous, textless progress bar (position-driven, filling from the right in Hebrew, one step pre-filled from the first question) sits above one action row: "דילוג על השאלה" on one side, the "הבא" pill with an arrow on the other. The step count survives as visually-hidden `aria-live` text. The solid paper-plane **"שלח"** appears only on the final screen, facing the sending direction — nothing leaves the phone before that button. The landing has no composer; its primary is a full-width "בואו נתחיל" quick reply with a borderless "מה זה?" beneath.
+- One accent family (the blues) plus the logo's green; no red anywhere. System font stack, rounded cards, 999px pills, one soft shadow level. Icons are inline SVG stroked in `currentColor`. Capture, read-and-correct and reschedule render as focused white panels with a back link; review is the conversation itself plus a gaps bubble and a send-summary card.
 
 ## 14. Technical constraints
 
 - **One self-contained `.html` file.** Inline CSS and JS. No build step, no CDN, no framework, no network at runtime.
-- **Hosting.** The file still opens by double-click, and it is also served at `https://tbvtbv.github.io/aisprint/` via GitHub Pages: a workflow copies `previsit-intake.html` to `index.html` on every push to `main`, publishing only the prototype and nothing else from the repository. The page carries `noindex` — it is a hand-out link, not a search result.
 - **Phone-first.** Design at 390 × 844. Above 700 px viewport width, render the app inside a centred phone frame on a plain ground, so it reads correctly on a laptop and a projector.
 - **Storage:** `localStorage` wrapped in `try/catch` with an in-memory fallback, so the demo survives `file://` restrictions.
 - **RTL is structural, not a stylesheet afterthought.** Build it in from the first commit.
@@ -601,35 +596,32 @@ Deliberately low fidelity, so that mentors comment on the flow rather than the s
 ## 15. Build order
 
 1. Shell: `STATE`, `STRINGS`, `CASE`, router, top bar, sticky bottom bar, Hebrew and RTL from the start.
-2. `[L.1]` and `[L.2]`, faked. They come first in the flow.
-3. `[0]` Landing and the privacy sheet.
+2. `[0]` Landing and the privacy sheet.
+3. `[L.1]` and `[L.2]`, faked.
 4. `[1]`, and the question engine driven by `CASE`, with all six input types, the `unknown` option, the confidence control and Skip.
 5. The tree and branching, including inline reveals and the branch-clearing rule.
-6. `[D]`, card derivation, the six card states, and the open slot.
+6. `[D]`, card derivation, the five card states, and the open slot.
 7. `[D.1]` and `[D.2]`, capture and correction.
 8. `[C]`, then `[V]` with edit-and-return and the two gap counters.
 9. `[S]` and `[R]`.
 10. `[Menu]`, the English locale and the language switch.
 11. Save and resume, including the logged-in session.
-12. The progress bar per 7.15, and the accessibility floor.
+12. "Send what I have" from every screen, the progress bar per 7.15, and the accessibility floor.
 
 ## 16. Acceptance criteria
 
 The prototype is done when someone handed a phone can do all of this unaided.
 
 - [ ] Complete the click path in section 16.1 in under four minutes with no dead end.
-- [ ] Open the link logged out and confirm nothing about the child or the appointment renders before the code is accepted.
-- [ ] Log in with any phone number and any four digits, and land on `[0]`.
+- [ ] Log in with any phone number and any four digits, and land on `[1]`.
 - [ ] Confirm the app boots in Hebrew and RTL. Switch to English from any screen, watch layout, text and progress all follow, then switch back.
 - [ ] Answer `q1` "A cough that will not go away", then "I don't know" at every subsequent question that offers it, and "Nothing comes to mind" at `q9`. Reach review and send. Review lists every one of them.
 - [ ] Answer `q1` "Noisy breathing or wheezing", then Skip every subsequent question. Review shows them all under "passed on", and the don't-knows sentence and term are **absent entirely rather than printed as 0**.
+- [ ] Reach review from `[1]` via "Send what I have". Review shows the respondent answer, no invented questions, and sending is allowed.
 - [ ] Go back from a Branch A question, change `q1` to `infections`, and confirm Branch A's answers are gone, `D4` has disappeared, and the progress denominator has recomputed without un-filling a passed segment.
 - [ ] Answer `q5a` "Yes, I have a video", reach `[D]`, and see a fourth card with its origin note.
 - [ ] Photograph a document, correct the flagged name field, reach review, and see the corrected value.
 - [ ] Mark one card "I have it, I'll bring it on the day", send, and see it named on `[S]`.
-- [ ] Mark one card "I'll add it here later" and see it named on `[S]` as well.
-- [ ] Confirm review sections start collapsed. Open one, edit an answer inside it, return, and find it still open while the rest stay collapsed.
-- [ ] From `[S]`, use "Go back and send again", change an answer, and re-send.
 - [ ] Reschedule from `[D]` and be told on screen that answers are kept.
 - [ ] Leave, reload the page, and resume past the login at the same screen.
 - [ ] Tab through an entire question screen, including the confidence chips and Skip, using only the keyboard.
@@ -638,8 +630,8 @@ The prototype is done when someone handed a phone can do all of this unaided.
 
 This exact sequence must be flawless. Everything else can be rough. Copy is quoted in English for legibility; the run can be done in either locale.
 
-1. `[L]` any phone number → any four digits → "Checking..." → in
-2. `[0]` → Start
+1. `[0]` → Start
+2. `[L]` any phone number → any four digits → "Checking..." → in
 3. `[1]` Mother
 4. `q1` "A cough that will not go away"
 5. `q2` "Less than a year ago", confidence "Roughly"
@@ -657,7 +649,7 @@ This exact sequence must be flawless. Everything else can be rough. Copy is quot
 17. `D4` → Find it on my phone
 18. `D5` → I don't have it → **"I have it, I'll bring it on the day"**
 19. `[C]` skip
-20. `[V]` show the gaps panel. Open a section to show the second-hand tag and the confidence words. Tap one answer, change it, return.
+20. `[V]` show the gaps panel, the second-hand tag and the confidence words. Tap one answer, change it, return.
 21. Send → `[S]`, which names `D5` as the one thing still to bring.
 
 Roughly 90 seconds at demo pace.
@@ -682,7 +674,7 @@ Every feature traces to the team's own synthesis or ideation. Anything not in th
 
 | Feature | Source |
 |---|---|
-| Specifically named documents | Concept 7, The Named Ask · I3 · I4 |
+| Specifically named documents | Concept 7, the named ask · I3 · I4 |
 | Derived from what the record could not reach | Concept 6, Boundary Map |
 | Two countable, recent questions | Concept 8, Two Questions · the nurse's minimum form |
 | "I don't know" as a recorded value | Concept 9, Don't-Know Button |

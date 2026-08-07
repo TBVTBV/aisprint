@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-08-07T09:25:58.604Z",
         "reason": "Inherits the committed chat design's messenger wallpaper (user brief: WhatsApp but blue)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "previsit-intake.html"
+        ],
+        "createdAt": "2026-08-07T12:59:00.000Z",
+        "reason": "The implemented app carries the committed chat world's messenger wallpaper (user-pinned through 7 design rounds)"
       }
     ]
   }

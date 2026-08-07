@@ -5,9 +5,22 @@
 > agents consume: product brief first, then tokens with usage rules, components with absolute
 > values, and an explicit don'ts list.
 >
-> **Status: direction, not yet implemented.** The shipped prototype is still the deliberate
-> greyscale wireframe of PRD §13. When this direction is implemented, PRD §13 must be
-> rewritten to point here.
+> **Status: superseded by the committed chat world, now implemented.** After this document
+> was written, the team explored four divergent directions (`design-explorations.html`),
+> chose the conversational one, sharpened it over seven rounds (`design-chat-explorations.html`,
+> `design-chat-back-options.html`), and froze the spec in **`design-chat-final.html`** —
+> "WhatsApp, but blue." That world now ships in `previsit-intake.html` and is recorded in
+> PRD §13. Sections 2 and 8–10 below still bind (principles, voice, accessibility, don'ts,
+> minus the teal palette); sections 3–7 are the research-backed first direction, kept as
+> the record of how the committed world was reached.
+>
+> **The committed world, in short:** deep-blue header `#24518F` with the Gordon clinic logo
+> avatar and kebab menu; dotted wallpaper `#E9EEF5`; white clinic bubbles with the sharp
+> corner toward the mini logo avatar, light-blue `#D5E3F8` caregiver bubbles with a generic
+> person mark; quick-reply pills (selected = solid `#2D5FA8` with a check); an accumulating
+> conversation where tapping an answer opens a focused edit mode; a textless continuous
+> progress bar above skip/הבא; the solid-plane "שלח" only on the final screen. No red,
+> anywhere, ever.
 
 ---
 
