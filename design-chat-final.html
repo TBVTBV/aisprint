@@ -7,10 +7,10 @@
 <title>הצ׳אט הסופי · מוכר בכחול</title>
 <!--
   The merged chat direction: variant 1's messenger anatomy in variant 2's blue.
-  Round 4: the clinic's real logo (crescent, cross, reaching figure) redrawn as
-  inline SVG for the header and bubble avatars; Dr. Oren carries a full fictional
-  name; the stepper shares one row with the forward/send button. Static mockups,
-  fictional data.
+  Round 6: back-navigation decided — option B, tap your own answer bubble.
+  The conversation accumulates: every answered question stays in the stream as a
+  sent bubble, tappable to edit. Editing enters a focused mode where the rest of
+  the conversation hides until "הבא" confirms. Static mockups, fictional data.
 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -48,6 +48,10 @@ svg{display:block;flex:none}
 .promise{font-weight:700;color:#24457C}
 .apc{background:#E7EEFB;border-radius:10px;padding:8px 10px;margin-top:6px}
 .apc .bt{color:#24457C}
+.me{align-self:flex-end;background:#D5E3F8;border-radius:13px;border-end-end-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:9px 12px;font-size:13px;line-height:1.45;max-width:86%}
+.me time{display:block;font-size:9px;color:#8FA3C4;margin-top:4px;text-align:left}
+.mehint{align-self:flex-end;display:flex;align-items:center;gap:4px;font-size:10px;color:#6A7385;margin-top:-4px}
+.editbanner{align-self:center;display:flex;align-items:center;gap:5px;background:#fff;color:#24457C;font-size:11px;font-weight:600;border-radius:999px;padding:5px 12px;box-shadow:0 2px 8px rgba(32,36,42,.14)}
 
 /* pills */
 .pillrow{display:flex;flex-wrap:wrap;gap:7px;padding:12px}
@@ -116,6 +120,12 @@ svg{display:block;flex:none}
         <div class="stream">
           <div class="grp">
             <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+            <div class="col"><div class="bub">בערך מתי זה התחיל?<time>09:43</time></div></div>
+          </div>
+          <div class="me">לפני פחות משנה<time>09:43</time></div>
+          <div class="mehint"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#6A7385" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 2.5l2 2L5 13l-3 1 1-3z"/></svg>אפשר ללחוץ על תשובה כדי לשנות אותה</div>
+          <div class="grp">
+            <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
             <div class="col"><div class="bub">מתי השיעול הכי חזק? אפשר לסמן כמה תשובות.<time>09:44</time></div></div>
           </div>
         </div>
@@ -139,7 +149,42 @@ svg{display:block;flex:none}
         </div>
       </div>
     </div>
-    <p class="pcap">שאלה מרובת בחירה</p>
+    <p class="pcap">שאלה מרובת בחירה · השיחה נערמת</p>
+  </div>
+
+  <div class="unit">
+    <div class="phone">
+      <div class="scr">
+        <div class="chead">
+          <span class="av big"><svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן שגב · לפני הביקור</p></div>
+          <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
+        </div>
+        <div class="stream">
+          <span class="editbanner"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#24457C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 2.5l2 2L5 13l-3 1 1-3z"/></svg>עריכת התשובה · שאלה 2 מתוך 10</span>
+          <div class="grp">
+            <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+            <div class="col"><div class="bub">בערך מתי זה התחיל?<time>09:43</time></div></div>
+          </div>
+        </div>
+        <div class="pillrow">
+          <span class="pill">בחודש האחרון</span>
+          <span class="pill on"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>לפני פחות משנה</span>
+          <span class="pill">לפני יותר משנה</span>
+          <span class="pill mut">לא ידוע לי</span>
+        </div>
+        <div class="cwrap">
+          <div class="cbar">
+            <div class="cprog">
+              <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
+              <div class="cntrow"><p class="cnt">עריכת שאלה 2</p><span class="skipmini">ביטול</span></div>
+            </div>
+            <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="pcap">מצב עריכה · שאר השיחה מוסתרת עד ״הבא״</p>
   </div>
 
   <div class="unit">
@@ -174,13 +219,13 @@ svg{display:block;flex:none}
 </div>
 
 <div class="notes">
-  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב חמישי — מה השתנה:</p>
+  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב שישי — הוחלט על חזרה בלחיצה על תשובה (אפשרות ב׳):</p>
   <ul>
-    <li>"דילוג" עבר להיות צמוד ל"שאלה 4 מתוך 10", מתחת לפס ההתקדמות.</li>
-    <li>האווטאר שליד הבועה לא נחתך יותר בתחתית.</li>
-    <li>אייקון שליחה חדש במסך האחרון (חץ־שליחה מלא, פונה לכיוון השליחה).</li>
-    <li>במסך הפתיחה אין כפתור "הבא" ואין פס התקדמות. הפס מופיע רק כשהשאלות מתחילות, וכבר עם צעד אחד מלא — מוטיבציה מהרגע הראשון.</li>
-    <li>מהסבב הקודם: אווטארים מהלוגו, ד״ר אורן שגב, סטפר בשורה אחת עם הכפתור.</li>
+    <li>השיחה נערמת: כל שאלה שנענתה נשארת בשיחה כבועה שנשלחה, עם רמז חד־פעמי "אפשר ללחוץ על תשובה כדי לשנות אותה".</li>
+    <li>לחיצה על תשובה נכנסת למצב עריכה ממוקד: רק השאלה הזאת מוצגת, שאר השיחה מוסתרת, והבחירה הקודמת מסומנת.</li>
+    <li>"הבא" מאשר את העריכה ומחזיר לשיחה המלאה; "ביטול" יוצא בלי לשנות.</li>
+    <li>פס ההתקדמות לא משתנה בזמן עריכה.</li>
+    <li>מהסבבים הקודמים: אווטארים מהלוגו, ד״ר אורן שגב, סטפר בשורה אחת עם הכפתור, "שלח" עם מטוס מלא רק במסך האחרון.</li>
   </ul>
 </div>
 
