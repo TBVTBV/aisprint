@@ -7,11 +7,10 @@
 <title>הצ׳אט הסופי · מוכר בכחול</title>
 <!--
   The merged chat direction: variant 1's messenger anatomy in variant 2's blue.
-  Round 3 refinements: clinic renamed Gordon; the forward control is a pill
-  labeled "הבא" with an arrow; the solid paper-plane "שלח" appears only on the
-  last screen, facing the sending direction (left in RTL, right in LTR); the
-  stepper sits below the action row; unselected pills wear a thin light border;
-  the landing tertiary "מה זה?" is borderless. Static mockups, fictional data.
+  Round 4: the clinic's real logo (crescent, cross, reaching figure) redrawn as
+  inline SVG for the header and bubble avatars; Dr. Oren carries a full fictional
+  name; the stepper shares one row with the forward/send button. Static mockups,
+  fictional data.
 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -30,9 +29,9 @@ svg{display:block;flex:none}
 
 /* header */
 .chead{display:flex;align-items:center;gap:9px;background:#24518F;color:#fff;padding:10px 12px}
-.av{border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
-.av.big{width:32px;height:32px;background:#E7EEFB}
-.av.mini{width:20px;height:20px;background:#24518F;box-shadow:0 0 0 1.5px #fff}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:#fff}
+.av.big{width:32px;height:32px}
+.av.mini{width:20px;height:20px;box-shadow:0 0 0 1.5px #fff}
 .cid{flex:1}
 .cname{font-size:13px;font-weight:700;line-height:1.2}
 .cstat{font-size:10px;color:#BFD3EE}
@@ -50,31 +49,32 @@ svg{display:block;flex:none}
 .apc{background:#E7EEFB;border-radius:10px;padding:8px 10px;margin-top:6px}
 .apc .bt{color:#24457C}
 
-/* pills: unselected wear a thin light border; selected fill blue */
+/* pills */
 .pillrow{display:flex;flex-wrap:wrap;gap:7px;padding:12px}
 .pill{display:flex;align-items:center;gap:6px;border:1px solid #D6DBE6;color:#1B1E24;background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}
 .pill.on{background:#2D5FA8;color:#fff;border-color:#2D5FA8}
 .pill.mut{border-color:#E0E4EC;color:#6A7385}
 .pill.ghost{border:none;background:transparent;color:#24457C}
 
-/* composer: action row first, stepper below it */
+/* composer: one row — skip, stepper, forward/send */
 .cwrap{margin-top:auto;background:#F4F7FB;border-top:1px solid #DCE3EE}
-.cbar{display:flex;align-items:center;gap:10px;padding:10px 12px 4px}
+.cbar{display:flex;align-items:center;gap:10px;padding:10px 12px 12px}
 .skipmini{font-size:11.5px;color:#24457C;text-decoration:underline;text-underline-offset:3px}
-.cnt{flex:1;font-size:10.5px;color:#6A7385}
-.nextbtn{display:flex;align-items:center;gap:7px;background:#2D5FA8;color:#fff;border-radius:999px;height:40px;padding:0 16px;font-weight:700;font-size:13.5px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
-.sendbtn{display:flex;align-items:center;gap:8px;background:#2D5FA8;color:#fff;border-radius:999px;height:44px;padding:0 18px;font-weight:700;font-size:14px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
-.sendbtn svg,.plane{transform:scaleX(-1)}  /* the plane faces the sending direction: left in RTL, right in LTR */
-.pbar{display:flex;gap:3px;padding:6px 12px 12px}
+.cprog{flex:1;min-width:0}
+.pbar{display:flex;gap:3px}
 .pseg{height:4px;flex:1;border-radius:99px;background:#D9E1EE}
 .pseg.f{background:#2D5FA8}
+.cnt{font-size:10px;color:#6A7385;margin-top:3px}
+.nextbtn{display:flex;align-items:center;gap:7px;background:#2D5FA8;color:#fff;border-radius:999px;height:40px;padding:0 16px;font-weight:700;font-size:13.5px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
+.sendbtn{display:flex;align-items:center;gap:8px;background:#2D5FA8;color:#fff;border-radius:999px;height:44px;padding:0 18px;font-weight:700;font-size:14px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
+.sendbtn svg{transform:scaleX(-1)}  /* the plane faces the sending direction: left in RTL, right in LTR */
 </style>
 </head>
 <body>
 
 <header class="bh">
   <h1>הצ׳אט הסופי · מוכר, בכחול</h1>
-  <p>וואטסאפ, אבל כחול — סבב שלישי. "הבא" עם חץ בכל המסכים, "שלח" עם מטוס מלא רק במסך האחרון, והסטפר מתחת לשורת הפעולות.</p>
+  <p>סבב רביעי: הלוגו של המרפאה באווטארים, שם מלא לרופא, והסטפר באותה שורה עם כפתור ההמשך.</p>
 </header>
 
 <div class="wrap">
@@ -83,16 +83,16 @@ svg{display:block;flex:none}
     <div class="phone">
       <div class="scr">
         <div class="chead">
-          <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
-          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <span class="av big"><svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן שגב · לפני הביקור</p></div>
           <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
         </div>
         <div class="stream">
           <div class="grp">
-            <span class="av mini"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+            <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
             <div class="col">
               <div class="bub">שלום! הגעתם מההודעה על התור של יותם. זה השאלון הקצר שהוזכר בה.<time>09:41</time></div>
-              <div class="bub"><span class="bt">התור של יותם</span><div class="apc"><span class="bt">יום חמישי, 6 באוגוסט, 09:20</span><span class="bm">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן ס.</span></div><time>09:41</time></div>
+              <div class="bub"><span class="bt">התור של יותם</span><div class="apc"><span class="bt">יום חמישי, 6 באוגוסט, 09:20</span><span class="bm">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן שגב</span></div><time>09:41</time></div>
               <div class="bub promise">ד״ר אורן יקרא כל מילה שתכתבו כאן — עוד לפני שתיכנסו אליו לחדר.<time>09:41</time></div>
               <div class="bub">בערך ארבע דקות, ואפשר לעצור באמצע ולחזור.<time>09:42</time></div>
             </div>
@@ -101,10 +101,9 @@ svg{display:block;flex:none}
         <div class="pillrow"><span class="pill on">בואו נתחיל</span><span class="pill ghost">מה זה?</span></div>
         <div class="cwrap">
           <div class="cbar">
-            <span class="cnt"></span>
+            <div class="cprog"><div class="pbar"><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div></div>
             <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
           </div>
-          <div class="pbar"><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
         </div>
       </div>
     </div>
@@ -115,13 +114,13 @@ svg{display:block;flex:none}
     <div class="phone">
       <div class="scr">
         <div class="chead">
-          <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
-          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <span class="av big"><svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן שגב · לפני הביקור</p></div>
           <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
         </div>
         <div class="stream">
           <div class="grp">
-            <span class="av mini"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+            <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
             <div class="col"><div class="bub">מתי השיעול הכי חזק? אפשר לסמן כמה תשובות.<time>09:44</time></div></div>
           </div>
         </div>
@@ -137,10 +136,12 @@ svg{display:block;flex:none}
         <div class="cwrap">
           <div class="cbar">
             <span class="skipmini">דילוג</span>
-            <span class="cnt">שאלה 4 מתוך 10</span>
+            <div class="cprog">
+              <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
+              <p class="cnt">שאלה 4 מתוך 10</p>
+            </div>
             <span class="nextbtn">הבא<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
           </div>
-          <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span><span class="pseg"></span></div>
         </div>
       </div>
     </div>
@@ -151,13 +152,13 @@ svg{display:block;flex:none}
     <div class="phone">
       <div class="scr">
         <div class="chead">
-          <span class="av big"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#24518F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
-          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+          <span class="av big"><svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
+          <div class="cid"><p class="cname">מרפאת ריאות ילדים גורדון</p><p class="cstat">ד״ר אורן שגב · לפני הביקור</p></div>
           <span class="kebab"><svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></span>
         </div>
         <div class="stream">
           <div class="grp">
-            <span class="av mini"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+            <span class="av mini"><svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M36 7A19.5 19.5 0 1 0 45 27" stroke="#1E4B9E" stroke-width="5.5" stroke-linecap="round"/><path d="M15 21h7.5v-7.5h7v7.5H37v7h-7.5V36h-7v-7.5H15z" fill="#1E4B9E"/><circle cx="34.5" cy="10.5" r="4" fill="#85C226"/><path d="M22 17c5 2.5 9.5 1.5 12.5-3.5M40.5 8.5C43 15 41 22 36 26c-1.8 1.5-2.5 4-2 7" stroke="#85C226" stroke-width="3.4" stroke-linecap="round"/></svg></span>
             <div class="col">
               <div class="bub">סיימנו! עברנו על הכול.<time>09:52</time></div>
               <div class="bub"><span class="bt">מה נשלח לד״ר אורן</span><div class="apc"><span class="bm">התשובות שלך · 2 מסמכים · סרטון אחד · 2 ״לא ידוע לי״</span></div><time>09:52</time></div>
@@ -167,10 +168,9 @@ svg{display:block;flex:none}
         </div>
         <div class="cwrap">
           <div class="cbar">
-            <span class="cnt"></span>
+            <div class="cprog"><div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span></div></div>
             <span class="sendbtn">שלח<svg width="17" height="17" viewBox="0 0 16 16" fill="#fff"><path d="M15 1L1 6.2l4.6 2.1L7.8 15 15 1z"/></svg></span>
           </div>
-          <div class="pbar"><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span><span class="pseg f"></span></div>
         </div>
       </div>
     </div>
@@ -180,14 +180,11 @@ svg{display:block;flex:none}
 </div>
 
 <div class="notes">
-  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב שלישי — מה השתנה:</p>
+  <p style="font-weight:700;color:#1B1D22;margin-bottom:6px">סבב רביעי — מה השתנה:</p>
   <ul>
-    <li>שם המרפאה: מרפאת ריאות ילדים גורדון.</li>
-    <li>כפתור ההמשך חזר לחץ, עם הטקסט "הבא", בכל מסכי הביניים.</li>
-    <li>אייקון השליחה — מטוס מלא הפונה לכיוון השליחה (שמאלה בעברית, ימינה באנגלית) עם הטקסט "שלח" — מופיע רק במסך האחרון.</li>
-    <li>פס ההתקדמות עבר אל מתחת לשורת הכפתורים.</li>
-    <li>בבחירה מרובה, אפשרויות לא מסומנות עם מסגרת דקה ובהירה.</li>
-    <li>בפתיחה: "בואו נתחיל" ראשי, ולידו "מה זה?" שלישוני בלי מסגרת.</li>
+    <li>הלוגו של המרפאה (סהר כחול, צלב, דמות ירוקה) משורטט כ־SVG ומשמש כאווטאר בכותרת וליד הבועות.</li>
+    <li>לרופא שם מלא: ד״ר אורן שגב (בדוי, תואם ל״אורן ס.״).</li>
+    <li>פס ההתקדמות עבר לאותה שורה עם כפתור ההמשך/השליחה, לחיסכון במקום.</li>
   </ul>
 </div>
 
