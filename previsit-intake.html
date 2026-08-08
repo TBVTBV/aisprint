@@ -116,8 +116,8 @@ svg{display:block;flex:none}
 .nextbtn{display:flex;align-items:center;gap:7px;background:var(--blue);color:#fff;border-radius:999px;height:44px;padding:0 18px;font-weight:700;font-size:14.5px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
 .nextbtn:disabled{background:#C9D4E6;box-shadow:none;cursor:not-allowed}
 .sendbtn{display:flex;align-items:center;gap:8px;background:var(--blue);color:#fff;border-radius:999px;height:46px;padding:0 20px;font-weight:700;font-size:15px;box-shadow:0 2px 6px rgba(32,36,42,.22)}
-.sendbtn svg{transform:scaleX(-1)}
-[dir="ltr"] .sendbtn svg{transform:none}  /* the plane faces the sending direction */
+.sendbtn svg{--mir:-1;transform:scaleX(var(--mir))}  /* the plane faces the sending direction */
+[dir="ltr"] .sendbtn svg{--mir:1}
 /* focused panels: login, capture, read, reschedule */
 .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(32,36,42,.10);padding:16px;margin:14px 12px}
 .panel.center{text-align:center}
@@ -179,6 +179,34 @@ svg{display:block;flex:none}
 .loadbox{position:absolute;inset:0;z-index:40;background:rgba(244,247,251,.94);display:flex;align-items:center;justify-content:center}
 .loadbox p{background:#fff;border-radius:999px;padding:13px 24px;font-weight:600;box-shadow:0 2px 10px rgba(32,36,42,.14)}
 .toast{position:absolute;bottom:110px;inset-inline:24px;background:var(--blue-deep);color:#fff;border-radius:999px;padding:10px 16px;text-align:center;font-size:14px;z-index:50}
+/* motion: entrances only, transform+opacity, gated to real transitions, dead under reduced-motion */
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes popin{from{opacity:0;transform:translateY(6px) scale(.96)}}
+@keyframes fadein{from{opacity:0}}
+@keyframes sheetup{from{transform:translateY(100%)}}
+@keyframes menuin{from{transform:translateX(100%)}}
+@keyframes menuinrtl{from{transform:translateX(-100%)}}
+@keyframes grow{from{transform:scaleX(var(--gfrom,0))}}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@keyframes flyoff{to{transform:scaleX(var(--mir,1)) translateY(-18px);opacity:0}}
+.arrive{animation:rise .2s ease-out both}
+.megrp.pop{animation:popin .18s ease-out both}
+.grp.stag .col .bub{animation:rise .24s ease-out both}
+.grp.stag .col .bub:nth-child(2){animation-delay:.08s}
+.grp.stag .col .bub:nth-child(3){animation-delay:.16s}
+.grp.stag .col .bub:nth-child(4){animation-delay:.24s}
+.typing{display:flex;gap:4px;align-items:center;background:#fff;border-radius:14px;border-end-start-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:15px 16px;width:max-content}
+.typing i{width:6px;height:6px;border-radius:50%;background:#9AA6BC;animation:blink 1s infinite both}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+.pfill.grow{transform-origin:100% 50%;animation:grow .25s ease-out both}
+[dir="ltr"] .pfill.grow{transform-origin:0 50%}
+.menu{animation:menuinrtl .2s ease-out both}
+[dir="ltr"] .menu{animation:menuin .2s ease-out both}
+.sheet{animation:sheetup .22s ease-out both}
+.scrim{animation:fadein .18s ease-out both}
+.sendbtn svg.fly{animation:flyoff .33s ease-in forwards}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -907,6 +935,7 @@ function stopStream(){
 function goto(s){
   if (/^capture:/.test(STATE.screen) && !/^read:/.test(s)) stopStream();
   STATE.screen = s;
+  UI.playAnim = true;                                    // entrance animations play on transitions, never on re-renders
   UI.followCard = null; UI.offerCard = UI.offerCard && s === "docs" ? UI.offerCard : null;
   if (/^read:/.test(s)){
     const id = s.split(":")[1];
@@ -947,7 +976,15 @@ function toast(msg){
 /* ================= actions ================= */
 const A = {};
 
-A["start"] = () => goto(STATE.loggedIn ? "respondent" : "login_phone");
+function typeThen(target){
+  const chat = target === "respondent" || target.startsWith("q:") || target === "docs" || target === "note" || target === "review";
+  if (!chat || matchMedia("(prefers-reduced-motion: reduce)").matches){ goto(target); return; }
+  UI.typing = true;
+  goto(target);
+  clearTimeout(UI.typingT);
+  UI.typingT = setTimeout(() => { UI.typing = false; UI.playAnim = true; render(); }, 500);
+}
+A["start"] = () => typeThen(STATE.loggedIn ? "respondent" : "login_phone");
 A["back"] = () => {
   if (UI.sheet){ UI.sheet = null; render(); return; }
   const b = backTarget();
@@ -1029,13 +1066,14 @@ A["skip"] = d => {
 };
 A["q-continue"] = d => {
   if (UI.returnTo){ const r = UI.returnTo; UI.returnTo = null; goto(r); return; }
-  if (d.q === "respondent"){ goto("q:q1"); return; }
+  UI.lastAdvancedQ = d.q;
+  if (d.q === "respondent"){ typeThen("q:q1"); return; }
   const p = pathQuestions(); const i = p.findIndex(x => x.id === d.q);
-  if (i >= 0 && i < p.length - 1) goto("q:" + p[i+1].id); else goto("docs");
+  if (i >= 0 && i < p.length - 1) typeThen("q:" + p[i+1].id); else typeThen("docs");
 };
 A["sent-back"] = () => { UI.returnTo = null; goto("review"); };  // re-open review to change and re-send
-A["docs-continue"] = () => goto("note");
-A["note-continue"] = () => goto("review");
+A["docs-continue"] = () => typeThen("note");
+A["note-continue"] = () => typeThen("review");
 
 A["card-dont-have"] = d => { UI.followCard = UI.followCard === d.card ? null : d.card; render(); };
 A["card-set"] = d => {
@@ -1080,8 +1118,15 @@ A["read-save"] = d => {
 
 A["edit-row"] = d => { UI.returnTo = "review"; goto(d.target); };
 A["submit"] = () => {                                    // 10.4 faked submission
-  UI.loader = t("sending"); render();
-  setTimeout(() => { UI.loader = null; STATE.submitted = true; goto("sent"); }, 900);
+  const go = () => {
+    UI.loader = t("sending"); render();
+    setTimeout(() => { UI.loader = null; STATE.submitted = true; goto("sent"); }, 900);
+  };
+  const icon = document.querySelector(".sendbtn svg");
+  if (icon && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+    icon.classList.add("fly");                           // the plane leaves first
+    setTimeout(go, 330);
+  } else go();
 };
 A["open-reschedule"] = () => {
   if (STATE.screen !== "reschedule") UI.resFrom = STATE.screen;
@@ -1325,8 +1370,11 @@ const ARROW_FWD = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" s
 const PLANE = '<svg width="17" height="17" viewBox="0 0 16 16" fill="#fff" aria-hidden="true"><path d="M1.5 14.5V9.4L9.5 8 1.5 6.6V1.5L15 8z"/></svg>';
 const PENCIL = '<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.5 2.5l2 2L5 13l-3 1 1-3z"/></svg>';
 
-function clinicGrp(bubbles){
-  return '<div class="grp"><span class="av mini">' + logoSVG(14) + '</span><div class="col">' + bubbles + "</div></div>";
+function clinicGrp(bubbles, cls){
+  return '<div class="grp' + (cls ? " " + cls : "") + '"><span class="av mini">' + logoSVG(14) + '</span><div class="col">' + bubbles + "</div></div>";
+}
+function typingHTML(){
+  return '<div class="grp arrive"><span class="av mini">' + logoSVG(14) + '</span><div class="typing" role="status" aria-label="…"><i></i><i></i><i></i></div></div>';
 }
 function bubHTML(inner, extra){
   return '<div class="bub"' + (extra || "") + ">" + inner + "</div>";
@@ -1338,16 +1386,18 @@ function meBubble(qd){
   if (a.confidence) tags.push(t("conf_" + a.confidence));
   if (a.secondHand) tags.push(t("secondHand"));
   if (tags.length) inner += '<span class="metag">' + tags.join(" · ") + "</span>";
-  return '<div class="megrp"><button class="me" data-act="edit-answer" data-q="' + qd.id + '" aria-label="' + esc(L(qd.text)) + " — " + t("tapToEdit") + '">' + inner + '</button><span class="av mini">' + USER_AV + "</span></div>";
+  const pop = UI.playAnim && UI.lastAdvancedQ === qd.id ? " pop" : "";
+  return '<div class="megrp' + pop + '"><button class="me" data-act="edit-answer" data-q="' + qd.id + '" aria-label="' + esc(L(qd.text)) + " — " + t("tapToEdit") + '">' + inner + '</button><span class="av mini">' + USER_AV + "</span></div>";
 }
 
 /* the fixed opening of the conversation: greeting, appointment, promise, time */
 function landingBubbles(){
-  return clinicGrp(
+  return clinicGrp.call(null, 
     bubHTML(t("landingFrom")) +
     bubHTML('<span class="bt">' + t("landingTitle") + '</span><div class="apc"><span class="bt">' + t("apptWhen") + '</span><span class="bm">' + t("apptWhere") + " · " + t("apptDoc") + "</span></div>") +
     bubHTML('<span class="promise">' + t("landingPromise") + "</span>") +
-    bubHTML(t("landingTime"))
+    bubHTML(t("landingTime")),
+    UI.playAnim && STATE.screen === "landing" ? "stag" : ""
   );
 }
 
@@ -1386,8 +1436,8 @@ function currentQHTML(qd){
 function editBody(){
   const qd = q(UI.editQ);
   let h = '<div class="stream">';
-  h += '<span class="editbanner">' + PENCIL + t("editTitle") + "</span>";
-  h += currentQHTML(qd);
+  const wrap = UI.playAnim ? '<div class="arrive">' : "<div>";
+  h += wrap + '<span class="editbanner">' + PENCIL + t("editTitle") + "</span>" + currentQHTML(qd) + "</div>";
   return h + "</div>";
 }
 
@@ -1402,11 +1452,13 @@ function chatBody(){
   }
   const curId = s === "respondent" ? "respondent" : s.startsWith("q:") ? s.slice(2) : null;
   h += historyHTML(curId);
-  if (curId) h += currentQHTML(q(curId));
-  else if (s === "docs" || s.startsWith("capture:") || s.startsWith("read:")) h += docsSection();
-  else if (s === "note") h += noteSection();
-  else if (s === "review") h += reviewSection();
-  else if (s === "sent") h += sentSection();
+  if (UI.typing) return h + typingHTML() + "</div>";     // the clinic is writing the next message
+  const wrap = UI.playAnim ? '<div class="arrive">' : "<div>";
+  if (curId) h += wrap + currentQHTML(q(curId)) + "</div>";
+  else if (s === "docs" || s.startsWith("capture:") || s.startsWith("read:")) h += wrap + docsSection() + "</div>";
+  else if (s === "note") h += wrap + noteSection() + "</div>";
+  else if (s === "review") h += wrap + reviewSection() + "</div>";
+  else if (s === "sent") h += wrap + sentSection() + "</div>";
   return h + "</div>";
 }
 
@@ -1706,9 +1758,18 @@ function composerHTML(){
     right = "<span></span>";
     left = '<button class="sendbtn" data-act="submit">' + t("sendWord") + PLANE + "</button>";
   } else return "";
+  if (UI.typing){
+    right = right.replace("<button ", "<button disabled ");
+    left = left.replace("<button ", "<button disabled ");
+  }
   const total = 4 + pathQuestions().length;
   const sr = st("q1") ? fmt(t("stepOf"), { a: segIndex() + 1, b: total }) : t("stepStart");
-  return '<footer class="cwrap"><div class="pwrap"><div class="pbar"><div class="pfill" style="width:' + progressPct() + '%"></div></div></div>' +
+  const pct = progressPct();
+  let fill = '<div class="pfill" style="width:' + pct + '%"></div>';
+  if (UI.playAnim && UI.prevPct != null && pct > UI.prevPct)
+    fill = '<div class="pfill grow" style="width:' + pct + '%;--gfrom:' + (UI.prevPct / pct).toFixed(3) + '"></div>';
+  UI.prevPct = pct;
+  return '<footer class="cwrap"><div class="pwrap"><div class="pbar">' + fill + "</div></div>" +
     '<p class="vh" aria-live="polite">' + sr + "</p>" +
     '<div class="cbar">' + right + left + "</div></footer>";
 }
@@ -1782,10 +1843,12 @@ function render(){
   }
   UI.lastScreen = STATE.screen;
   UI.lastEdit = UI.editQ;
+  UI.playAnim = false;                                   // consumed; intra-screen re-renders stay still
 }
 
 /* ============ back-navigation, option B: tap your answer to edit ============ */
 UI.editQ = null; UI.editSnap = null; UI.lastEdit = null;
+UI.playAnim = false; UI.typing = false; UI.typingT = null; UI.lastAdvancedQ = null; UI.prevPct = null;
 
 A["edit-answer"] = d => {
   let qd = q(d.q);
@@ -1793,6 +1856,7 @@ A["edit-answer"] = d => {
   if (!qd) return;
   UI.editQ = qd.id;
   UI.editSnap = JSON.stringify({ answers: STATE.answers, respondent: STATE.respondent, branch: STATE.branch });
+  UI.playAnim = true;
   render();
 };
 A["edit-cancel"] = () => {
@@ -1820,7 +1884,11 @@ A["goto-docs"] = () => { UI.editQ = null; goto("docs"); };
 A["goto-note"] = () => { UI.editQ = null; goto("note"); };
 {
   const restartBase = A["restart"];
-  A["restart"] = () => { UI.editQ = null; UI.editSnap = null; restartBase(); };
+  A["restart"] = () => {
+    UI.editQ = null; UI.editSnap = null;
+    clearTimeout(UI.typingT); UI.typing = false; UI.lastAdvancedQ = null; UI.prevPct = null;
+    restartBase();
+  };
 }
 
 /* ================= boot ================= */
