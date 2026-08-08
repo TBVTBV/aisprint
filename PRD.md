@@ -7,7 +7,7 @@ Pre-visit intake, caregiver side. Direction B from `Group7_S2_Ideation.html`.
 
 **Audience:** Claude Code. **Deliverable:** one self-contained `.html` file.
 
-> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated on the landing screen and in the app footer.
+> **Everything in this prototype is fictional.** No real patient, no real family, no real clinician data. The child, the appointment, the referral and the documents are invented for demonstration. This must be stated in the menu and on the privacy sheet.
 
 ## How to use this document
 
@@ -222,15 +222,14 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 - "About 4 minutes. You can stop and come back."
 - What makes it different: "We are only asking for what your file could not tell us."
 - Primary: **Start**. Secondary: **What is this?** opens the privacy sheet (7.11).
-- Fictional-data notice in the footer.
 
 ### 7.2 `[L]` Log in
 
 The only gate in the product, and it must not feel like one. No password, no account, no email. The caregiver already receives clinic messages on that number.
 
-**`[L.1]` Phone number.** One numeric field formatted for an Israeli mobile. Line under it: "The same number the clinic texts you on." Continue enabled once the field is plausibly complete. That is the only validation in P0.
+**`[L.1]` Phone number.** An instruction above the field, phrased as a command: "Enter the mobile number the clinic texts you on." One numeric field formatted for an Israeli mobile; its label lives on for screen readers only. Continue is **never disabled**: tapping it with an implausible number shows an amber inline error ("The number should start with 05 and have 10 digits.") in a **fixed-height line under the field**, so the button never jumps, and the error clears by itself the moment the number is right. This is the one deliberate exception to section 17's "no error states". The language switch sits bottom-centre, labelled as an action in the target language ("Switch to English" / "מעבר לעברית"), on both login screens.
 
-**`[L.2]` One-time code.** Four boxes, auto-advancing, auto-focus on the first. Above: "We sent a code to 05X-XXXXXXX". Below: "Didn't get it? Send again", which starts a 30 second countdown and does nothing else.
+**`[L.2]` One-time code.** Everything centre-aligned. Four boxes, auto-advancing, auto-focus on the first. Above: "We sent a code to 05X-XXXXXXX". Below: "Didn't get it? Send again", which starts a 30 second countdown and does nothing else.
 
 Faked: **any four digits are accepted** after a 1 s "Checking..." state. A small demo note on the screen says so. Once `STATE.loggedIn` is true a resumed session skips this screen.
 
@@ -568,7 +567,7 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 
 A build that violates one of these is wrong, not merely unpolished.
 
-1. **No real patient data anywhere.** Everything fictional, and labelled fictional on `[0]` and in the footer.
+1. **No real patient data anywhere.** Everything fictional, and labelled fictional in the menu and on the privacy sheet.
 2. **The app never concludes.** No screen tells the caregiver what Yotam has, what is wrong, or what to do. It collects and routes. Nothing more.
 3. **Machine output is labelled and correctable.** The document read, every time.
 4. **Uncertainty is surfaced, never smoothed.** "I don't know" is a value, confidence is captured, and the read admits where it is unsure.

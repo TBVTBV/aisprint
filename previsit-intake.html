@@ -106,7 +106,6 @@ svg{display:block;flex:none}
 .pillrow{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0 8px;margin-top:auto}
 .pill-start{width:100%;background:var(--blue);color:#fff;border-radius:999px;padding:13px 16px;font-weight:700;font-size:15.5px;text-align:center}
 .pill-ghost{border:none;background:transparent;color:var(--blue-ink);font-weight:600;padding:9px 14px}
-.fnote{font-size:11.5px;color:var(--mut);text-align:center;padding-bottom:4px}
 /* composer: continuous progress above the action row, no numbers, no text */
 .cwrap{flex:none;background:var(--soft);border-top:1px solid var(--line)}
 .pwrap{padding:10px 12px 0}
@@ -121,11 +120,18 @@ svg{display:block;flex:none}
 [dir="ltr"] .sendbtn svg{transform:none}  /* the plane faces the sending direction */
 /* focused panels: login, capture, read, reschedule */
 .panel{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(32,36,42,.10);padding:16px;margin:14px 12px}
+.panel.center{text-align:center}
+.panel.center .btn-text{display:inline-block;text-align:center}
 .panelbar{display:flex;justify-content:flex-start;padding:10px 12px 0}
 .codewrap{display:flex;gap:10px;justify-content:center;direction:ltr;margin-block:18px}
 .codebox{width:52px;height:60px;text-align:center;font-size:24px;border:1px solid #D6DBE6;border-radius:12px;background:#fff}
-.loginacts{margin-top:18px}
-.landtop{display:flex;justify-content:flex-end;padding:10px 12px 0}
+.loginacts{margin-top:14px}
+.loginwrap{display:flex;flex-direction:column;min-height:100%}
+.cmd{font-size:14.5px;margin-bottom:12px}
+.errline{min-height:22px;font-size:12.5px;font-weight:600;color:#8A6415;margin-top:6px}  /* fixed height so the button never jumps */
+.txt[aria-invalid="true"]{border:1.5px solid #B98A3A;background:#FDF8EF}
+.langbottom{margin-top:auto;display:flex;justify-content:center;padding:8px 0 16px}
+.langbottom .btn-text{text-align:center}
 /* document cards in the stream */
 .card{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(32,36,42,.10);padding:14px;align-self:stretch}
 .ctitle{font-size:15.5px;margin-bottom:2px}
@@ -215,7 +221,8 @@ const STRINGS = {
     landingDiff:"We won't ask about anything the clinic already has. Only the few things Yotam's file can't tell us — the ones only you know.",
     fictionalNote:"A demo prototype. The child, the appointment and the documents are entirely fictional.",
     loginTitle:"Log in", phoneLabel:"Mobile number",
-    phoneHelp:"The same number the clinic texts you on.",
+    phoneHelp:"Enter the mobile number the clinic texts you on.",
+    phoneErr:"The number should start with 05 and have 10 digits.",
     codeTitle:"Enter the code", codeSent:"We sent a code to {phone}",
     resend:"Didn't get it? Send again", resendWait:"Send again in {s} s",
     checking:"Checking...", demoCode:"Demo: any four digits work.",
@@ -321,7 +328,8 @@ const STRINGS = {
     fictionalNote:"אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.", // TODO: native review
     loginTitle:"כניסה", // TODO: native review
     phoneLabel:"מספר נייד", // TODO: native review
-    phoneHelp:"אותו מספר שהמרפאה שולחת אליו הודעות.", // TODO: native review
+    phoneHelp:"הזינו את מספר הנייד שאליו המרפאה שולחת לכם הודעות.", // TODO: native review
+    phoneErr:"המספר צריך להתחיל ב־05 ולכלול 10 ספרות.", // TODO: native review
     codeTitle:"הקוד שקיבלת", // TODO: native review
     codeSent:"שלחנו קוד אל {phone}", // TODO: native review
     resend:"לא הגיע? לשלוח שוב", // TODO: native review
@@ -969,7 +977,10 @@ A["restart"] = () => {
   applyDir(); render();
 };
 
-A["login-continue"] = () => { UI.resendLeft = 0; goto("login_code"); };
+A["login-continue"] = () => {
+  if (!/^05\d{8}$/.test(STATE.phone)){ UI.phoneErr = true; render(); return; }
+  UI.phoneErr = false; UI.resendLeft = 0; goto("login_code");
+};
 A["resend"] = () => {                                    // 10.2 resend runs a countdown and does nothing else
   if (UI.resendLeft > 0) return;
   UI.resendLeft = 30;
@@ -1146,8 +1157,11 @@ document.addEventListener("input", e => {
   const el = e.target;
   if (el.dataset.phone !== undefined){
     STATE.phone = el.value.replace(/\D/g, ""); saveState();
-    const b = document.getElementById("phonebtn");
-    if (b) b.disabled = !/^05\d{8}$/.test(STATE.phone);
+    if (UI.phoneErr && /^05\d{8}$/.test(STATE.phone)){   // the error clears itself the moment the number is right
+      UI.phoneErr = false;
+      el.removeAttribute("aria-invalid");
+      const er = document.getElementById("phoneerr"); if (er) er.textContent = "";
+    }
     return;
   }
   if (el.dataset.code !== undefined){ handleCode(el); return; }
@@ -1383,8 +1397,7 @@ function chatBody(){
   let h = '<div class="stream">';
   h += landingBubbles();
   if (s === "landing"){
-    h += '<div class="pillrow"><button class="pill-start" data-act="start">' + t("startChat") + '</button><button class="pill-ghost" data-act="open-privacy">' + t("whatIsThis") + "</button></div>" +
-         '<p class="fnote">' + t("fictionalNote") + "</p>";
+    h += '<div class="pillrow"><button class="pill-start" data-act="start">' + t("startChat") + '</button><button class="pill-ghost" data-act="open-privacy">' + t("whatIsThis") + "</button></div>";
     return h + "</div>";
   }
   const curId = s === "respondent" ? "respondent" : s.startsWith("q:") ? s.slice(2) : null;
@@ -1397,14 +1410,19 @@ function chatBody(){
   return h + "</div>";
 }
 
+function langBottom(){
+  const toEn = STATE.locale === "he";                     // the switch names its action, in the target language
+  return '<div class="langbottom"><button class="btn-text" data-act="toggle-lang" lang="' + (toEn ? "en" : "he") + '">' + (toEn ? "Switch to English" : "מעבר לעברית") + "</button></div>";
+}
+
 function loginPhoneBody(){
-  const ok = /^05\d{8}$/.test(STATE.phone);
-  return '<div class="landtop"><button class="btn-text" data-act="toggle-lang" lang="' + (STATE.locale === "he" ? "en" : "he") + '">' + (STATE.locale === "he" ? "English" : "עברית") + "</button></div>" +
-    '<div class="panel"><h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
-    '<div class="field"><label for="phone">' + t("phoneLabel") + '</label>' +
-    '<input id="phone" class="txt" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" data-phone value="' + esc(STATE.phone) + '">' +
-    '<p class="hint">' + t("phoneHelp") + "</p></div>" +
-    '<div class="loginacts"><button id="phonebtn" class="btn-primary" data-act="login-continue"' + (ok ? "" : " disabled") + ">" + t("cont") + "</button></div></div>";
+  return '<div class="loginwrap"><div class="panel"><h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
+    '<p class="cmd">' + t("phoneHelp") + "</p>" +
+    '<div class="field"><label class="vh" for="phone">' + t("phoneLabel") + '</label>' +
+    '<input id="phone" class="txt" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" data-phone value="' + esc(STATE.phone) + '"' + (UI.phoneErr ? ' aria-invalid="true"' : "") + '>' +
+    '<p class="errline" id="phoneerr" role="alert">' + (UI.phoneErr ? t("phoneErr") : "") + "</p></div>" +
+    '<div class="loginacts"><button id="phonebtn" class="btn-primary" data-act="login-continue">' + t("cont") + "</button></div></div>" +
+    langBottom() + "</div>";
 }
 
 function loginCodeBody(){
@@ -1412,11 +1430,12 @@ function loginCodeBody(){
   let boxes = "";
   for (let i = 0; i < 4; i++)
     boxes += '<input class="codebox" type="text" inputmode="numeric" maxlength="2" data-code="' + i + '" aria-label="' + (i+1) + '">';
-  return '<div class="panel"><h1 tabindex="-1">' + t("codeTitle") + "</h1>" +
+  return '<div class="loginwrap"><div class="panel center"><h1 tabindex="-1">' + t("codeTitle") + "</h1>" +
     "<p>" + fmt(t("codeSent"), { phone:'<bdo dir="ltr">' + esc(shown) + "</bdo>" }) + "</p>" +
     '<div class="codewrap">' + boxes + "</div>" +
     '<button class="btn-text" id="resendbtn" data-act="resend">' + t("resend") + "</button>" +
-    '<p class="hint" style="margin-top:18px">' + t("demoCode") + "</p></div>";
+    '<p class="hint" style="margin-top:18px">' + t("demoCode") + "</p></div>" +
+    langBottom() + "</div>";
 }
 
 function thumbsHTML(files){
