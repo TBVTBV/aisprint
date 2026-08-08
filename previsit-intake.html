@@ -130,6 +130,10 @@ svg{display:block;flex:none}
 .cmd{font-size:14.5px;margin-bottom:12px}
 .errline{min-height:22px;font-size:12.5px;font-weight:600;color:#8A6415;margin-top:6px}  /* fixed height so the button never jumps */
 .txt[aria-invalid="true"]{border:1.5px solid #B98A3A;background:#FDF8EF}
+.steps{display:flex;flex-direction:column;gap:12px;margin:14px 0}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;text-align:start}
+.stepic{flex:none;width:34px;height:34px;border-radius:50%;background:var(--tint);color:var(--blue-ink);display:flex;align-items:center;justify-content:center}
+.splashtime{font-size:13px;color:var(--mut);margin-bottom:14px}
 .langbottom{margin-top:auto;display:flex;justify-content:center;padding:8px 0 16px}
 .langbottom .btn-text{text-align:center}
 /* document cards in the stream */
@@ -819,7 +823,7 @@ const CASE = {
 const FRESH = () => ({
   locale:"he", loggedIn:false, phone:"", respondent:null, branch:null,
   answers:{}, cards:{}, note:"", submitted:false, rescheduledTo:null,
-  screen:"login_phone"                      // the gate comes first: nothing medical renders before it
+  screen:"splash"                           // instructions first, then the gate; nothing medical before it
 });
 let STATE = FRESH();
 let MEM = null;                       // in-memory fallback when localStorage is blocked
@@ -844,7 +848,7 @@ function loadState(){
   if (s && typeof s === "object"){
     STATE = Object.assign(FRESH(), s);
     Object.values(STATE.cards || {}).forEach(c => (c.files || []).forEach(f => { f.objectUrl = null; }));
-    if (!STATE.loggedIn) STATE.screen = "login_phone";  // nothing renders before the gate
+    if (!STATE.loggedIn && STATE.screen !== "login_phone" && STATE.screen !== "login_code") STATE.screen = "splash";  // nothing medical renders before the gate
     if (/^(capture|read):/.test(STATE.screen)) STATE.screen = "docs";   // transient sub-screens do not resume
     if (STATE.screen === "login_code") STATE.screen = "login_phone";
   }
@@ -1027,6 +1031,7 @@ A["restart"] = () => {
   applyDir(); render();
 };
 
+A["to-login"] = () => goto("login_phone");
 A["login-continue"] = () => {
   if (!/^05\d{8}$/.test(STATE.phone)){ UI.phoneErr = true; render(); return; }
   UI.phoneErr = false; UI.resendLeft = 0; goto("login_code");
@@ -1346,6 +1351,11 @@ Object.assign(STRINGS.en, {
   docStatus:"Dr. Oren Segev · before the visit",
   apptDoc:"Dr. Oren Segev",
   startChat:"Let's begin",
+  splashTitle:"A short chat before the visit",
+  splashStep1:"Answer a few short questions, like a chat with the clinic.",
+  splashStep2:"Photograph or attach the few documents only you can get.",
+  splashStep3:"Send. The doctor reads everything before you arrive.",
+  splashTime:"About four minutes. You can stop and come back.",
   tapToEdit:"You can tap an answer to change it",
   editTitle:"Editing your answer",
   cancel:"Cancel",
@@ -1361,6 +1371,11 @@ Object.assign(STRINGS.he, {
   docStatus:"ד״ר אורן שגב · לפני הביקור", // TODO: native review
   apptDoc:"ד״ר אורן שגב", // TODO: native review
   startChat:"בואו נתחיל", // TODO: native review
+  splashTitle:"שיחה קצרה לפני הביקור", // TODO: native review
+  splashStep1:"עונים על כמה שאלות קצרות, כמו בצ׳אט עם המרפאה.", // TODO: native review
+  splashStep2:"מצלמים או מצרפים את המסמכים המעטים שרק אתם יכולים להשיג.", // TODO: native review
+  splashStep3:"שולחים. הרופא קורא הכול עוד לפני שאתם מגיעים.", // TODO: native review
+  splashTime:"בערך ארבע דקות. אפשר לעצור ולחזור.", // TODO: native review
   tapToEdit:"אפשר ללחוץ על תשובה כדי לשנות אותה", // TODO: native review
   editTitle:"עריכת התשובה", // TODO: native review
   cancel:"ביטול", // TODO: native review
@@ -1485,6 +1500,22 @@ function chatBody(){
 function langBottom(){
   const toEn = STATE.locale === "he";                     // the switch names its action, in the target language
   return '<div class="langbottom"><button class="btn-text" data-act="toggle-lang" lang="' + (toEn ? "en" : "he") + '">' + (toEn ? "Switch to English" : "מעבר לעברית") + "</button></div>";
+}
+
+function splashBody(){
+  const ic = c => '<span class="stepic">' + c + "</span>";
+  const chat = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z"/></svg>';
+  const plane = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2L7 9M14 2L9.5 14 7 9 2 6.5z"/></svg>';
+  return '<div class="loginwrap"><div class="panel"><h1 tabindex="-1">' + t("splashTitle") + "</h1>" +
+    '<div class="steps">' +
+    '<div class="step">' + ic(chat) + "<span>" + t("splashStep1") + "</span></div>" +
+    '<div class="step">' + ic(ICONS.photo) + "<span>" + t("splashStep2") + "</span></div>" +
+    '<div class="step">' + ic(plane) + "<span>" + t("splashStep3") + "</span></div></div>" +
+    '<p class="splashtime">' + t("splashTime") + "</p>" +
+    '<button class="btn-primary" data-act="to-login">' + t("startChat") + "</button>" +
+    '<button class="btn-text" style="display:block;margin:6px auto 0" data-act="open-privacy">' + t("howHandle") + "</button></div>" +
+    '<img class="illus" src="' + ILLUS.login + '" alt="">' +
+    langBottom() + "</div>";
 }
 
 function loginPhoneBody(){
@@ -1831,6 +1862,7 @@ function overlaysHTML(){
 
 function screenBody(){
   const s = STATE.screen;
+  if (s === "splash") return splashBody();
   if (s === "login_phone") return loginPhoneBody();
   if (s === "login_code") return loginCodeBody();
   if (s === "sent") return sentPage();
@@ -1852,7 +1884,7 @@ function render(){
   const v = document.getElementById("camvid");
   if (v && UI.stream) v.srcObject = UI.stream;
   const content = document.getElementById("content");
-  const chat = !UI.editQ && !/^(login_|capture:|read:)/.test(STATE.screen) && STATE.screen !== "reschedule" && STATE.screen !== "sent";
+  const chat = !UI.editQ && !/^(login_|capture:|read:)/.test(STATE.screen) && STATE.screen !== "reschedule" && STATE.screen !== "sent" && STATE.screen !== "splash";
   const stream = content && content.querySelector(".stream");
   if (UI.focus){
     const el = document.querySelector(UI.focus);
