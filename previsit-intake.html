@@ -174,9 +174,7 @@ svg{display:block;flex:none}
 .spanel ul{padding-inline-start:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
 .sentpage .btn-sec{margin-top:0}
 /* illustrations */
-.illus{display:block;width:190px;height:auto;margin:10px auto 0}
-.illus.small{width:140px;margin:6px auto 0}
-.illus.hero{width:210px;margin:4px auto 8px}
+.illus{display:block;width:170px;height:auto;margin:14px auto 6px}
 [dir="rtl"] .dirmir{transform:scaleX(-1)}
 /* overlays */
 .scrim{position:absolute;inset:0;background:rgba(20,26,40,.45);z-index:30;border:none}
@@ -1490,12 +1488,13 @@ function langBottom(){
 }
 
 function loginPhoneBody(){
-  return '<div class="loginwrap"><img class="illus" src="' + ILLUS.login + '" alt=""><div class="panel"><h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
+  return '<div class="loginwrap"><div class="panel"><h1 tabindex="-1">' + t("loginTitle") + "</h1>" +
     '<p class="cmd">' + t("phoneHelp") + "</p>" +
     '<div class="field"><label class="vh" for="phone">' + t("phoneLabel") + '</label>' +
     '<input id="phone" class="txt" type="tel" inputmode="numeric" autocomplete="tel" dir="ltr" maxlength="10" data-phone value="' + esc(STATE.phone) + '"' + (UI.phoneErr ? ' aria-invalid="true"' : "") + '>' +
     '<p class="errline" id="phoneerr" role="alert">' + (UI.phoneErr ? t("phoneErr") : "") + "</p></div>" +
     '<div class="loginacts"><button id="phonebtn" class="btn-primary" data-act="login-continue">' + t("cont") + "</button></div></div>" +
+    '<img class="illus" src="' + ILLUS.login + '" alt="">' +
     langBottom() + "</div>";
 }
 
@@ -1504,11 +1503,12 @@ function loginCodeBody(){
   let boxes = "";
   for (let i = 0; i < 4; i++)
     boxes += '<input class="codebox" type="text" inputmode="numeric" maxlength="2" data-code="' + i + '" aria-label="' + (i+1) + '">';
-  return '<div class="loginwrap"><img class="illus small" src="' + ILLUS.otp + '" alt=""><div class="panel center"><h1 tabindex="-1">' + t("codeTitle") + "</h1>" +
+  return '<div class="loginwrap"><div class="panel center"><h1 tabindex="-1">' + t("codeTitle") + "</h1>" +
     "<p>" + fmt(t("codeSent"), { phone:'<bdo dir="ltr">' + esc(shown) + "</bdo>" }) + "</p>" +
     '<div class="codewrap">' + boxes + "</div>" +
     '<button class="btn-text" id="resendbtn" data-act="resend">' + t("resend") + "</button>" +
     '<p class="hint" style="margin-top:18px">' + t("demoCode") + "</p></div>" +
+    '<img class="illus" src="' + ILLUS.otp + '" alt="">' +
     langBottom() + "</div>";
 }
 
@@ -1594,9 +1594,9 @@ function docsSection(){
 
 function captureBody(id){
   let h = '<h1 tabindex="-1">' + t("capTitle") + "</h1>";
-  const tips = '<img class="illus small" src="' + ILLUS.picture + '" alt=""><ul class="tips"><li>' + t("capTip1") + "</li><li>" + t("capTip2") + "</li><li>" + t("capTip3") + "</li><li>" + t("capTip4") + "</li></ul>";
-  if (UI.cam === "idle") h += tips + '<button class="btn-primary" data-act="open-camera">' + t("openCamera") + "</button>";
-  if (UI.cam === "fallback") h += tips + '<label class="filelab">' + t("choosePhoto") + '<input type="file" class="vh" accept="image/*" data-capfile="1" data-card="' + id + '"></label>';
+  const tips = '<ul class="tips"><li>' + t("capTip1") + "</li><li>" + t("capTip2") + "</li><li>" + t("capTip3") + "</li><li>" + t("capTip4") + "</li></ul>";
+  if (UI.cam === "idle") h += tips + '<button class="btn-primary" data-act="open-camera">' + t("openCamera") + '</button><img class="illus" src="' + ILLUS.picture + '" alt="">';
+  if (UI.cam === "fallback") h += tips + '<label class="filelab">' + t("choosePhoto") + '<input type="file" class="vh" accept="image/*" data-capfile="1" data-card="' + id + '"></label><img class="illus" src="' + ILLUS.picture + '" alt="">';
   if (UI.cam === "on") h += '<div class="camwrap"><video id="camvid" autoplay playsinline muted></video><div class="guide" aria-hidden="true"></div></div><button class="btn-primary" data-act="shutter">' + t("shutter") + "</button>";
   return h;
 }
@@ -1705,7 +1705,6 @@ function sentPage(){
   });
   const slot = STATE.rescheduledTo ? CASE.slots.find(x => x.id === STATE.rescheduledTo) : null;
   let h = '<div class="sentpage">';
-  h += '<img class="illus hero dirmir" src="' + ILLUS.send + '" alt="">';
   h += '<h1 tabindex="-1">' + t("sentTitle") + "</h1>";
   h += '<div class="panel spanel"><h2>' + t("stillBring") + "</h2>" +
     (bring.length
@@ -1715,6 +1714,7 @@ function sentPage(){
   h += '<button class="btn-sec" data-act="add-calendar">' + t("addCal") + "</button>";
   h += '<button class="btn-sec" style="margin-top:8px" data-act="sent-back">' + t("sentBack") + "</button>";
   h += '<button class="btn-text" style="align-self:center" data-act="open-reschedule">' + t("changeAppt") + "</button>";
+  h += '<img class="illus dirmir" src="' + ILLUS.send + '" alt="">';
   return h + "</div>";
 }
 
