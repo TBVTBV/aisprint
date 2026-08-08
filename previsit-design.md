@@ -174,3 +174,35 @@ loaders, `aria-expanded`/`aria-pressed` where state exists. RTL structural. 44px
 - [TDP — design.md: a design system AI agents actually follow](https://designproject.io/blog/design-md-file/)
 - [Nick Babich (UX Planet) — DESIGN.md best practices](https://uxplanet.org/design-md-best-practices-c00325e8b23a)
 - [Design Systems Collective — The DESIGN.md template](https://www.designsystemscollective.com/the-design-md-405ca46e862c)
+
+## 12. Shipped since implementation
+
+The chat world is live in `previsit-intake.html`; these landed on top of it and are part
+of the committed design:
+
+- **`[W]` Splash** opens the app before the login gate: title "לקראת ביקורך במרפאה", one
+  subtitle line, the journey illustration (300px, mirrored in RTL), and the CTA pinned to
+  the bottom with the privacy link and language switch. Center-aligned, no panel, and no
+  personal or clinical content of any kind pre-gate.
+- **Illustration set.** Five hand-drawn sketches (royal-blue ink linework, one flat
+  sky-blue circle accent): splash journey, login phone-with-bubbles, OTP envelope,
+  capture page-in-viewfinder, sent paper plane. All render at 170px (splash 300px),
+  always **below** their screen's content, embedded as quantized transparent PNGs
+  (~115KB total); sources in `/illustrations`. The sent and splash planes mirror in RTL
+  to fly in the sending/reading direction.
+- **Motion.** Entrances only, gated to real transitions: the clinic "types" ~500ms before
+  each message (composer disabled), bubbles rise, the just-sent answer pops, landing
+  bubbles stagger, the progress bar grows via scaleX, menu and sheets slide, and the שלח
+  plane flies off the button. Everything is transform/opacity ≤250ms and collapses under
+  `prefers-reduced-motion`. No spinners, no confetti.
+- **Chat scroll.** A new message parks at the top of the view with exactly half of the
+  previous message visible above it; a computed spacer guarantees the position, and scroll
+  survives intra-screen re-renders.
+- **Sent** is a standalone summary page (title, still-to-bring, appointment, actions,
+  illustration), no longer part of the conversation.
+- **Login refinements.** Command-style instruction above the field, never-disabled
+  Continue with a fixed-height amber inline error (the one deliberate error state),
+  10-digit cap, centered OTP, bottom-centered language switch labeled in the target
+  language.
+- **Before/after record.** The pre-redesign wireframe screens are archived as PNGs in
+  `docs/screens-before-redesign/` (captured from `main` at e6a0a0e).

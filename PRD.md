@@ -190,28 +190,28 @@ const STATE = {
 Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins first**. Questions come before documents because tapping answers builds momentum, and hunting for a March discharge letter does not.
 
 ```
-[0] Landing
+[W] Splash            brand, two lines, illustration, CTA     no PII of any kind
      ↓
 [L] Log in            phone number, then one-time code        faked, see 7.2
      ↓
+[0] Landing           the conversation opens; appointment details only after the gate
+     ↓
 [1] Who is answering                                          one question, ~20 seconds
      ↓
-[Q] Anamnesis         6 to 9 question screens, branching      see section 9
+[Q] Anamnesis         6 to 9 questions in the chat, branching see section 9
      ↓
 [D] Documents         the named ask, 3 to 5 cards + open slot
      ↓   ↘  [R] Reschedule       escape hatch, also in the menu
 [C] Note              free text, optional
      ↓
-[V] Review
+[V] Review            the conversation itself, plus gaps and a send summary
      ↓
-[S] Sent
+[S] Sent              a standalone summary page
 ```
 
-**Top bar** with back, screen title and menu button on every screen except `[0]`, `[L.1]` and `[L.2]`, which have no menu and no back. `[R]` has a back that returns to whichever screen opened it.
+**Chat header** on every screen: the clinic logo avatar, "מרפאת ריאות ילדים גורדון", the doctor line, and a kebab menu icon once logged in. There is no back button on chat screens: going back is tapping your own answer bubble, which opens the focused edit mode (see 13). Focused tasks — `[D.1]`, `[D.2]`, `[R]` — render as white panels with a back link. The language switch lives bottom-centre on `[W]`, `[L.1]` and `[L.2]`, and in the menu everywhere else.
 
-**Menu** is reachable from `[0]` (as "What is this?" plus a language control) and from every screen that has a top bar, so language can be changed from anywhere.
-
-**Sticky bottom bar** with the progress bar and **"Send what I have"** on `[1]` through `[V]`. Enabled from `[1]` onward, never disabled.
+**Composer** on `[1]` through `[V]`: a textless continuous progress bar above one action row — "דילוג על השאלה" on one side, the "הבא" pill on the other; on `[V]` the row carries the solid-plane **"שלח"** instead. The step count survives as visually-hidden `aria-live` text.
 
 ### 7.1 `[0]` Landing
 
@@ -405,7 +405,7 @@ Segments, not a percentage. The denominator is:
 
 ## 8. Screens to build, checklist
 
-`[0]` · `[L.1]` · `[L.2]` · `[1]` · `[Q]` (the question screen, rendered 6 to 9 times) · `[D]` · `[D.1]` · `[D.2]` · `[C]` · `[V]` · `[S]` · `[R]`, plus `[Menu]` and the privacy sheet.
+`[W]` · `[L.1]` · `[L.2]` · `[0]` · `[1]` · `[Q]` (the question screen, rendered 6 to 9 times) · `[D]` · `[D.1]` · `[D.2]` · `[C]` · `[V]` · `[S]` · `[R]`, plus `[Menu]` and the privacy sheet.
 
 `[L]` is the pair `[L.1]` and `[L.2]`, and is referred to as `[L]` where the distinction does not matter.
 
