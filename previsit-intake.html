@@ -130,15 +130,10 @@ svg{display:block;flex:none}
 .cmd{font-size:14.5px;margin-bottom:12px}
 .errline{min-height:22px;font-size:12.5px;font-weight:600;color:#8A6415;margin-top:6px}  /* fixed height so the button never jumps */
 .txt[aria-invalid="true"]{border:1.5px solid #B98A3A;background:#FDF8EF}
-.steps{display:flex;flex-direction:column;gap:12px;margin:14px 0}
-.step{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;text-align:start}
-.stepic{flex:none;width:34px;height:34px;border-radius:50%;background:var(--tint);color:var(--blue-ink);display:flex;align-items:center;justify-content:center}
-.splashtime{font-size:13px;color:var(--mut);margin-bottom:14px}
-.loginwrap.splash{padding:20px 16px 0;text-align:center}
-.splash h1{margin-top:6px;color:var(--blue-ink)}
-.splash .steps{flex-direction:row;align-items:flex-start;gap:10px;margin:18px 0 8px}
-.splash .step{flex:1;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:12.5px}
-.splash .illus{margin-top:16px}
+.loginwrap.splash{padding:26px 20px 0;text-align:center}
+.splash h1{margin-top:8px;color:var(--blue-ink)}
+.splashsub{font-size:14.5px;color:var(--ink);max-width:30ch;margin:0 auto}
+.splash .illus{width:300px;max-width:88%;margin-top:26px}
 .splashcta{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:14px}
 .splashcta .btn-text{text-align:center}
 .splash .langbottom{margin-top:0}
@@ -1359,11 +1354,8 @@ Object.assign(STRINGS.en, {
   docStatus:"Dr. Oren Segev · before the visit",
   apptDoc:"Dr. Oren Segev",
   startChat:"Let's begin",
-  splashTitle:"A short chat before the visit",
-  splashStep1:"Answer a few short questions, like a chat with the clinic.",
-  splashStep2:"Photograph or attach the few documents only you can get.",
-  splashStep3:"Send. The doctor reads everything before you arrive.",
-  splashTime:"About four minutes. You can stop and come back.",
+  splashTitle:"Ahead of your visit to the clinic",
+  splashSub:"We'll ask you to fill in a few details before your upcoming appointment. Completing the information helps your care move forward.",
   tapToEdit:"You can tap an answer to change it",
   editTitle:"Editing your answer",
   cancel:"Cancel",
@@ -1379,11 +1371,8 @@ Object.assign(STRINGS.he, {
   docStatus:"ד״ר אורן שגב · לפני הביקור", // TODO: native review
   apptDoc:"ד״ר אורן שגב", // TODO: native review
   startChat:"בואו נתחיל", // TODO: native review
-  splashTitle:"שיחה קצרה לפני הביקור", // TODO: native review
-  splashStep1:"עונים על כמה שאלות קצרות, כמו בצ׳אט עם המרפאה.", // TODO: native review
-  splashStep2:"מצלמים או מצרפים את המסמכים המעטים שרק אתם יכולים להשיג.", // TODO: native review
-  splashStep3:"שולחים. הרופא קורא הכול עוד לפני שאתם מגיעים.", // TODO: native review
-  splashTime:"בערך ארבע דקות. אפשר לעצור ולחזור.", // TODO: native review
+  splashTitle:"לקראת ביקורך במרפאה", // TODO: native review
+  splashSub:"נבקש ממך למלא מספר פרטים לפני התור הקרוב, השלמת המידע תקדם את הטיפול.", // TODO: native review
   tapToEdit:"אפשר ללחוץ על תשובה כדי לשנות אותה", // TODO: native review
   editTitle:"עריכת התשובה", // TODO: native review
   cancel:"ביטול", // TODO: native review
@@ -1512,16 +1501,9 @@ function langBottom(){
 }
 
 function splashBody(){
-  const ic = c => '<span class="stepic">' + c + "</span>";
-  const chat = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z"/></svg>';
-  const plane = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2L7 9M14 2L9.5 14 7 9 2 6.5z"/></svg>';
   return '<div class="loginwrap splash">' +
     '<h1 tabindex="-1">' + t("splashTitle") + "</h1>" +
-    '<div class="steps">' +
-    '<div class="step">' + ic(chat) + "<span>" + t("splashStep1") + "</span></div>" +
-    '<div class="step">' + ic(ICONS.photo) + "<span>" + t("splashStep2") + "</span></div>" +
-    '<div class="step">' + ic(plane) + "<span>" + t("splashStep3") + "</span></div></div>" +
-    '<p class="splashtime">' + t("splashTime") + "</p>" +
+    '<p class="splashsub">' + t("splashSub") + "</p>" +
     '<img class="illus dirmir" src="' + ILLUS.splash + '" alt="">' +
     '<div class="splashcta"><button class="btn-primary" data-act="to-login">' + t("startChat") + "</button>" +
     '<button class="btn-text" data-act="open-privacy">' + t("howHandle") + "</button></div>" +
