@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ארבעה כיווני עיצוב · אינטייק לפני ביקור</title>
+<!--
+  Design exploration board, not a committed world. Four divergent directions for
+  previsit-intake.html, each rendered on the two screens the team asked to compare:
+  the pre-wizard landing and a multi-select question. Static mockups, real copy,
+  all data fictional. The app's current contract is previsit-design.md; this board
+  exists to choose what replaces PRD §13.
+-->
+<style>
+/* ============ board chrome (quiet, so the four worlds carry the color) ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FAFAF7;color:#1B1D22;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
+.bh{max-width:1480px;margin:0 auto;padding:40px 28px 8px}
+.bh h1{font-size:27px;font-weight:700;letter-spacing:-.01em}
+.bh p{color:#5B6067;font-size:14.5px;max-width:64ch;margin-top:6px}
+.grid{max-width:1480px;margin:0 auto;padding:20px 28px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:30px}
+.dir>header{margin-bottom:14px}
+.dir h2{font-size:18.5px;font-weight:700}
+.dir .en{color:#8A9098;font-size:12.5px;margin-top:1px}
+.dir .thesis{font-size:13.5px;color:#42474E;margin-top:8px;min-height:3.2em}
+.phones{display:flex;flex-direction:column;gap:22px}
+.phone{width:300px;max-width:100%;margin:0 auto;border-radius:30px;border:1px solid #E2E1DC;overflow:hidden;box-shadow:0 10px 34px rgba(27,29,34,.12)}
+.phone figcaption{display:none}
+.pcap{font-size:12px;color:#8A9098;text-align:center;margin-top:-14px}
+.scr{height:600px;display:flex;flex-direction:column;overflow:hidden;position:relative;font-size:13.5px}
+.risk{margin-top:14px;font-size:12.5px;color:#5B6067;border-top:1px solid #E7E6E1;padding-top:10px}
+.risk b{color:#1B1D22}
+.bfoot{max-width:1480px;margin:0 auto;padding:0 28px 48px;color:#8A9098;font-size:12.5px}
+svg{display:block;flex:none}
+
+/* shared mockup atoms */
+.tb{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;font-size:11.5px}
+.chip{border-radius:999px;padding:4px 10px;font-size:11px}
+.fnote{font-size:10px;text-align:center;padding:10px 14px 14px;line-height:1.45}
+.bbar{margin-top:auto;padding:10px 14px 14px}
+.segs{display:flex;gap:3px;margin-bottom:4px}
+.seg{height:5px;flex:1;border-radius:99px}
+.cnt{font-size:10.5px;margin-bottom:8px}
+.mainbtn{display:flex;align-items:center;justify-content:center;width:100%;height:44px;border-radius:13px;font-size:14.5px;font-weight:600}
+.skipln{text-align:center;font-size:12.5px;margin-top:8px;text-decoration:underline;text-underline-offset:3px}
+.q{font-weight:700;font-size:16.5px;line-height:1.35;margin-bottom:12px}
+.opt{display:flex;align-items:center;gap:9px;min-height:44px;padding:10px 12px;margin-bottom:8px}
+.optxt{flex:1}
+
+/* ============ A · Warm Clinic ============ */
+.va .scr{background:#F7F4EF;color:#24292E}
+.va .card{background:#fff;border-radius:15px;box-shadow:0 1px 3px rgba(36,41,46,.08);padding:13px 14px}
+.va .tb{border-bottom:1px solid #E4DFD5;background:#F7F4EF}
+.va .tbtn{color:#0E6F63;font-weight:600}
+.va .tbti{font-weight:700;color:#24292E;font-size:12px}
+.va .body{padding:16px 16px 0;overflow:hidden}
+.va h1{font-size:19px;font-weight:700;line-height:1.3;margin-bottom:10px}
+.va .langchip{background:#fff;border:1px solid #DED8CE;color:#0E6F63;font-weight:600}
+.va .when{font-weight:700;font-size:13.5px}
+.va .meta{color:#5B6168;font-size:12px;margin-top:2px}
+.va .from{color:#5B6168;font-size:12.5px;margin:12px 0}
+.va .promise{background:#E3F1EE;border-radius:14px;padding:12px 14px;font-weight:600;font-size:14.5px;color:#0B4F46;line-height:1.4}
+.va .soft{font-size:12.5px;color:#5B6168;margin-top:10px}
+.va .mainbtn{background:#0E6F63;color:#fff;box-shadow:0 1px 3px rgba(36,41,46,.18)}
+.va .sec{display:flex;align-items:center;justify-content:center;height:40px;border-radius:13px;background:#E3F1EE;color:#0B4F46;font-weight:600;font-size:13px;margin-top:8px}
+.va .fnote{color:#8A867C}
+.va .opt{background:#fff;border:1px solid #DED8CE;border-radius:13px}
+.va .opt .ring{width:19px;height:19px;border-radius:7px;border:2px solid #C9C3B8}
+.va .opt.on{background:#E3F1EE;border:2px solid #0E6F63;padding:9px 11px;font-weight:600}
+.va .opt.on .ring{border:none;background:#0E6F63;display:flex;align-items:center;justify-content:center}
+.va .bbar{background:#fff;box-shadow:0 -2px 10px rgba(36,41,46,.06)}
+.va .seg{background:#E7E2D8}.va .seg.f{background:#0E6F63}.va .seg.c{background:#fff;border:1.5px solid #0E6F63}
+.va .cnt{color:#5B6168}
+.va .skipln{color:#0E6F63}
+
+/* ============ B · Chat with the clinic ============ */
+.vb .scr{background:#EFE9DF;background-image:radial-gradient(rgba(20,77,63,.045) 1px,transparent 1px);background-size:14px 14px;color:#20242A}
+.vb .chead{display:flex;align-items:center;gap:9px;background:#144D3F;color:#fff;padding:10px 12px}
+.vb .avatar{width:30px;height:30px;border-radius:50%;background:#E8F3EE;display:flex;align-items:center;justify-content:center}
+.vb .cname{font-size:12.5px;font-weight:700;line-height:1.2}
+.vb .cstat{font-size:10px;color:#BFE0D3}
+.vb .stream{padding:14px 12px 0;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.vb .bub{background:#fff;border-radius:13px 13px 13px 4px;padding:9px 12px;max-width:88%;box-shadow:0 1px 1px rgba(32,36,42,.08);font-size:13px;line-height:1.45;align-self:flex-start}
+.vb .bub .bt{font-weight:700}
+.vb .bub .bm{color:#5C636B;font-size:11.5px;margin-top:2px}
+.vb .bub time{display:block;font-size:9px;color:#9AA1A9;margin-top:4px;text-align:left}
+.vb .promise{font-weight:700;color:#0F3D32}
+.vb .pillrow{display:flex;flex-wrap:wrap;gap:7px;padding:12px}
+.vb .pill{display:flex;align-items:center;gap:6px;border:1.5px solid #1F7A62;color:#14574A;background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}
+.vb .pill.on{background:#1F7A62;color:#fff;border-color:#1F7A62}
+.vb .pill.mut{border-color:#A8B3AC;color:#5C636B}
+.vb .fnote{color:#8A867C}
+.vb .cbar{margin-top:auto;display:flex;align-items:center;gap:9px;background:#F6F3EC;border-top:1px solid #E0DACE;padding:9px 12px}
+.vb .cprog{flex:1}
+.vb .dots{display:flex;gap:4px}
+.vb .dot{width:7px;height:7px;border-radius:50%;background:#D5CFC2}.vb .dot.f{background:#1F7A62}
+.vb .cnt{color:#6C7169;margin:3px 0 0;font-size:10px}
+.vb .send{width:42px;height:42px;border-radius:50%;background:#1F7A62;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(32,36,42,.25)}
+.vb .skipmini{font-size:11.5px;color:#14574A;text-decoration:underline;text-underline-offset:3px}
+
+/* ============ C · Sticker chart ============ */
+.vc .scr{background:#FFF6E3;color:#26356B}
+.vc .band{background:#FFC93C;border-radius:0 0 22px 22px;padding:12px 16px 16px}
+.vc .band .tb{padding:0 0 8px;border:none}
+.vc .langchip{background:rgba(255,255,255,.75);color:#26356B;font-weight:700}
+.vc h1{font-size:20px;font-weight:800;line-height:1.25}
+.vc .when{font-weight:800;font-size:13px;margin-top:4px}
+.vc .body{padding:14px 16px 0;overflow:hidden}
+.vc .card{background:#fff;border-radius:18px;box-shadow:0 2px 8px rgba(0,0,0,.09);padding:12px 14px}
+.vc .meta{color:#6B77A8;font-size:12px}
+.vc .from{color:#6B77A8;font-size:12.5px;margin:10px 0}
+.vc .promise{background:#FFE3DD;border-radius:18px;padding:12px 14px;font-weight:800;font-size:14.5px;color:#B3402F;line-height:1.4}
+.vc .soft{font-size:12.5px;color:#6B77A8;margin-top:10px}
+.vc .mainbtn{background:#FF6B57;color:#fff;border-radius:999px;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.14)}
+.vc .sec{display:flex;align-items:center;justify-content:center;height:40px;border-radius:999px;border:2px solid #C9D0E8;color:#26356B;font-weight:700;font-size:13px;margin-top:8px;background:#fff}
+.vc .fnote{color:#9AA3C4}
+.vc .tb2{border-bottom:2px dashed #F0DFB4}
+.vc .tbtn{color:#B3402F;font-weight:800}
+.vc .tbti{font-weight:800;font-size:12px}
+.vc .q{font-weight:800;font-size:17px}
+.vc .opt{background:#fff;border:1.5px solid #EDDDB9;border-radius:17px;position:relative}
+.vc .opt .ring{width:20px;height:20px;border-radius:50%;border:2px dashed #D8C9A2}
+.vc .opt.on{background:#FFE9A8;border:2px solid #E8A400;font-weight:800}
+.vc .opt.on .ring{border:none;background:#FF6B57;box-shadow:0 0 0 2.5px #fff;transform:rotate(-8deg);display:flex;align-items:center;justify-content:center}
+.vc .bbar{background:#fff;border-top:2px dashed #F0DFB4}
+.vc .seg{height:8px;border-radius:99px;background:#F3E7C8}.vc .seg.f{background:#FF6B57}.vc .seg.c{background:#fff;border:2px solid #FF6B57}
+.vc .cnt{color:#6B77A8;font-weight:700}
+.vc .mainbtn2{background:#FF6B57;color:#fff;border-radius:999px;font-weight:800}
+.vc .skipln{color:#26356B}
+
+/* ============ D · Night shift ============ */
+.vd .scr{background:#131A2E;color:#EAEDF8}
+.vd .tb{border-bottom:1px solid #2B3557}
+.vd .tbtn{color:#A9B6F2;font-weight:600}
+.vd .tbti{font-weight:700;font-size:12px;color:#EAEDF8}
+.vd .body{padding:16px 16px 0;overflow:hidden}
+.vd h1{font-size:19px;font-weight:700;line-height:1.3;display:flex;align-items:center;gap:8px}
+.vd .langchip{background:transparent;border:1px solid #3A4570;color:#A9B6F2;font-weight:600}
+.vd .card{background:#1C2540;border:1px solid #2B3557;border-radius:15px;padding:13px 14px;margin-top:10px}
+.vd .when{font-weight:700;font-size:13.5px}
+.vd .meta{color:#A6ADC8;font-size:12px;margin-top:2px}
+.vd .from{color:#A6ADC8;font-size:12.5px;margin:12px 0}
+.vd .promise{background:#242E52;border-radius:14px;padding:12px 14px;font-weight:600;font-size:14.5px;color:#F5B49A;line-height:1.4}
+.vd .soft{font-size:12.5px;color:#A6ADC8;margin-top:10px}
+.vd .mainbtn{background:#F2A88C;color:#2A150A;font-weight:700}
+.vd .sec{display:flex;align-items:center;justify-content:center;height:40px;border-radius:13px;border:1px solid #3A4570;color:#A9B6F2;font-weight:600;font-size:13px;margin-top:8px}
+.vd .fnote{color:#7B84A3}
+.vd .opt{background:#1C2540;border:1px solid #2B3557;border-radius:13px}
+.vd .opt .ring{width:19px;height:19px;border-radius:7px;border:2px solid #3A4570}
+.vd .opt.on{background:#33281F;border:2px solid #F2A88C;padding:9px 11px;font-weight:600}
+.vd .opt.on .ring{border:none;background:#F2A88C;display:flex;align-items:center;justify-content:center}
+.vd .bbar{background:#101627;border-top:1px solid #2B3557}
+.vd .seg{background:#26304F}.vd .seg.f{background:#F2A88C}.vd .seg.c{background:#101627;border:1.5px solid #F2A88C}
+.vd .cnt{color:#A6ADC8}
+.vd .skipln{color:#A9B6F2}
+</style>
+</head>
+<body>
+
+<header class="bh">
+  <h1>ארבעה כיווני עיצוב לאפליקציית האינטייק</h1>
+  <p>שני מסכים לכל כיוון: מסך הפתיחה שלפני האשף, ושאלה מרובת בחירה. כל התוכן אמיתי מהאב־טיפוס, כל הנתונים בדויים. הדגמים סטטיים — להשוואת כיוון בלבד.</p>
+</header>
+
+<main class="grid">
+
+<!-- ============ A ============ -->
+<section class="dir va">
+  <header>
+    <h2>א · מרפאה חמה</h2>
+    <p class="en">Warm Clinic — the previsit-design.md direction</p>
+    <p class="thesis">רוגע צרכני: נייר חם, טורקיז שקט אחד, פינות רכות. האפליקציה של קליניקה שמכבדת אותך — לא בית חולים ולא סטארטאפ.</p>
+  </header>
+  <div class="phones">
+    <figure class="phone">
+      <div class="scr">
+        <div class="body">
+          <div class="tb" style="padding:0 0 10px"><span class="chip langchip">English</span></div>
+          <h1>התור של יותם</h1>
+          <div class="card">
+            <p class="when">יום חמישי, 6 באוגוסט 2026, 09:20</p>
+            <p class="meta">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן ס.</p>
+          </div>
+          <p class="from">הגעתם לכאן מההודעה ששלחה המרפאה על התור של יותם — זה השאלון הקצר שהוזכר בה.</p>
+          <p class="promise">ד״ר אורן יקרא כל מילה שתכתבו כאן — עוד לפני שתיכנסו אליו לחדר.</p>
+          <p class="soft">זה לוקח בערך ארבע דקות, ואפשר לעצור באמצע — הכול מחכה לכם בדיוק איפה שעצרתם.</p>
+        </div>
+        <div class="bbar" style="background:transparent;box-shadow:none">
+          <div class="mainbtn">התחלה</div>
+          <div class="sec">מה זה?</div>
+        </div>
+        <p class="fnote">אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.</p>
+      </div>
+    </figure>
+    <p class="pcap">מסך פתיחה</p>
+    <figure class="phone">
+      <div class="scr">
+        <div class="tb"><span class="tbtn">חזרה</span><span class="tbti">שאלות</span><span class="tbtn">תפריט</span></div>
+        <div class="body">
+          <p class="q">מתי השיעול הכי חזק?</p>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">בלילה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">מוקדם בבוקר</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בזמן ריצה או אחריה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">באוויר קר</span></div>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">אחרי הצטננות</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בלי דפוס שאני מזהה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">לא ידוע לי</span></div>
+        </div>
+        <div class="bbar">
+          <div class="segs"><span class="seg f"></span><span class="seg f"></span><span class="seg f"></span><span class="seg c"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span></div>
+          <p class="cnt">שלב 4 מתוך 10</p>
+          <div class="mainbtn">המשך</div>
+          <p class="skipln">דילוג על השאלה</p>
+        </div>
+      </div>
+    </figure>
+    <p class="pcap">שאלה מרובת בחירה</p>
+  </div>
+  <p class="risk"><b>סיכון:</b> הבטוח מבין הארבעה — עלול להיראות "עוד אפליקציית בריאות" בלי פונט Rubik ואיור נקודתי.</p>
+</section>
+
+<!-- ============ B ============ -->
+<section class="dir vb">
+  <header>
+    <h2>ב · שיחה עם המרפאה</h2>
+    <p class="en">Chat with the clinic — conversational intake</p>
+    <p class="thesis">הקישור מגיע בהודעה — אז כל החוויה היא שיחה. בועות, תשובות מהירות, וכפתור שליחה עגול. שפה שהיא כבר דוברת.</p>
+  </header>
+  <div class="phones">
+    <figure class="phone">
+      <div class="scr">
+        <div class="chead">
+          <span class="avatar"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#144D3F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <div><p class="cname">מרפאת ריאות ילדים</p><p class="cstat">ד״ר אורן ס. · לפני הביקור</p></div>
+        </div>
+        <div class="stream">
+          <div class="bub">שלום! הגעתם מההודעה על התור של יותם. זה השאלון הקצר שהוזכר בה.<time>09:41</time></div>
+          <div class="bub"><span class="bt">יום חמישי, 6 באוגוסט, 09:20</span><span class="bm">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן ס.</span><time>09:41</time></div>
+          <div class="bub promise">ד״ר אורן יקרא כל מילה שתכתבו כאן — עוד לפני שתיכנסו אליו לחדר.<time>09:41</time></div>
+          <div class="bub">בערך ארבע דקות, ואפשר לעצור באמצע ולחזור.<time>09:42</time></div>
+        </div>
+        <div class="pillrow">
+          <span class="pill on">מתחילים</span>
+          <span class="pill">מה זה?</span>
+        </div>
+        <p class="fnote" style="margin-top:auto">אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.</p>
+      </div>
+    </figure>
+    <p class="pcap">מסך פתיחה</p>
+    <figure class="phone">
+      <div class="scr">
+        <div class="chead">
+          <span class="avatar"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#144D3F" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg></span>
+          <div><p class="cname">מרפאת ריאות ילדים</p><p class="cstat">שאלה 4 מתוך 10</p></div>
+        </div>
+        <div class="stream">
+          <div class="bub">מתי השיעול הכי חזק? אפשר לסמן כמה תשובות.<time>09:44</time></div>
+        </div>
+        <div class="pillrow">
+          <span class="pill on"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>בלילה</span>
+          <span class="pill">מוקדם בבוקר</span>
+          <span class="pill">בזמן ריצה או אחריה</span>
+          <span class="pill">באוויר קר</span>
+          <span class="pill on"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>אחרי הצטננות</span>
+          <span class="pill">בלי דפוס שאני מזהה</span>
+          <span class="pill mut">לא ידוע לי</span>
+        </div>
+        <div class="cbar">
+          <span class="skipmini">דילוג</span>
+          <div class="cprog">
+            <div class="dots"><span class="dot f"></span><span class="dot f"></span><span class="dot f"></span><span class="dot f"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <p class="cnt">שאלה 4 מתוך 10</p>
+          </div>
+          <span class="send"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7.5 3.5L3 8l4.5 4.5"/></svg></span>
+        </div>
+      </div>
+    </figure>
+    <p class="pcap">שאלה מרובת בחירה</p>
+  </div>
+  <p class="risk"><b>סיכון:</b> שיחה מרגישה טבעית אך מסתירה את "כמה נשאר"; חזרה לעריכת תשובה קודמת פחות מובנת מרשימה.</p>
+</section>
+
+<!-- ============ C ============ -->
+<section class="dir vc">
+  <header>
+    <h2>ג · לוח מדבקות</h2>
+    <p class="en">Sticker chart — warm pediatric energy</p>
+    <p class="thesis">זה בשביל ילד — והעיצוב לא מתבייש בזה. צהוב שמש, קורל, מדבקות וי. חום של גן ילדים, בלי להפוך את הרפואה לצחוק.</p>
+  </header>
+  <div class="phones">
+    <figure class="phone">
+      <div class="scr">
+        <div class="band">
+          <div class="tb"><span class="chip langchip">English</span></div>
+          <h1>התור של יותם</h1>
+          <p class="when">יום חמישי, 6 באוגוסט · 09:20</p>
+        </div>
+        <div class="body">
+          <div class="card">
+            <p class="meta">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן ס.</p>
+          </div>
+          <p class="from">הגעתם לכאן מההודעה ששלחה המרפאה — זה השאלון הקצר שהוזכר בה.</p>
+          <p class="promise">ד״ר אורן יקרא כל מילה שתכתבו כאן — עוד לפני שתיכנסו אליו לחדר.</p>
+          <p class="soft">בערך ארבע דקות. אפשר לעצור באמצע — הכול נשמר.</p>
+        </div>
+        <div class="bbar" style="border:none">
+          <div class="mainbtn">התחלה</div>
+          <div class="sec">מה זה?</div>
+        </div>
+        <p class="fnote">אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.</p>
+      </div>
+    </figure>
+    <p class="pcap">מסך פתיחה</p>
+    <figure class="phone">
+      <div class="scr">
+        <div class="tb tb2"><span class="tbtn">חזרה</span><span class="tbti">שאלות</span><span class="tbtn">תפריט</span></div>
+        <div class="body">
+          <p class="q">מתי השיעול הכי חזק?</p>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">בלילה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">מוקדם בבוקר</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בזמן ריצה או אחריה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">באוויר קר</span></div>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">אחרי הצטננות</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בלי דפוס שאני מזהה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">לא ידוע לי</span></div>
+        </div>
+        <div class="bbar">
+          <div class="segs"><span class="seg f"></span><span class="seg f"></span><span class="seg f"></span><span class="seg c"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span></div>
+          <p class="cnt">שלב 4 מתוך 10</p>
+          <div class="mainbtn2 mainbtn">המשך</div>
+          <p class="skipln">דילוג על השאלה</p>
+        </div>
+      </div>
+    </figure>
+    <p class="pcap">שאלה מרובת בחירה</p>
+  </div>
+  <p class="risk"><b>סיכון:</b> ההורה הוא המשתמש, לא הילד — עליזות יתר עלולה לצרום להורה מודאג, ודורשת יד עדינה מאוד.</p>
+</section>
+
+<!-- ============ D ============ -->
+<section class="dir vd">
+  <header>
+    <h2>ד · משמרת לילה</h2>
+    <p class="en">Night shift — for the 11pm caregiver</p>
+    <p class="thesis">את השאלון הזה ממלאים בלילה, אחרי שהילדים נרדמו — לפעמים ליד מיטת ילד משתעל. כהה, שקט, בלי סנוור, עם חום של אפרסק.</p>
+  </header>
+  <div class="phones">
+    <figure class="phone">
+      <div class="scr">
+        <div class="body">
+          <div class="tb" style="padding:0 0 10px"><span class="chip langchip">English</span></div>
+          <h1><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="#F5B49A" stroke-width="1.6" stroke-linecap="round"><path d="M13.5 9.5A6 6 0 1 1 6.5 2.5a5 5 0 0 0 7 7z"/></svg>התור של יותם</h1>
+          <div class="card">
+            <p class="when">יום חמישי, 6 באוגוסט 2026, 09:20</p>
+            <p class="meta">המכון הריאתי, קומה 3, חדר 312 · ד״ר אורן ס.</p>
+          </div>
+          <p class="from">הגעתם לכאן מההודעה ששלחה המרפאה על התור של יותם — זה השאלון הקצר שהוזכר בה.</p>
+          <p class="promise">ד״ר אורן יקרא כל מילה שתכתבו כאן — עוד לפני שתיכנסו אליו לחדר.</p>
+          <p class="soft">בערך ארבע דקות, ואפשר לעצור באמצע — הכול מחכה לכם איפה שעצרתם.</p>
+        </div>
+        <div class="bbar" style="background:transparent;border:none">
+          <div class="mainbtn">התחלה</div>
+          <div class="sec">מה זה?</div>
+        </div>
+        <p class="fnote">אב־טיפוס להדגמה. הילד, התור והמסמכים בדויים לחלוטין.</p>
+      </div>
+    </figure>
+    <p class="pcap">מסך פתיחה</p>
+    <figure class="phone">
+      <div class="scr">
+        <div class="tb"><span class="tbtn">חזרה</span><span class="tbti">שאלות</span><span class="tbtn">תפריט</span></div>
+        <div class="body">
+          <p class="q">מתי השיעול הכי חזק?</p>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#2A150A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">בלילה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">מוקדם בבוקר</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בזמן ריצה או אחריה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">באוויר קר</span></div>
+          <div class="opt on"><span class="ring"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#2A150A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg></span><span class="optxt">אחרי הצטננות</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">בלי דפוס שאני מזהה</span></div>
+          <div class="opt"><span class="ring"></span><span class="optxt">לא ידוע לי</span></div>
+        </div>
+        <div class="bbar">
+          <div class="segs"><span class="seg f"></span><span class="seg f"></span><span class="seg f"></span><span class="seg c"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span></div>
+          <p class="cnt">שלב 4 מתוך 10</p>
+          <div class="mainbtn">המשך</div>
+          <p class="skipln">דילוג על השאלה</p>
+        </div>
+      </div>
+    </figure>
+    <p class="pcap">שאלה מרובת בחירה</p>
+  </div>
+  <p class="risk"><b>סיכון:</b> כהה נראה מעולה בלילה וזר באור יום של מרפאה; כמעט מחייב מצב כפול — כפול עבודה לספרינט.</p>
+</section>
+
+</main>
+
+<footer class="bfoot">
+  <p>כל כיוון ניתן ליישום בקובץ עצמאי אחד ללא רשת, בהתאם למגבלות ה־PRD. הכיוון הנבחר יחליף את סעיף 13 ב־PRD ויעודכן ב־previsit-design.md.</p>
+</footer>
+
+</body>
+</html>
