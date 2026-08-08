@@ -223,9 +223,11 @@ Twelve screens plus a menu and one sheet. Order is deliberate: **quick wins firs
 - What makes it different: "We are only asking for what your file could not tell us."
 - Primary: **Start**. Secondary: **What is this?** opens the privacy sheet (7.11).
 
-### 7.2 `[L]` Log in
+### 7.2 `[W]` Splash, then `[L]` Log in
 
-The only gate in the product, and it must not feel like one. No password, no account, no email. The caregiver already receives clinic messages on that number.
+**`[W]` Splash.** The very first screen, before the gate: the clinic's brand header, a three-step explanation (answer a short chat, attach the few documents only you can get, send and the doctor reads it before you arrive), the four-minute promise, a privacy-sheet link, an illustration, and the language switch. **No clinical or personal content of any kind** appears here: no child, no appointment, no referral.
+
+The login is the only gate in the product, and it must not feel like one. No password, no account, no email. The caregiver already receives clinic messages on that number.
 
 **`[L.1]` Phone number.** An instruction above the field, phrased as a command: "Enter the mobile number the clinic texts you on." One numeric field formatted for an Israeli mobile; its label lives on for screen readers only. Continue is **never disabled**: tapping it with an implausible number shows an amber inline error ("The number should start with 05 and have 10 digits.") in a **fixed-height line under the field**, so the button never jumps, and the error clears by itself the moment the number is right. This is the one deliberate exception to section 17's "no error states". The language switch sits bottom-centre, labelled as an action in the target language ("Switch to English" / "מעבר לעברית"), on both login screens.
 
