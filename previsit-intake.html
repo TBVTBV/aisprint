@@ -350,8 +350,6 @@ const STRINGS = {
     resMoved:"Your appointment was moved to:",
     done:"Done",
     langLabel:"Language / שפה",
-    saveLater:"Save and continue later",
-    savedToast:"Saved. You can close this page and come back with the same link.",
     howHandle:"How we handle this information",
     restart:"Restart demo", restartTag:"Demo control",
     privacyTitle:"How we handle this information",
@@ -490,8 +488,6 @@ const STRINGS = {
     resMoved:"התור הוזז אל:", // TODO: native review
     done:"סיום", // TODO: native review
     langLabel:"שפה / Language", // TODO: native review
-    saveLater:"לשמור ולהמשיך אחר כך", // TODO: native review
-    savedToast:"נשמר. אפשר לסגור את הדף ולחזור מאותו קישור.", // TODO: native review
     howHandle:"איך אנחנו שומרים על המידע", // TODO: native review
     restart:"התחלת הדמו מחדש", // TODO: native review
     restartTag:"כלי הדגמה", // TODO: native review
@@ -860,15 +856,8 @@ function saveState(){
   catch(e){ MEM = JSON.parse(JSON.stringify(STATE)); }
 }
 function loadState(){
-  let s = null;
-  try { s = JSON.parse(localStorage.getItem(KEY)); } catch(e){ s = MEM; }
-  if (s && typeof s === "object"){
-    STATE = Object.assign(FRESH(), s);
-    Object.values(STATE.cards || {}).forEach(c => (c.files || []).forEach(f => { f.objectUrl = null; }));
-    if (!STATE.loggedIn && STATE.screen !== "login_phone" && STATE.screen !== "login_code") STATE.screen = "splash";  // nothing medical renders before the gate
-    if (/^(capture|read):/.test(STATE.screen)) STATE.screen = "docs";   // transient sub-screens do not resume
-    if (STATE.screen === "login_code") STATE.screen = "login_phone";
-  }
+  try { localStorage.removeItem(KEY); } catch(e){}       // a refresh always restarts the demo from the splash
+  STATE = FRESH();
 }
 
 /* ================= derivation helpers ================= */
@@ -978,7 +967,7 @@ function goto(s){
       ? { docType:L(c.read.docType), date:L(c.read.date), place:L(c.read.place), childName:L(c.read.childName) }
       : { docType:t("notSureVal"), date:"", place:"", childName:"" };
     UI.readLoading = true;
-    setTimeout(() => { UI.readLoading = false; UI.playAnim = true; render(); }, 1200);   // 10.1 faked document reading
+    setTimeout(() => { UI.readLoading = false; UI.playAnim = true; render(); }, 1800);   // 10.1 faked document reading
   }
   saveState(); render();
 }
@@ -1015,7 +1004,7 @@ function runLoader(text, done){
   setTimeout(() => {
     UI.loaderOut = true; render();                       // ease out before the next screen
     setTimeout(() => { UI.loader = null; UI.loaderOut = false; done(); }, 180);
-  }, 1200);                                              // every fake wait holds for 1200ms
+  }, 1800);                                              // every fake wait holds for 1800ms
 }
 
 function typeThen(target){
@@ -1056,7 +1045,6 @@ A["set-lang"] = d => {
     applyDir(); saveState(); render();
   });
 };
-A["menu-save"] = () => { UI.menuOpen = false; saveState(); toast(t("savedToast")); };
 A["restart"] = () => {
   try { localStorage.removeItem(KEY); } catch(e){}
   MEM = null; stopStream();
@@ -1855,7 +1843,6 @@ function overlaysHTML(){
       '<div class="langrow">' +
       '<button class="chip' + (STATE.locale === "he" ? " sel" : "") + '" data-act="set-lang" data-loc="he" aria-pressed="' + (STATE.locale === "he") + '" lang="he">עברית</button>' +
       '<button class="chip' + (STATE.locale === "en" ? " sel" : "") + '" data-act="set-lang" data-loc="en" aria-pressed="' + (STATE.locale === "en") + '" lang="en">English</button></div>' +
-      '<button class="btn-text" data-act="menu-save">' + t("saveLater") + "</button>" +
       '<button class="btn-text" data-act="open-reschedule">' + t("changeAppt") + "</button>" +
       '<button class="btn-text" data-act="open-privacy">' + t("howHandle") + "</button>" +
       '<button class="btn-text" data-act="restart">' + t("restart") + ' <span class="tag">' + t("restartTag") + "</span></button>" +

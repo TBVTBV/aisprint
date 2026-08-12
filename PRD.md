@@ -233,7 +233,7 @@ The login is the only gate in the product, and it must not feel like one. No pas
 
 **`[L.2]` One-time code.** Everything centre-aligned. Four boxes, auto-advancing, auto-focus on the first. Above: "We sent a code to 05X-XXXXXXX". Below: "Didn't get it? Send again", which starts a 30 second countdown and does nothing else.
 
-Faked: **any four digits are accepted** after a 1 s "Checking..." state. A small demo note on the screen says so. Once `STATE.loggedIn` is true a resumed session skips this screen.
+Faked: **any four digits are accepted** after a "Checking..." state. A small demo note on the screen says so. Refreshing the page at any point restarts the demo from the splash.
 
 ### 7.3 `[1]` Who is answering
 
@@ -561,7 +561,7 @@ Faked does not mean absent. Each of these needs a visible, believable behaviour.
 | Camera | Real `getUserMedia` where available, silent fallback to the picker |
 | Review edit | Real jump-back-and-return with state preserved |
 | Language | Real full re-render and real RTL flip. Hebrew is the boot state |
-| Save and resume | `localStorage` inside `try/catch`, falling back to in-memory. Includes `loggedIn`. Never throws |
+| Refresh restarts | A page load always begins the demo clean from the splash; nothing resumes. A demo decision: every hand-off starts from the first screen |
 | Reschedule | Real state change, reflected on `[S]` |
 | Counts | Computed from `STATE` at render time |
 
@@ -584,7 +584,7 @@ A build that violates one of these is wrong, not merely unpolished.
 - **The conversation accumulates.** Every answered question stays in the stream as a sent message; a one-time pencil hint says answers are tappable. Tapping one enters a focused edit mode — the rest of the conversation hides until "הבא" confirms or "ביטול" escapes without changes. This is the back navigation; there is no back button on chat screens.
 - **Controls are quick replies.** Options render as pill buttons, selected = solid blue with a check; unselected wear a thin light border. "I don't know" is a pill of the same size and weight as any answer.
 - **The composer.** A continuous, textless progress bar (position-driven, filling from the right in Hebrew, one step pre-filled from the first question) sits above one action row: "דילוג על השאלה" on one side, the "הבא" pill with an arrow on the other. The step count survives as visually-hidden `aria-live` text. The solid paper-plane **"שלח"** appears only on the final screen, facing the sending direction — nothing leaves the phone before that button. The landing has no composer; its primary is a full-width "בואו נתחיל" quick reply with a borderless "מה זה?" beneath.
-- **Motion.** Entrances only, transform and opacity only, nothing over 250ms, and gated to real transitions — intra-screen re-renders never replay. The clinic "types" (~500ms of pulsing dots, composer disabled) before each next message; new bubbles rise in, the just-sent answer pops, landing bubbles stagger, the progress bar grows via scaleX, the menu and sheets slide, and on שלח the plane flies off the button before the sending state. All of it collapses under `prefers-reduced-motion`. The four fake waits (code check, document read, language switch, sending) share one treatment: a branded ring spinner on a white card, eased in and out, holding 1200ms. No confetti: sending reads as relief, not victory.
+- **Motion.** Entrances only, transform and opacity only, nothing over 250ms, and gated to real transitions — intra-screen re-renders never replay. The clinic "types" (~500ms of pulsing dots, composer disabled) before each next message; new bubbles rise in, the just-sent answer pops, landing bubbles stagger, the progress bar grows via scaleX, the menu and sheets slide, and on שלח the plane flies off the button before the sending state. All of it collapses under `prefers-reduced-motion`. The four fake waits (code check, document read, language switch, sending) share one treatment: a branded ring spinner on a white card, eased in and out, holding 1800ms. No confetti: sending reads as relief, not victory.
 - One accent family (the blues) plus the logo's green; no red anywhere. System font stack, rounded cards, 999px pills, one soft shadow level. Icons are inline SVG stroked in `currentColor`. Capture, read-and-correct and reschedule render as focused white panels with a back link; review is the conversation itself plus a gaps bubble and a send-summary card.
 
 ## 14. Technical constraints
@@ -607,7 +607,7 @@ A build that violates one of these is wrong, not merely unpolished.
 8. `[C]`, then `[V]` with edit-and-return and the two gap counters.
 9. `[S]` and `[R]`.
 10. `[Menu]`, the English locale and the language switch.
-11. Save and resume, including the logged-in session.
+11. Refresh-restarts: a page load always begins clean from the splash.
 12. "Send what I have" from every screen, the progress bar per 7.15, and the accessibility floor.
 
 ## 16. Acceptance criteria
@@ -625,7 +625,7 @@ The prototype is done when someone handed a phone can do all of this unaided.
 - [ ] Photograph a document, correct the flagged name field, reach review, and see the corrected value.
 - [ ] Mark one card "I have it, I'll bring it on the day", send, and see it named on `[S]`.
 - [ ] Reschedule from `[D]` and be told on screen that answers are kept.
-- [ ] Leave, reload the page, and resume past the login at the same screen.
+- [ ] Reload the page at any point and land on the splash with a clean state.
 - [ ] Tab through an entire question screen, including the confidence chips and Skip, using only the keyboard.
 
 ### 16.1 The demo click path
