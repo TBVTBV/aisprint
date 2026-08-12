@@ -24,7 +24,7 @@
 html,body{height:100%}
 body{background:var(--ground);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
 #stage{min-height:100dvh;display:flex;justify-content:center}
-#app{position:relative;width:100%;max-width:390px;height:100vh;height:100dvh;background:var(--wall);display:flex;flex-direction:column;overflow:hidden}
+#app{position:relative;width:100%;max-width:520px;height:100vh;height:100dvh;background:var(--wall);display:flex;flex-direction:column;overflow:hidden}
 @media (min-width:700px) and (min-height:600px){
   /* the phone frame, only when there is room for one: capped to the viewport, never clipped */
   #stage{align-items:center;padding:24px 0}
@@ -61,14 +61,14 @@ svg{display:block;flex:none}
 .stream{padding:14px 12px 10px;display:flex;flex-direction:column;gap:10px;background-image:radial-gradient(rgba(45,95,168,.055) 1px,transparent 1px);background-size:14px 14px;min-height:100%}
 .grp{display:flex;gap:6px;align-items:flex-end;max-width:94%}
 .grp .col{display:flex;flex-direction:column;gap:4px;min-width:0}
-.bub{background:#fff;border-radius:14px;border-end-start-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:10px 13px;font-size:14.5px;line-height:1.45}
+.bub{max-width:28rem;background:#fff;border-radius:14px;border-end-start-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:10px 13px;font-size:14.5px;line-height:1.45}
 .bub .bt{display:block;font-weight:700}
 .bub .bm{display:block;color:var(--mut);font-size:12.5px;margin-top:2px}
 .bub .promise{font-weight:700;color:var(--blue-ink)}
 .apc{background:var(--tint);border-radius:10px;padding:9px 11px;margin-top:6px}
 .apc .bt{color:var(--blue-ink)}
 .megrp{align-self:flex-end;display:flex;gap:6px;align-items:flex-end;max-width:94%}
-.me{background:var(--me);border-radius:14px;border-end-end-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:10px 13px;font-size:14.5px;line-height:1.45;text-align:start}
+.me{max-width:28rem;background:var(--me);border-radius:14px;border-end-end-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:10px 13px;font-size:14.5px;line-height:1.45;text-align:start}
 .me .metag{display:block;font-size:11px;color:#5A7099;margin-top:3px}
 .mehint{align-self:flex-end;display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mut);margin-top:-4px}
 .editbanner{align-self:center;display:flex;align-items:center;gap:5px;background:#fff;color:var(--blue-ink);font-size:12px;font-weight:600;border-radius:999px;padding:5px 13px;box-shadow:0 2px 8px rgba(32,36,42,.14)}
