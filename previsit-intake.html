@@ -210,6 +210,8 @@ svg{display:block;flex:none}
 .toast{position:absolute;bottom:110px;inset-inline:24px;background:var(--blue-deep);color:#fff;border-radius:999px;padding:10px 16px;text-align:center;font-size:14px;z-index:50}
 /* motion: entrances only, transform+opacity, gated to real transitions, dead under reduced-motion */
 @keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes fadeout{to{opacity:0}}
+.fadeout{animation:fadeout .14s ease-in forwards}
 @keyframes popin{from{opacity:0;transform:translateY(6px) scale(.96)}}
 @keyframes fadein{from{opacity:0}}
 @keyframes sheetup{from{transform:translateY(100%)}}
@@ -1011,7 +1013,17 @@ function typeThen(target){
   UI.typing = true;
   goto(target);
   clearTimeout(UI.typingT);
-  UI.typingT = setTimeout(() => { UI.typing = false; UI.playAnim = true; render(); }, 500);
+  UI.typingT = setTimeout(() => { UI.typing = false; UI.playAnim = true; render(); },
+    300 + Math.random() * 200);                          // a human types for an uneven moment
+}
+function advanceTo(target){
+  if (UI.advancing) return;                              // one advance at a time
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches){ typeThen(target); return; }
+  UI.advancing = true;
+  const blk = document.querySelector("#content .swrap"); // the answered block bows out first
+  if (blk) blk.classList.add("fadeout");
+  document.querySelectorAll(".cbar button").forEach(b => b.disabled = true);
+  setTimeout(() => { UI.advancing = false; typeThen(target); }, 140);
 }
 A["start"] = () => typeThen(STATE.loggedIn ? "respondent" : "login_phone");
 A["back"] = () => {
@@ -1097,13 +1109,13 @@ A["skip"] = d => {
 A["q-continue"] = d => {
   if (UI.returnTo){ const r = UI.returnTo; UI.returnTo = null; goto(r); return; }
   UI.lastAdvancedQ = d.q;
-  if (d.q === "respondent"){ typeThen("q:q1"); return; }
+  if (d.q === "respondent"){ advanceTo("q:q1"); return; }
   const p = pathQuestions(); const i = p.findIndex(x => x.id === d.q);
-  if (i >= 0 && i < p.length - 1) typeThen("q:" + p[i+1].id); else typeThen("docs");
+  if (i >= 0 && i < p.length - 1) advanceTo("q:" + p[i+1].id); else advanceTo("docs");
 };
 A["sent-back"] = () => { UI.returnTo = null; goto("review"); };  // re-open review to change and re-send
-A["docs-continue"] = () => typeThen("note");
-A["note-continue"] = () => typeThen("review");
+A["docs-continue"] = () => advanceTo("note");
+A["note-continue"] = () => advanceTo("review");
 
 A["card-dont-have"] = d => { UI.followCard = UI.followCard === d.card ? null : d.card; render(); };
 A["card-set"] = d => {
@@ -1901,17 +1913,21 @@ function render(){
         for (const m of stream.querySelectorAll(".bub, .me")){ if (anchor.contains(m)) break; last = m; }
         if (last){
           const cr = content.getBoundingClientRect(), lr = last.getBoundingClientRect();
-          const want = Math.max(0, (lr.top - cr.top) + lr.height / 2);          // half of it stays visible
+          const want = Math.max(0, content.scrollTop + (lr.top - cr.top) + lr.height / 2);  // half of it stays visible
+          const need = Math.max(want, prevScroll);       // room for the target AND the glide's starting point
           let max = content.scrollHeight - content.clientHeight;
-          let pad = 0, guard = 0;                        // grow a spacer until the position is reachable;
-          while (want > max + 1 && guard++ < 5){         // iterative, because min-height slack absorbs padding
-            pad += Math.ceil(want - max) + 4;
+          let pad = 0, guard = 0;                        // grow a spacer until both are reachable;
+          while (need > max + 1 && guard++ < 5){         // iterative, because min-height slack absorbs padding
+            pad += Math.ceil(need - max) + 4;
             stream.style.paddingBottom = pad + "px";
             max = content.scrollHeight - content.clientHeight;
           }
           if (pad) UI.streamPad = pad;
           if (matchMedia("(prefers-reduced-motion: reduce)").matches) content.scrollTop = want;
-          else { content.scrollTo({ top: want, behavior: "smooth" }); UI.resumeScroll = want; }  // ease down to the new message
+          else {
+            content.scrollTop = prevScroll;              // the glide starts from where the user actually was
+            content.scrollTo({ top: want, behavior: "smooth" }); UI.resumeScroll = want;   // ease down to the new message
+          }
         } else content.scrollTop = 0;
       }
     }
@@ -1936,7 +1952,7 @@ function render(){
 
 /* ============ back-navigation, option B: tap your answer to edit ============ */
 UI.editQ = null; UI.editSnap = null; UI.lastEdit = null;
-UI.playAnim = false; UI.typing = false; UI.typingT = null; UI.lastAdvancedQ = null; UI.prevPct = null; UI.streamPad = 0; UI.resumeScroll = null;
+UI.playAnim = false; UI.typing = false; UI.typingT = null; UI.lastAdvancedQ = null; UI.prevPct = null; UI.streamPad = 0; UI.resumeScroll = null; UI.advancing = false;
 
 A["edit-answer"] = d => {
   let qd = q(d.q);
@@ -1974,7 +1990,7 @@ A["goto-note"] = () => { UI.editQ = null; goto("note"); };
   const restartBase = A["restart"];
   A["restart"] = () => {
     UI.editQ = null; UI.editSnap = null;
-    clearTimeout(UI.typingT); UI.typing = false; UI.lastAdvancedQ = null; UI.prevPct = null;
+    clearTimeout(UI.typingT); UI.typing = false; UI.advancing = false; UI.lastAdvancedQ = null; UI.prevPct = null;
     restartBase();
   };
 }
