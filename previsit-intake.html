@@ -70,7 +70,7 @@ svg{display:block;flex:none}
 .megrp{align-self:flex-end;display:flex;gap:6px;align-items:flex-end;max-width:94%}
 .me{max-width:28rem;background:var(--me);border-radius:14px;border-end-end-radius:4px;box-shadow:0 1px 1px rgba(32,36,42,.08);padding:10px 13px;font-size:14.5px;line-height:1.45;text-align:start}
 .me .metag{display:block;font-size:11px;color:#5A7099;margin-top:3px}
-.mehint{align-self:flex-end;display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mut);margin-top:-4px}
+.editmark{align-self:center;display:flex;color:#8A93A6;padding:2px}
 .editbanner{align-self:center;display:flex;align-items:center;gap:5px;background:#fff;color:var(--blue-ink);font-size:12px;font-weight:600;border-radius:999px;padding:5px 13px;box-shadow:0 2px 8px rgba(32,36,42,.14)}
 .hint{font-size:13px;color:var(--mut);margin-block:2px}
 .variant{align-self:flex-start;margin-top:2px;font-size:13px;color:var(--blue-ink);background:var(--tint);border-radius:10px;padding:7px 11px}
@@ -1442,7 +1442,7 @@ function meBubble(qd){
   if (a.secondHand) tags.push(t("secondHand"));
   if (tags.length) inner += '<span class="metag">' + tags.join(" · ") + "</span>";
   const pop = UI.playAnim && UI.lastAdvancedQ === qd.id ? " pop" : "";
-  return '<div class="megrp' + pop + '"><button class="me" data-act="edit-answer" data-q="' + qd.id + '" aria-label="' + esc(L(qd.text)) + ". " + t("tapToEdit") + '">' + inner + '</button><span class="av mini">' + USER_AV + "</span></div>";
+  return '<div class="megrp' + pop + '"><span class="editmark" aria-hidden="true">' + PENCIL + '</span><button class="me" data-act="edit-answer" data-q="' + qd.id + '" aria-label="' + esc(L(qd.text)) + ". " + t("tapToEdit") + '">' + inner + '</button><span class="av mini">' + USER_AV + "</span></div>";
 }
 
 /* the fixed opening of the conversation: greeting, appointment, promise, time */
@@ -1459,12 +1459,11 @@ function landingBubbles(){
 /* every answered question so far, as Q-bubble + tappable answer bubble */
 function historyHTML(upTo){
   const seq = [q("respondent")].concat(pathQuestions());
-  let h = "", firstAnswer = true;
+  let h = "";
   for (const qd of seq){
     if (qd.id === upTo) break;
     const a = st(qd.id); if (!a) continue;
     h += clinicGrp(bubHTML(esc(L(qd.text)))) + meBubble(qd);
-    if (firstAnswer){ h += '<div class="mehint">' + PENCIL + t("tapToEdit") + "</div>"; firstAnswer = false; }
     CASE.questions.filter(c => c.parent === qd.id && isActiveQ(c)).forEach(c => {
       if (!st(c.id)) return;
       h += clinicGrp(bubHTML(esc(L(c.text)))) + meBubble(c);
