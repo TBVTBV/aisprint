@@ -194,7 +194,7 @@ of the committed design:
   each message (composer disabled), bubbles rise, the just-sent answer pops, landing
   bubbles stagger, the progress bar grows via scaleX, menu and sheets slide, and the שלח
   plane flies off the button. Everything is transform/opacity ≤250ms and collapses under
-  `prefers-reduced-motion`. No spinners, no confetti.
+  `prefers-reduced-motion`. The four fake waits share a branded ring spinner on a white card, eased in and out, 1200ms each. No confetti.
 - **Chat scroll.** A new message parks at the top of the view with exactly half of the
   previous message visible above it; a computed spacer guarantees the position, and scroll
   survives intra-screen re-renders.

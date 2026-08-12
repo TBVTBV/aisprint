@@ -172,7 +172,7 @@ svg{display:block;flex:none}
 .camwrap{position:relative;background:#111;border-radius:12px;overflow:hidden;margin-block:12px}
 .camwrap video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
 .guide{position:absolute;inset:10%;border:2px dashed #fff;border-radius:8px;pointer-events:none}
-.loaderline{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(32,36,42,.10);padding:24px;text-align:center;font-weight:600;margin:24px 12px}
+.loaderline{display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px 24px;text-align:center;font-weight:600}
 /* review + sent bubbles */
 .bub p{margin-top:8px}
 .bub ul{padding-inline-start:18px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;margin-top:4px}
@@ -205,8 +205,11 @@ svg{display:block;flex:none}
 .sheet h2{margin-bottom:10px}
 .sheet ul{padding-inline-start:20px;display:flex;flex-direction:column;gap:8px;font-size:14.5px}
 .sheet .btn-sec{margin-top:16px}
-.loadbox{position:absolute;inset:0;z-index:40;background:rgba(244,247,251,.94);display:flex;align-items:center;justify-content:center}
-.loadbox p{background:#fff;border-radius:999px;padding:13px 24px;font-weight:600;box-shadow:0 2px 10px rgba(32,36,42,.14)}
+.loadbox{position:absolute;inset:0;z-index:40;background:rgba(244,247,251,.94);display:flex;align-items:center;justify-content:center;animation:fadein .18s ease-out both}
+.loadbox.out{animation:fadeout .2s ease-in forwards}
+.loadcard{background:#fff;border-radius:16px;padding:22px 32px;display:flex;flex-direction:column;align-items:center;gap:12px;font-weight:600;box-shadow:0 2px 10px rgba(32,36,42,.14)}
+.spinner{width:34px;height:34px;border-radius:50%;border:3px solid var(--tint);border-top-color:var(--blue);animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .toast{position:absolute;bottom:110px;inset-inline:24px;background:var(--blue-deep);color:#fff;border-radius:999px;padding:10px 16px;text-align:center;font-size:14px;z-index:50}
 /* motion: entrances only, transform+opacity, gated to real transitions, dead under reduced-motion */
 @keyframes rise{from{opacity:0;transform:translateY(8px)}}
@@ -975,7 +978,7 @@ function goto(s){
       ? { docType:L(c.read.docType), date:L(c.read.date), place:L(c.read.place), childName:L(c.read.childName) }
       : { docType:t("notSureVal"), date:"", place:"", childName:"" };
     UI.readLoading = true;
-    setTimeout(() => { UI.readLoading = false; render(); }, 1500);   // 10.1 faked document reading
+    setTimeout(() => { UI.readLoading = false; UI.playAnim = true; render(); }, 1200);   // 10.1 faked document reading
   }
   saveState(); render();
 }
@@ -1006,6 +1009,14 @@ function toast(msg){
 
 /* ================= actions ================= */
 const A = {};
+
+function runLoader(text, done){
+  UI.loader = text; UI.loaderOut = false; render();
+  setTimeout(() => {
+    UI.loaderOut = true; render();                       // ease out before the next screen
+    setTimeout(() => { UI.loader = null; UI.loaderOut = false; done(); }, 180);
+  }, 1200);                                              // every fake wait holds for 1200ms
+}
 
 function typeThen(target){
   const chat = target === "respondent" || target.startsWith("q:") || target === "docs" || target === "note" || target === "review";
@@ -1040,11 +1051,10 @@ A["toggle-lang"] = () => A["set-lang"]({ loc: STATE.locale === "he" ? "en" : "he
 A["set-lang"] = d => {
   UI.menuOpen = false;
   if (d.loc === STATE.locale){ render(); return; }
-  UI.loader = t("langLoading"); render();
-  setTimeout(() => {                                    // 10.3 faked language switch, then a real re-render + dir flip
-    STATE.locale = d.loc; UI.loader = null;
+  runLoader(t("langLoading"), () => {                  // 10.3 faked language switch, then a real re-render + dir flip
+    STATE.locale = d.loc;
     applyDir(); saveState(); render();
-  }, 1200);
+  });
 };
 A["menu-save"] = () => { UI.menuOpen = false; saveState(); toast(t("savedToast")); };
 A["restart"] = () => {
@@ -1160,10 +1170,7 @@ A["read-save"] = d => {
 
 A["edit-row"] = d => { UI.returnTo = "review"; goto(d.target); };
 A["submit"] = () => {                                    // 10.4 faked submission
-  const go = () => {
-    UI.loader = t("sending"); render();
-    setTimeout(() => { UI.loader = null; STATE.submitted = true; goto("sent"); }, 900);
-  };
+  const go = () => runLoader(t("sending"), () => { STATE.submitted = true; goto("sent"); });
   const icon = document.querySelector(".sendbtn svg");
   if (icon && !matchMedia("(prefers-reduced-motion: reduce)").matches){
     icon.classList.add("fly");                           // the plane leaves first
@@ -1199,8 +1206,7 @@ function handleCode(el){
   }
   const vals = [...document.querySelectorAll("[data-code]")].map(x => x.value);
   if (vals.length === 4 && vals.every(v => v.length === 1)){
-    UI.loader = t("checking"); render();                 // 10.2 any four digits are accepted
-    setTimeout(() => { UI.loader = null; STATE.loggedIn = true; goto("landing"); }, 1000);
+    runLoader(t("checking"), () => { STATE.loggedIn = true; goto("landing"); });  // 10.2 any four digits are accepted
   }
 }
 function handleOpenText(el){
@@ -1645,16 +1651,16 @@ function captureBody(id){
 }
 
 function readBody(id){
-  if (UI.readLoading) return '<div class="loaderline" role="status">' + t("reading") + "</div>";
+  if (UI.readLoading) return '<div class="loaderline arrive" role="status"><span class="spinner" aria-hidden="true"></span><p>' + t("reading") + "</p></div>";
   const isDX = id === "DX";
   const flagged = f => isDX ? true : f === "childName";   // the correction moment exists on every card
-  let h = '<p class="banner">' + t("readBanner") + "</p>";
+  let h = '<div class="arrive"><p class="banner">' + t("readBanner") + "</p>";
   [["docType","fDocType"],["date","fDate"],["place","fPlace"],["childName","fChildName"]].forEach(([f, k]) => {
     h += '<div class="field' + (flagged(f) ? " flag" : "") + '"><label for="rf_' + f + '">' + t(k) + '</label>' +
          '<input id="rf_' + f + '" class="txt" data-readfield="' + f + '" value="' + esc(UI.readDraft ? UI.readDraft[f] : "") + '">' +
          (flagged(f) ? '<p class="flagline">' + t("notSureRead") + "</p>" : "") + "</div>";
   });
-  h += '<button class="btn-primary" data-act="read-save" data-card="' + id + '">' + t("saveRead") + "</button>";
+  h += '<button class="btn-primary" data-act="read-save" data-card="' + id + '">' + t("saveRead") + "</button></div>";
   return h;
 }
 
@@ -1867,7 +1873,7 @@ function overlaysHTML(){
       '<div class="sheet" role="dialog" aria-label="' + t("whatIsThis") + '"><h2>' + L(c.title) + "</h2><p>" + L(c.explain) + "</p>" +
       '<button class="btn-sec" data-act="close-sheet">' + t("close") + "</button></div>";
   }
-  if (UI.loader) h += '<div class="loadbox" role="status"><p>' + UI.loader + "</p></div>";
+  if (UI.loader) h += '<div class="loadbox' + (UI.loaderOut ? " out" : "") + '" role="status"><div class="loadcard"><span class="spinner" aria-hidden="true"></span><p>' + UI.loader + "</p></div></div>";
   if (UI.toast) h += '<div class="toast" role="status">' + UI.toast + "</div>";
   return h;
 }
