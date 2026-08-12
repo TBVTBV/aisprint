@@ -1014,7 +1014,7 @@ function typeThen(target){
   goto(target);
   clearTimeout(UI.typingT);
   UI.typingT = setTimeout(() => { UI.typing = false; UI.playAnim = true; render(); },
-    300 + Math.random() * 200);                          // a human types for an uneven moment
+    500 + Math.random() * 500);                          // a human types for an uneven moment
 }
 function advanceTo(target){
   if (UI.advancing) return;                              // one advance at a time
