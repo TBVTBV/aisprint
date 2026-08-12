@@ -590,7 +590,7 @@ A build that violates one of these is wrong, not merely unpolished.
 ## 14. Technical constraints
 
 - **One self-contained `.html` file.** Inline CSS and JS. No build step, no CDN, no framework, no network at runtime.
-- **Phone-first.** Design at 390 × 844. Above 700 px viewport width, render the app inside a centred phone frame on a plain ground, so it reads correctly on a laptop and a projector.
+- **Phone-first.** Design at 390 × 844. On viewports at least 700 px wide **and 600 px tall**, render the app inside a centred phone frame on a plain ground, so it reads correctly on a laptop and a projector; the frame caps at the viewport height minus a margin, so it is never clipped. Short or landscape viewports (a phone held sideways) skip the frame and fill the screen natively. Pointer devices get hover feedback on interactive elements; touch devices see none.
 - **Storage:** `localStorage` wrapped in `try/catch` with an in-memory fallback, so the demo survives `file://` restrictions.
 - **RTL is structural, not a stylesheet afterthought.** Build it in from the first commit.
 - **Accessibility floor:** every control keyboard reachable and operable, visible focus ring, text contrast at least 4.5:1, real labels on every input, `aria-live` on the progress count and the fake loaders. Colour never the only carrier of state.
