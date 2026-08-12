@@ -1892,7 +1892,7 @@ function render(){
     if (el) el.focus();
     UI.focus = null;
   } else if (prev !== STATE.screen || prevEdit !== UI.editQ){
-    UI.streamPad = 0;
+    UI.streamPad = 0; UI.resumeScroll = null;
     if (chat && content){
       const anchor = stream && stream.lastElementChild;
       if (STATE.screen === "landing" || !anchor){ content.scrollTop = 0; }
@@ -1910,7 +1910,8 @@ function render(){
             max = content.scrollHeight - content.clientHeight;
           }
           if (pad) UI.streamPad = pad;
-          content.scrollTop = want;
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) content.scrollTop = want;
+          else { content.scrollTo({ top: want, behavior: "smooth" }); UI.resumeScroll = want; }  // ease down to the new message
         } else content.scrollTop = 0;
       }
     }
@@ -1922,7 +1923,11 @@ function render(){
     }
   } else if (chat && content){
     if (stream && UI.streamPad) stream.style.paddingBottom = UI.streamPad + "px";  // spacer survives re-renders
-    content.scrollTop = prevScroll;                       // pill taps and typing swaps keep their place
+    content.scrollTop = prevScroll;                       // pill taps keep their place
+    if (UI.resumeScroll != null){                         // the typing-to-question swap resumes the glide mid-flight
+      const target = UI.resumeScroll; UI.resumeScroll = null;
+      if (target > prevScroll + 2) content.scrollTo({ top: target, behavior: "smooth" });
+    }
   }
   UI.lastScreen = STATE.screen;
   UI.lastEdit = UI.editQ;
@@ -1931,7 +1936,7 @@ function render(){
 
 /* ============ back-navigation, option B: tap your answer to edit ============ */
 UI.editQ = null; UI.editSnap = null; UI.lastEdit = null;
-UI.playAnim = false; UI.typing = false; UI.typingT = null; UI.lastAdvancedQ = null; UI.prevPct = null; UI.streamPad = 0;
+UI.playAnim = false; UI.typing = false; UI.typingT = null; UI.lastAdvancedQ = null; UI.prevPct = null; UI.streamPad = 0; UI.resumeScroll = null;
 
 A["edit-answer"] = d => {
   let qd = q(d.q);
